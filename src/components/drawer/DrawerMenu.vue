@@ -1,10 +1,10 @@
 <template>
-  <q-item clickable :target='link' class='item-container'>
+  <q-item clickable :target='target' class='item-container'>
     <q-item-section v-if='icon' avatar>
       <q-icon :name='icon' />
     </q-item-section>
     <q-item-section>
-      <q-item-label>{{ title }}</q-item-label>
+      <q-item-label>{{ label }}</q-item-label>
       <q-item-label caption>
         {{ caption }}
       </q-item-label>
@@ -16,21 +16,22 @@
 import { defineProps, withDefaults, toRef } from 'vue'
 
 interface Props {
-  title: string
+  label: string
   caption: string
-  link: string
+  target: string
   icon: string
 }
 const props = withDefaults(defineProps<Props>(), {
-  title: '',
+  label: '',
   caption: '',
-  link: '#',
+  target: '#',
   icon: ''
 })
-const title = toRef(props, 'title')
+const label = toRef(props, 'label')
 const caption = toRef(props, 'caption')
-const link = toRef(props, 'link')
+const target = toRef(props, 'target')
 const icon = toRef(props, 'icon')
+
 </script>
 
 <style lang='sass' scoped>
