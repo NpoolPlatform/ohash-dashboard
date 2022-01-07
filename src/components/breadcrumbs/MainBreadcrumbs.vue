@@ -2,7 +2,8 @@
   <div class='q-pa-md q-gutter-sm breadcrumbs-container'>
     <q-breadcrumbs
       separator='>'
-      class='breadcrumbs'>
+      class='breadcrumbs'
+    >
       <q-breadcrumbs-el
         v-for='router in routers'
         :key='router.label'
