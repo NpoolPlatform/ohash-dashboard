@@ -9,12 +9,12 @@ interface GetMainBreadcrumbsResponse {
   Infos: ReadonlyArray<MainBreadcrumbs>
 }
 
-interface GetCurHeadBreadcrumbsResponse {
-  CurHead: Readonly<MainBreadcrumbs>
+interface GetCurActiveBreadcrumbsResponse {
+  CurActive: Readonly<MainBreadcrumbs>
 }
 
 export {
   MainBreadcrumbs,
   GetMainBreadcrumbsResponse,
-  GetCurHeadBreadcrumbsResponse
+  GetCurActiveBreadcrumbsResponse
 }

@@ -2,6 +2,7 @@ import { MainBreadcrumbs } from './types'
 
 interface MainBreadcrumbsState {
   Infos: Array<MainBreadcrumbs>
+  Active: MainBreadcrumbs,
   loading: boolean
   error: string
 }
@@ -16,6 +17,7 @@ const HomePageBreadcrumbs = {
 function state (): MainBreadcrumbsState {
   return {
     Infos: [HomePageBreadcrumbs],
+    Active: HomePageBreadcrumbs,
     loading: false,
     error: ''
   }

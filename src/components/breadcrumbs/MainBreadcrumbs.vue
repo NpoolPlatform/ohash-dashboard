@@ -21,7 +21,7 @@ import { computed } from 'vue'
 import { useStore } from 'src/store'
 
 const store = useStore()
-const routers = computed(() => store.getters.getMainBreadcrumbsInfos)
+const routers = computed(() => store.getters.getMainBreadcrumbs)
 
 </script>
 

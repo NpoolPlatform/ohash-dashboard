@@ -48,6 +48,11 @@ const drawerItems: Array<MainBreadcrumbs> = [
     caption: '管理国际化语言包',
     icon: 'language',
     target: 'https://github.com'
+  }, {
+    label: '商品',
+    caption: '管理算力商品',
+    icon: 'format_list_numbered',
+    target: 'https://github.com'
   }
 ]
 
