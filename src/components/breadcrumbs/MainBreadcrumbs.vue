@@ -1,6 +1,8 @@
 <template>
-  <div class='q-pa-md q-gutter-sm breadcrumbs'>
-    <q-breadcrumbs separator='>'>
+  <div class='q-pa-md q-gutter-sm breadcrumbs-container'>
+    <q-breadcrumbs
+      separator='>'
+      class='breadcrumbs'>
       <q-breadcrumbs-el
         v-for='router in routers'
         :key='router.label'
@@ -23,6 +25,12 @@ const routers = computed(() => store.getters.getMainBreadcrumbsInfos)
 </script>
 
 <style lang='sass' scoped>
-.breadcrumbs
+.breadcrumbs-container
   border-bottom: solid 1px $grey-4
+  padding: 0 0 0 10px
+  margin: 3px 0 3px 0
+
+.breadcrumbs
+  padding: 0
+  margin: 0
 </style>

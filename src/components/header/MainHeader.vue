@@ -1,5 +1,5 @@
 <template>
-  <q-header elevated class='header'>
+  <q-header class='header'>
     <q-toolbar>
       <q-img src='../../../public/logos/logo.png' class='header-icon' />
       <q-toolbar-title class='header-name'>
@@ -16,6 +16,7 @@ import { productName, version } from '../../../package.json'
 <style lang='sass' scoped>
 .header
   background-color: white
+  border-bottom: solid 1px $grey-4
 
 .header-name
   font-weight: bold
