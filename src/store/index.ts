@@ -13,28 +13,39 @@ import {
 // ########### define your self store #################
 // 1 import your store modules
 import {
-  user, UserState,
+  user,
+  UserState,
   UserMutations,
   UserActions,
   UserGetters
 } from './users'
 
+import {
+  mainBreadcrumbs,
+  MainBreadcrumbsState,
+  MainBreadcrumbsMutations,
+  MainBreadcrumbsActions,
+  MainBreadcrumbsGetters
+} from './main-breadcrumbs'
+
 // 2 combine your store to root store
 export interface RootState {
-  user: UserState
+  user: UserState,
+  mainBreadcrumbs: MainBreadcrumbsState
 }
 
 // 3 combine your actions, mutations and getters to root, if have multi use & combin
 // for example a & b
-type Actions = UserActions
-type Mutations = UserMutations
-type Getters = UserGetters
+type Actions = UserActions & MainBreadcrumbsActions
+type Mutations = UserMutations & MainBreadcrumbsMutations
+type Getters = UserGetters & MainBreadcrumbsGetters
 
 // 4 attach your module to root
 export default store(function (/* { ssrContext } */) {
   const Store = createStore<RootState>({
     modules: {
-      user
+      user,
+      mainBreadcrumbs
     },
 
     // enable strict mode (adds overhead!)

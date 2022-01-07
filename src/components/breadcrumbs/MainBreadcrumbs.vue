@@ -1,0 +1,29 @@
+<template>
+  <div class='q-pa-md q-gutter-sm breadcrumbs'>
+    <q-breadcrumbs>
+      <q-breadcrumbs-el
+        v-for='router in routers'
+        :key='router.label'
+        :icon='router.icon'
+        :to='router.target'
+        :label='router.label'
+        separator='>'
+      />
+    </q-breadcrumbs>
+  </div>
+</template>
+
+<script setup lang='ts'>
+import { computed } from 'vue'
+
+import { useStore } from 'src/store'
+
+const store = useStore()
+const routers = computed(() => store.getters.getMainBreadcrumbsInfos)
+
+</script>
+
+<style lang='sass' scoped>
+.breadcrumbs
+  border-bottom: solid 1px $grey-4
+</style>
