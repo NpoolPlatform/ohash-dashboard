@@ -17,30 +17,33 @@
         {{ caption }}
       </q-item-label>
     </q-item-section>
+    <drawer-menu v-if='children.length > 0' v-bind='active' />
   </q-item>
 </template>
 
 <script setup lang='ts'>
-import { defineProps, withDefaults, toRef, computed } from 'vue'
+import { defineProps, toRef, computed } from 'vue'
 import { useStore } from 'src/store'
 import { MutationTypes } from 'src/store/main-breadcrumbs/mutation-types'
+import { MainBreadcrumbs } from 'src/store/main-breadcrumbs/types'
 
 interface Props {
-  label: string
-  caption: string
-  target: string
-  icon: string
+  label?: string
+  caption?: string
+  target?: string
+  icon?: string
+  level?: number
+  children?: Array<MainBreadcrumbs>
 }
-const props = withDefaults(defineProps<Props>(), {
-  label: '',
-  caption: '',
-  target: '#',
-  icon: ''
-})
+const props = defineProps<Props>()
+
 const label = toRef(props, 'label')
 const caption = toRef(props, 'caption')
 const target = toRef(props, 'target')
 const icon = toRef(props, 'icon')
+const children = computed(() => {
+  return props.children === undefined ? [] : props.children
+})
 
 const store = useStore()
 const active = computed({
@@ -60,7 +63,7 @@ const onItemClick = () => {
     caption: caption.value,
     target: target.value,
     icon: icon.value
-  }
+  } as MainBreadcrumbs
 }
 
 </script>
