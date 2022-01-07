@@ -1,7 +1,7 @@
 <template>
   <q-layout view='hHh Lpr lFf'>
     <MainHeader />
-    <Drawer />
+    <MainDrawer />
 
     <q-page-container>
       <MainBreadcrumbs />
@@ -14,7 +14,7 @@
 import { defineAsyncComponent } from 'vue'
 
 const MainHeader = defineAsyncComponent(() => import('src/components/header/MainHeader.vue'))
-const Drawer = defineAsyncComponent(() => import('src/components/drawer/Drawer.vue'))
+const MainDrawer = defineAsyncComponent(() => import('src/components/drawer/MainDrawer.vue'))
 const MainBreadcrumbs = defineAsyncComponent(() => import('src/components/breadcrumbs/MainBreadcrumbs.vue'))
 
 </script>

@@ -24,7 +24,6 @@ import {
   mainBreadcrumbs,
   MainBreadcrumbsState,
   MainBreadcrumbsMutations,
-  MainBreadcrumbsActions,
   MainBreadcrumbsGetters
 } from './main-breadcrumbs'
 
@@ -36,7 +35,7 @@ export interface RootState {
 
 // 3 combine your actions, mutations and getters to root, if have multi use & combin
 // for example a & b
-type Actions = UserActions & MainBreadcrumbsActions
+type Actions = UserActions
 type Mutations = UserMutations & MainBreadcrumbsMutations
 type Getters = UserGetters & MainBreadcrumbsGetters
 

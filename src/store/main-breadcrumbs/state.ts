@@ -6,16 +6,23 @@ interface MainBreadcrumbsState {
   error: string
 }
 
+const HomePageBreadcrumbs = {
+  icon: 'home',
+  label: 'Home',
+  target: '/',
+  caption: 'Home Page'
+}
+
 function state (): MainBreadcrumbsState {
   return {
-    Infos: [{
-      icon: 'home',
-      label: 'Home',
-      target: '/'
-    }],
+    Infos: [HomePageBreadcrumbs],
     loading: false,
     error: ''
   }
 }
 
-export { state, MainBreadcrumbsState }
+export {
+  state,
+  MainBreadcrumbsState,
+  HomePageBreadcrumbs
+}

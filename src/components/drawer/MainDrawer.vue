@@ -10,14 +10,26 @@
       />
     </div>
     <q-list>
-      <DrawerItem v-for='item in drawerItems' :key='item.title' v-bind='item' />
+      <DrawerMenu
+        v-for='item in drawerItems'
+        :key='item.label'
+        v-bind='item'
+        @click='onItemClick(item)'
+      />
     </q-list>
   </q-drawer>
 </template>
 <script setup lang='ts'>
+import { MainBreadcrumbs } from 'src/store/main-breadcrumbs/types'
+import { HomePageBreadcrumbs } from 'src/store/main-breadcrumbs/state'
 import { ref, defineAsyncComponent } from 'vue'
+import { useStore } from 'src/store'
 
-const DrawerItem = defineAsyncComponent(() => import('src/components/drawer/Item.vue'))
+import { MutationTypes } from 'src/store/main-breadcrumbs/mutation-types'
+
+const store = useStore()
+
+const DrawerMenu = defineAsyncComponent(() => import('src/components/drawer/DrawerMenu.vue'))
 
 const leftDrawerOpen = ref(true)
 const leftDrawerMini = ref(false)
@@ -26,12 +38,16 @@ const toggleLeftDrawer = (): void => {
   leftDrawerMini.value = !leftDrawerMini.value
 }
 
-const drawerItems = [
+const onItemClick = (item: MainBreadcrumbs) => {
+  store.commit(MutationTypes.SetMainBreadcrumbs, [HomePageBreadcrumbs, item])
+}
+
+const drawerItems: Array<MainBreadcrumbs> = [
   {
-    title: '语言包',
+    label: '语言包',
     caption: '管理国际化语言包',
     icon: 'language',
-    link: 'https://github.com'
+    target: 'https://github.com'
   }
 ]
 

@@ -2,10 +2,19 @@ interface MainBreadcrumbs {
   icon: string
   label: string
   target: string
+  caption: string
 }
 
 interface GetMainBreadcrumbsResponse {
   Infos: ReadonlyArray<MainBreadcrumbs>
 }
 
-export { MainBreadcrumbs, GetMainBreadcrumbsResponse }
+interface GetCurHeadBreadcrumbsResponse {
+  CurHead: Readonly<MainBreadcrumbs>
+}
+
+export {
+  MainBreadcrumbs,
+  GetMainBreadcrumbsResponse,
+  GetCurHeadBreadcrumbsResponse
+}
