@@ -36,20 +36,28 @@ See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
 
 Jenkinsfile
 
-+ vue-template-webui -> your_project_name
++ church-dashboard -> your_project_name
 
 nginx.template.conf
 
-+ vue_template_error.log -> your_project_name_error.log
++ church_dashboard_error.log -> your_project_name_error.log
 
 k8s
 
-+ 01-vue-template-webui.yaml -> your_project_name.yaml
-+ vue-template-webui -> your_project_name
++ 01-church-dashboard.yaml -> your_project_name.yaml
++ church-dashboard -> your_project_name
 
 02-ingress.yaml
 
-+ vue-template-webui -> your_project_name
++ church-dashboard -> your_project_name
+
+logo
+
++ public/logos/logo.png
+
+favicon
+
++ public/icons
 
 ### 组件开发需要修改的文件
 

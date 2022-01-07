@@ -1,11 +1,12 @@
 {
-  "name": "vue-template",
+  "name": "church-dashboard",
   "version": "0.0.1",
-  "description": "vue template webui",
-  "productName": "vue-template",
-  "author": "linuxpizi <1360447275@qq.com>",
+  "description": "Church Dashboard Webui",
+  "productName": "Church Dashboard",
+  "author": "The HashAge Team",
   "private": true,
   "scripts": {
+    "start": "quasar dev",
     "lint": "eslint --ext .js,.ts,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
