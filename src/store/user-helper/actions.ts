@@ -29,6 +29,7 @@ const actions: ActionTree<UserState, RootState> = {
         commit(MutationTypes.SetLoading, false)
       })
       .catch((err: Error) => {
+        console.log('fail login', err.message)
         commit(MutationTypes.SetError, err.message)
         commit(MutationTypes.SetLoading, false)
       })

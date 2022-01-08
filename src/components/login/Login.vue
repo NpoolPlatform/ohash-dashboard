@@ -37,9 +37,9 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useStore } from '../../store'
-import { ActionTypes as UserActionTypes } from '../../store/logined-user/action-types'
-import { MutationTypes as UserMutationTypes } from '../../store/logined-user/mutation-types'
-import { LoginType } from '../../store/logined-user/const'
+import { ActionTypes as UserActionTypes } from '../../store/user-helper/action-types'
+import { MutationTypes as UserMutationTypes } from '../../store/user-helper/mutation-types'
+import { LoginType } from '../../store/user-helper/const'
 import { FunctionVoid } from '../../types/types'
 
 const username = ref('')
