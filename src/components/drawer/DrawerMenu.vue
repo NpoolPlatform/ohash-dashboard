@@ -60,7 +60,7 @@ const level = computed(() => {
   return props.level === undefined ? 0 : props.level
 })
 const insetLevel = computed(() => {
-  return props.level === undefined ? 0 : props.level * 0.5 + 0.3
+  return props.level === undefined ? 0 : props.level * 0.1 + 0.3
 })
 const children = computed(() => {
   return props.children === undefined ? [] : props.children

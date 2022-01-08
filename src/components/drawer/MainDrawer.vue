@@ -75,7 +75,23 @@ const drawerItems: Array<MenuItem> = [
         icon: 'language',
         target: 'https://github.com',
         level: 1,
-        children: []
+        children: [
+          {
+            label: '添加文案',
+            caption: '添加多国语言文案',
+            icon: 'language',
+            target: 'https://github.com',
+            level: 2,
+            children: []
+          }, {
+            label: '修改文案',
+            caption: '修改多国语言文案',
+            icon: 'language',
+            target: 'https://github.com',
+            level: 2,
+            children: []
+          }
+        ]
       }, {
         label: '修改文案',
         caption: '修改多国语言文案',
