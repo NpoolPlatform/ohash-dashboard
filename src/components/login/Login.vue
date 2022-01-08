@@ -33,24 +33,43 @@
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 import { useStore } from '../../store'
 import { ActionTypes as UserActionTypes } from '../../store/logined-user/action-types'
+import { MutationTypes as UserMutationTypes } from '../../store/logined-user/mutation-types'
 import { LoginType } from '../../store/logined-user/const'
+import { FunctionVoid } from '../../types/types'
 
 const username = ref('')
 const password = ref('')
 
 const store = useStore()
+const router = useRouter()
+
+const unsubscribe = ref<FunctionVoid>()
 
 const onLoginClick = () => {
+  // TODO: validate input
   store.dispatch(UserActionTypes.Login, {
     Username: username.value,
     Password: password.value,
     LoginType: LoginType.USERNAME
   })
 }
+
+onMounted(() => {
+  unsubscribe.value = store.subscribe((mutation) => {
+    if (mutation.type === UserMutationTypes.SetUserInfo) {
+      void router.push('/')
+    }
+  })
+})
+
+onUnmounted(() => {
+  unsubscribe.value?.()
+})
 
 </script>
 
