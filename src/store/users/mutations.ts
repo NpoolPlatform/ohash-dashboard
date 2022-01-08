@@ -13,6 +13,7 @@ type UserMutations<S = UserState> = {
 const mutations: MutationTree<UserState> & UserMutations = {
   [MutationTypes.SetUserInfos] (state: UserState, payload: Array<UserInfo>) {
     state.Infos = payload
+    state.Logined = true
   },
   [MutationTypes.SetError] (state: UserState, payload: string) {
     state.error = payload

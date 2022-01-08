@@ -6,6 +6,7 @@ interface UserInfo {
 }
 
 interface GetUserResponse {
+  Logined: boolean
   Infos: ReadonlyArray<UserInfo>
 }
 

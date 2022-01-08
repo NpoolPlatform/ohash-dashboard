@@ -5,7 +5,7 @@ import {
   createWebHashHistory,
   createWebHistory
 } from 'vue-router'
-import { RootState } from '../store'
+import { RootState, useStore } from '../store'
 import routes from './routes'
 
 /*
@@ -22,7 +22,7 @@ export default route<RootState>(function (/* { store, ssrContext } */) {
     ? createMemoryHistory
     : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)
 
-  const Router = createRouter({
+  const router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
 
@@ -34,5 +34,29 @@ export default route<RootState>(function (/* { store, ssrContext } */) {
     )
   })
 
-  return Router
+  const store = useStore()
+
+  router.beforeEach((to, _, next) => {
+    console.log(store, to, next)
+
+    if (store === undefined) {
+      next()
+    }
+    switch (to.params.name) {
+      case '/login':
+      case '/':
+        next()
+        break
+      default:
+        if (!store.getters.getUserLogined) {
+          next({
+            path: '/login',
+            replace: true
+          })
+        }
+        break
+    }
+  })
+
+  return router
 })
