@@ -9,7 +9,7 @@ import { LoginRequest, LoginResponse, GetGoogleTokenRequest } from './types'
 import { API } from './const'
 import { MutationTypes as NotificationMutationTypes } from '../notifications/mutation-types'
 import { notificationPush, notificationPop } from '../notifications/helper'
-import { Message, Notification } from '../notifications/types'
+import { Notification } from '../notifications/types'
 
 interface UserActions {
   [ActionTypes.Login]({
@@ -48,7 +48,7 @@ const actions: ActionTree<UserState, RootState> = {
         const error = req.Message.Error
         if (error) {
           error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, req.Message.Error as Message)
+          const errorNotification = notificationPush(req.Message.ModuleKey, error)
           commit(NotificationMutationTypes.Push, errorNotification)
         }
       })
@@ -77,7 +77,7 @@ const actions: ActionTree<UserState, RootState> = {
                 const error = req.Message.Error
                 if (error) {
                   error.Description = err.message
-                  const errorNotification = notificationPush(req.Message.ModuleKey, req.Message.Error as Message)
+                  const errorNotification = notificationPush(req.Message.ModuleKey, error)
                   commit(NotificationMutationTypes.Push, errorNotification)
                 }
               })
@@ -87,7 +87,7 @@ const actions: ActionTree<UserState, RootState> = {
           const error = req.Message.Error
           if (error) {
             error.Description = err.message as string | undefined
-            const errorNotification = notificationPush(req.Message.ModuleKey, req.Message.Error as Message)
+            const errorNotification = notificationPush(req.Message.ModuleKey, error)
             commit(NotificationMutationTypes.Push, errorNotification)
           }
         })

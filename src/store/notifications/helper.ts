@@ -25,11 +25,19 @@ const success = (notification: Notification): void => {
   })
 }
 
+const mergeMessage = (notification: Notification) => {
+  if (notification.Message.Message) {
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+    return notification.Message.Message + '(' + notification.Message.Description + ')'
+  }
+  return notification.Message.Description
+}
+
 const fail = (notification: Notification): void => {
   Notify.create({
     type: 'negative',
     message: notification.Message.Title,
-    caption: notification.Message.Message
+    caption: mergeMessage(notification)
   })
 }
 
@@ -37,7 +45,7 @@ const warning = (notification: Notification): void => {
   Notify.create({
     type: 'warning',
     message: notification.Message.Title,
-    caption: notification.Message.Message
+    caption: mergeMessage(notification)
   })
 }
 
@@ -45,7 +53,7 @@ const info = (notification: Notification): void => {
   Notify.create({
     type: 'info',
     message: notification.Message.Title,
-    caption: notification.Message.Message
+    caption: mergeMessage(notification)
   })
 }
 
