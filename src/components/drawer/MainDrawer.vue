@@ -39,20 +39,59 @@ const toggleLeftDrawer = (): void => {
 }
 
 const onItemClick = (item: MainBreadcrumbs) => {
-  store.commit(MutationTypes.SetMainBreadcrumbs, [HomePageBreadcrumbs, item])
+  store.commit(MutationTypes.SetMainBreadcrumbs,
+    [
+      HomePageBreadcrumbs,
+      {
+        label: item.label,
+        caption: item.caption,
+        icon: item.icon,
+        target: item.target
+      }
+    ]
+  )
 }
 
-const drawerItems: Array<MainBreadcrumbs> = [
+interface MenuItem {
+  label: string
+  caption: string
+  icon: string
+  target: string
+  level: number
+  children: Array<MenuItem>
+}
+
+const drawerItems: Array<MenuItem> = [
   {
     label: '语言包',
     caption: '管理国际化语言包',
     icon: 'language',
-    target: 'https://github.com'
+    target: 'https://github.com',
+    level: 0,
+    children: [
+      {
+        label: '添加文案',
+        caption: '添加多国语言文案',
+        icon: 'language',
+        target: 'https://github.com',
+        level: 1,
+        children: []
+      }, {
+        label: '修改文案',
+        caption: '修改多国语言文案',
+        icon: 'language',
+        target: 'https://github.com',
+        level: 1,
+        children: []
+      }
+    ]
   }, {
     label: '商品',
     caption: '管理算力商品',
     icon: 'format_list_numbered',
-    target: 'https://github.com'
+    target: 'https://github.com',
+    level: 0,
+    children: []
   }
 ]
 

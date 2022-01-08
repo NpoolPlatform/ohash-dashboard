@@ -1,10 +1,26 @@
 <template>
+  <q-expansion-item
+    v-if='children.length > 0'
+    :key='label'
+    :label='label'
+    :content-inset-level='insetLevel'
+    :icon='icon'
+    :caption='caption'
+    class='item-container'
+    @click='onItemClick()'
+  >
+    <drawer-menu
+      v-for='item in children'
+      :key='item.label'
+      v-bind='item'
+    />
+  </q-expansion-item>
   <q-item
+    v-else
     v-ripple
     clickable
     :target='target'
     class='item-container'
-    active-class='drawer-active'
     :active='itemActive'
     @click='onItemClick()'
   >
@@ -13,11 +29,10 @@
     </q-item-section>
     <q-item-section>
       <q-item-label>{{ label }}</q-item-label>
-      <q-item-label caption>
+      <q-item-label v-if='caption !== ""' caption>
         {{ caption }}
       </q-item-label>
     </q-item-section>
-    <drawer-menu v-if='children.length > 0' v-bind='active' />
   </q-item>
 </template>
 
@@ -41,6 +56,12 @@ const label = toRef(props, 'label')
 const caption = toRef(props, 'caption')
 const target = toRef(props, 'target')
 const icon = toRef(props, 'icon')
+const level = computed(() => {
+  return props.level === undefined ? 0 : props.level
+})
+const insetLevel = computed(() => {
+  return props.level === undefined ? 0 : props.level * 0.5 + 0.3
+})
 const children = computed(() => {
   return props.children === undefined ? [] : props.children
 })
@@ -64,14 +85,19 @@ const onItemClick = () => {
     target: target.value,
     icon: icon.value
   } as MainBreadcrumbs
+
+  const curMainBreadcrumbs = store.state.mainBreadcrumbs.Infos
+  const newMainBreadcrumbs: Array<MainBreadcrumbs> = curMainBreadcrumbs.filter((_, index) => {
+    return index <= level.value
+  })
+
+  newMainBreadcrumbs.push(active.value)
+  store.commit(MutationTypes.SetMainBreadcrumbs, newMainBreadcrumbs)
 }
 
 </script>
 
 <style lang='sass' scoped>
 .item-container
-  height: 56px
-
-.drawer-active
-  background-color: $grey-4
+  line-height: 56px
 </style>
