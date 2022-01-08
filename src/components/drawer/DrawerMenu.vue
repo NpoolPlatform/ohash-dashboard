@@ -78,7 +78,7 @@ const itemActive = computed(() => {
   return active.value.label === label.value
 })
 
-const loggined = computed(() => store.getters.getUserLogined)
+const loggined = computed(() => store.getters.getLogined)
 
 const onItemClick = () => {
   if (!loggined.value) {

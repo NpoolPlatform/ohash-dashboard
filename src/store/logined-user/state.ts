@@ -1,16 +1,17 @@
 import { UserInfo } from './types'
 
 interface UserState {
-  Logined: boolean
-  Infos: Array<UserInfo>
+  Info: UserInfo
   loading: boolean
   error: string
 }
 
 function state (): UserState {
   return {
-    Logined: false,
-    Infos: [],
+    Info: {
+      UserID: '',
+      Username: ''
+    },
     loading: false,
     error: ''
   }

@@ -18,7 +18,7 @@ import {
   UserMutations,
   UserActions,
   UserGetters
-} from './users'
+} from './logined-user'
 
 import {
   mainBreadcrumbs,

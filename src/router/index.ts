@@ -45,7 +45,7 @@ export default route<RootState>(function (/* { store, ssrContext } */) {
         next()
         break
       default:
-        if (!store.getters.getUserLogined) {
+        if (!store.getters.getLogined) {
           next({
             path: '/login',
             replace: true

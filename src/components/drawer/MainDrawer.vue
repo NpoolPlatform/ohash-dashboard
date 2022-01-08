@@ -31,7 +31,7 @@ const store = useStore()
 
 const DrawerMenu = defineAsyncComponent(() => import('src/components/drawer/DrawerMenu.vue'))
 
-const loggined = computed(() => store.getters.getUserLogined)
+const loggined = computed(() => store.getters.getLogined)
 
 const leftDrawerOpen = ref(true)
 const leftDrawerMini = ref(!loggined.value)

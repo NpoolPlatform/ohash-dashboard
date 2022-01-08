@@ -10,7 +10,7 @@ import { useStore } from 'src/store'
 import { useRouter } from 'vue-router'
 
 const store = useStore()
-const loggined = computed(() => store.getters.getUserLogined)
+const loggined = computed(() => store.getters.getLogined)
 
 const router = useRouter()
 

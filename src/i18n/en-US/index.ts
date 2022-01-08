@@ -2,6 +2,8 @@
 // so you can safely delete all default props below
 
 export default {
-  failed: 'Action failed',
-  success: 'Action was successful'
+  MSG_USERNAME: 'Username',
+  MSG_PASSWORD: 'Password',
+  MSG_SIGNIN: 'Sign In',
+  MSG_CONTACT_ADMIN: 'Contact Admin'
 }

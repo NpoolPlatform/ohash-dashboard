@@ -1,5 +1,5 @@
 export enum MutationTypes {
-  SetUserInfos = 'USER_SET_USER_INFOS',
+  SetUserInfo = 'USER_SET_USER_INFO',
   SetError = 'USER_SET_ERROR',
   SetLoading = 'USER_SET_LOADING',
   Reset = 'USER_RESET'
