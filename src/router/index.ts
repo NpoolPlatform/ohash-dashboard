@@ -37,14 +37,11 @@ export default route<RootState>(function (/* { store, ssrContext } */) {
   const store = useStore()
 
   router.beforeEach((to, _, next) => {
-    console.log(store, to, next)
-
     if (store === undefined) {
       next()
     }
     switch (to.params.name) {
       case '/login':
-      case '/':
         next()
         break
       default:
