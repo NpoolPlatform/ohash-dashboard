@@ -2,19 +2,19 @@ import { GetterTree } from 'vuex'
 import { RootState } from '../index'
 import { NotificationState } from './state'
 import { Notification } from './types'
+import { ModuleKey } from './const'
 
 type NotificationGetters = {
-  peekNotification (state: NotificationState, key: string): Notification | undefined
+  peekLoginNotification (state: NotificationState): Notification | undefined
 }
 
 const getters: GetterTree<NotificationState, RootState> & NotificationGetters = {
-  peekNotification: (state: NotificationState, key: string): Notification | undefined => {
+  peekLoginNotification: (state: NotificationState): Notification | undefined => {
     let notification: Notification | undefined
-    const notifications = state.Notifications.get(key)
+    const notifications = state.Notifications.get(ModuleKey.ModuleLogin)
     if (notifications && notifications.length > 0) {
-      notification = notifications.pop()
+      notification = notifications[0]
     }
-    state.Notifications.set(key, notifications as Array<Notification>)
     return notification
   }
 }

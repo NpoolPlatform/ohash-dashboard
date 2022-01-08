@@ -42,6 +42,13 @@ import { ActionTypes as UserActionTypes } from '../../store/user-helper/action-t
 import { MutationTypes as UserMutationTypes } from '../../store/user-helper/mutation-types'
 import { LoginType } from '../../store/user-helper/const'
 import { FunctionVoid } from '../../types/types'
+import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
+import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
+import { notificationPop, notify } from 'src/store/notifications/helper'
+import { useI18n } from 'vue-i18n'
+
+// eslint-disable-next-line @typescript-eslint/unbound-method
+const { t } = useI18n({ useScope: 'global' })
 
 const username = ref('')
 const password = ref('')
@@ -57,26 +64,32 @@ const googleToken = computed({
   }
 })
 
-const unsubscribeLogin = ref<FunctionVoid>()
-const unsubscribeGoogleToken = ref<FunctionVoid>()
+const unsubscribe = ref<FunctionVoid>()
 
 const onLoginClick = () => {
   googleToken.value = ''
   store.dispatch(UserActionTypes.GetGoogleToken,
     {
       Recaptcha: recaptcha,
-      Req: 'login'
+      Req: 'login',
+      Message: {
+        ModuleKey: ModuleKey.ModuleLogin,
+        Error: {
+          Title: t('MSG_GOOGLE_TOKEN_FAIL'),
+          Popup: true,
+          Type: NotificationType.Error
+        }
+      }
     }
   )
 }
 
 onMounted(() => {
-  unsubscribeLogin.value = store.subscribe((mutation) => {
+  unsubscribe.value = store.subscribe((mutation) => {
     if (mutation.type === UserMutationTypes.SetUserInfo) {
       void router.push('/')
     }
-  })
-  unsubscribeGoogleToken.value = store.subscribe((mutation) => {
+
     if (mutation.type === UserMutationTypes.SetGoogleToken) {
       if (mutation.payload === '') {
         return
@@ -87,15 +100,30 @@ onMounted(() => {
         Username: username.value,
         Password: password.value,
         GoogleRecaptchaResponse: mutation.payload as string,
-        LoginType: LoginType.USERNAME
+        LoginType: LoginType.USERNAME,
+        Message: {
+          ModuleKey: ModuleKey.ModuleLogin,
+          Error: {
+            Title: t('MSG_LOGIN_FAIL'),
+            Popup: true,
+            Type: NotificationType.Error
+          }
+        }
       })
+    }
+
+    if (mutation.type === NotificationMutationTypes.Push) {
+      const notification = store.getters.peekLoginNotification
+      if (notification) {
+        notify(notification)
+        store.commit(NotificationMutationTypes.Pop, notificationPop(notification))
+      }
     }
   })
 })
 
 onUnmounted(() => {
-  unsubscribeLogin.value?.()
-  unsubscribeGoogleToken.value?.()
+  unsubscribe.value?.()
 })
 
 </script>

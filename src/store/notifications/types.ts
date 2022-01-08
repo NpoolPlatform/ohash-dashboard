@@ -1,11 +1,11 @@
 import { ModuleKey, Type } from './const'
 
 interface Message {
-  Title: string
-  Message: string
-  Description: string
-  Popup: boolean
-  Type: Type
+  Title?: string
+  Message?: string
+  Description?: string
+  Popup?: boolean
+  Type?: Type
 }
 
 interface Notification {
@@ -21,9 +21,9 @@ interface PopNotification {
 
 interface ReqMessage {
   ModuleKey: ModuleKey
-  Waiting: Message
-  Info: Message
-  Error: Message
+  Waiting?: Message
+  Info?: Message
+  Error?: Message
 }
 
 export {

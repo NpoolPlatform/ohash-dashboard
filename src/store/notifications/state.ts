@@ -6,7 +6,7 @@ interface NotificationState {
 
 function state (): NotificationState {
   return {
-    Notifications: {} as Map<string, Array<Notification>>
+    Notifications: new Map<string, Array<Notification>>()
   }
 }
 
