@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useStore } from '../../store'
@@ -48,13 +48,20 @@ const password = ref('')
 const store = useStore()
 const router = useRouter()
 
+const googleToken = computed(() => store.getters.getGoogleToken)
+
 const unsubscribe = ref<FunctionVoid>()
 
 const onLoginClick = () => {
+  if (googleToken.value === '') {
+    // TODO: check if google verification done
+    return
+  }
   // TODO: validate input
   store.dispatch(UserActionTypes.Login, {
     Username: username.value,
     Password: password.value,
+    GoogleRecaptchaResponse: googleToken.value,
     LoginType: LoginType.USERNAME
   })
 }

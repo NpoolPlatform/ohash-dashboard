@@ -7,6 +7,7 @@ import { UserState } from './state'
 import { api } from 'src/boot/axios'
 import { LoginRequest, LoginResponse } from './types'
 import { API } from './const'
+import { useReCaptcha } from 'vue-recaptcha-v3'
 
 interface UserActions {
   [ActionTypes.Login]({
@@ -16,6 +17,14 @@ interface UserActions {
     RootState,
     UserMutations<UserState>>,
     req: LoginRequest): void
+
+  [ActionTypes.GetGoogleToken]({
+    commit
+  }: AugmentedActionContext<
+    UserState,
+    RootState,
+    UserMutations<UserState>>,
+    req: string): void
 }
 
 const actions: ActionTree<UserState, RootState> = {
@@ -29,10 +38,34 @@ const actions: ActionTree<UserState, RootState> = {
         commit(MutationTypes.SetLoading, false)
       })
       .catch((err: Error) => {
-        console.log('fail login', err.message)
         commit(MutationTypes.SetError, err.message)
         commit(MutationTypes.SetLoading, false)
       })
+  },
+
+  [ActionTypes.GetGoogleToken] ({ commit }, req: string) {
+    const recaptcha = useReCaptcha()
+
+    if (recaptcha) {
+      const { executeRecaptcha, recaptchaLoaded } = recaptcha
+      commit(MutationTypes.SetLoading, true)
+      recaptchaLoaded()
+        .then((loaded: boolean) => {
+          if (loaded) {
+            void executeRecaptcha(req)
+              .then((token) => {
+                commit(MutationTypes.SetGoogleToken, token)
+                commit(MutationTypes.SetError, '')
+                commit(MutationTypes.SetLoading, false)
+              })
+          }
+        })
+        .catch((err: Error) => {
+          console.log(err)
+          commit(MutationTypes.SetError, err.message)
+          commit(MutationTypes.SetLoading, false)
+        })
+    }
   }
 }
 

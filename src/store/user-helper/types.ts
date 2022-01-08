@@ -4,6 +4,7 @@ interface LoginRequest {
   Username: string
   Password: string
   LoginType: LoginType
+  GoogleRecaptchaResponse: string
 }
 
 interface UserInfo {
