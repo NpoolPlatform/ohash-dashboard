@@ -6,8 +6,6 @@ import { MainBreadcrumbs } from './types'
 type MainBreadcrumbsMutations<S = MainBreadcrumbsState> = {
   [MutationTypes.SetMainBreadcrumbs] (state: S, payload: Array<MainBreadcrumbs>): void
   [MutationTypes.SetActiveBreadcrumbs] (state: S, payload: MainBreadcrumbs): void
-  [MutationTypes.SetError] (state: S, payload: string): void
-  [MutationTypes.SetLoading] (state: S, payload: boolean): void
   [MutationTypes.Reset] (state: S): void
 }
 
@@ -17,12 +15,6 @@ const mutations: MutationTree<MainBreadcrumbsState> & MainBreadcrumbsMutations =
   },
   [MutationTypes.SetActiveBreadcrumbs] (state: MainBreadcrumbsState, payload: MainBreadcrumbs) {
     state.Active = payload
-  },
-  [MutationTypes.SetError] (state: MainBreadcrumbsState, payload: string) {
-    state.error = payload
-  },
-  [MutationTypes.SetLoading] (state: MainBreadcrumbsState, payload: boolean) {
-    state.loading = payload
   },
   [MutationTypes.Reset] (state: MainBreadcrumbsState) {
     Object.assign(state, { ...emptyState })

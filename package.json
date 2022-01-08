@@ -15,10 +15,12 @@
   ],
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "@types/uuid": "^8.3.4",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "quasar": "^2.0.0",
     "rxjs": "^7.4.0",
+    "uuid": "^8.3.2",
     "vue-i18n": "^9.0.0",
     "vue-recaptcha-v3": "^2.0.1",
     "vuex": "^4.0.1"

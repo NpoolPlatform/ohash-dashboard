@@ -27,24 +27,33 @@ import {
   MainBreadcrumbsGetters
 } from './main-breadcrumbs'
 
+import {
+  notifications,
+  NotificationState,
+  NotificationMutations,
+  NotificationGetters
+} from './notifications'
+
 // 2 combine your store to root store
 export interface RootState {
   user: UserState,
-  mainBreadcrumbs: MainBreadcrumbsState
+  mainBreadcrumbs: MainBreadcrumbsState,
+  notifications: NotificationState
 }
 
 // 3 combine your actions, mutations and getters to root, if have multi use & combin
 // for example a & b
 type Actions = UserActions
-type Mutations = UserMutations & MainBreadcrumbsMutations
-type Getters = UserGetters & MainBreadcrumbsGetters
+type Mutations = UserMutations & MainBreadcrumbsMutations & NotificationMutations
+type Getters = UserGetters & MainBreadcrumbsGetters & NotificationGetters
 
 // 4 attach your module to root
 export default store(function (/* { ssrContext } */) {
   const Store = createStore<RootState>({
     modules: {
       user,
-      mainBreadcrumbs
+      mainBreadcrumbs,
+      notifications
     },
 
     // enable strict mode (adds overhead!)
