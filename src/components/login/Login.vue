@@ -46,6 +46,7 @@ import { ModuleKey, Type as NotificationType } from 'src/store/notifications/con
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { notificationPop, notify } from 'src/store/notifications/helper'
 import { useI18n } from 'vue-i18n'
+import { encryptPassword } from 'src/utils/utils'
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
@@ -98,7 +99,7 @@ onMounted(() => {
       // TODO: validate input
       store.dispatch(UserActionTypes.Login, {
         Username: username.value,
-        Password: password.value,
+        Password: encryptPassword(password.value),
         GoogleRecaptchaResponse: mutation.payload as string,
         LoginType: LoginType.USERNAME,
         Message: {
