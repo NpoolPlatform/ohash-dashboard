@@ -5,9 +5,8 @@ import { MutationTypes } from './mutation-types'
 import { UserMutations } from './mutations'
 import { UserState } from './state'
 import { api } from 'src/boot/axios'
-import { LoginRequest, LoginResponse } from './types'
+import { LoginRequest, LoginResponse, GetGoogleTokenRequest } from './types'
 import { API } from './const'
-import { useReCaptcha } from 'vue-recaptcha-v3'
 
 interface UserActions {
   [ActionTypes.Login]({
@@ -24,7 +23,7 @@ interface UserActions {
     UserState,
     RootState,
     UserMutations<UserState>>,
-    req: string): void
+    req: GetGoogleTokenRequest): void
 }
 
 const actions: ActionTree<UserState, RootState> = {
@@ -43,25 +42,29 @@ const actions: ActionTree<UserState, RootState> = {
       })
   },
 
-  [ActionTypes.GetGoogleToken] ({ commit }, req: string) {
-    const recaptcha = useReCaptcha()
-
+  [ActionTypes.GetGoogleToken] ({ commit }, req: GetGoogleTokenRequest) {
+    const recaptcha = req.Recaptcha
     if (recaptcha) {
       const { executeRecaptcha, recaptchaLoaded } = recaptcha
       commit(MutationTypes.SetLoading, true)
       recaptchaLoaded()
         .then((loaded: boolean) => {
           if (loaded) {
-            void executeRecaptcha(req)
+            void executeRecaptcha(req.Req)
               .then((token) => {
                 commit(MutationTypes.SetGoogleToken, token)
                 commit(MutationTypes.SetError, '')
                 commit(MutationTypes.SetLoading, false)
               })
+              .catch((err: Error) => {
+                console.log('fail execute google recaptcha ', req, err)
+                commit(MutationTypes.SetError, err.message)
+                commit(MutationTypes.SetLoading, false)
+              })
           }
         })
         .catch((err: Error) => {
-          console.log(err)
+          console.log('fail load google recaptcha ', req, err)
           commit(MutationTypes.SetError, err.message)
           commit(MutationTypes.SetLoading, false)
         })

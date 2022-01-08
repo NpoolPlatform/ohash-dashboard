@@ -35,6 +35,7 @@
 <script setup lang='ts'>
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useReCaptcha } from 'vue-recaptcha-v3'
 
 import { useStore } from '../../store'
 import { ActionTypes as UserActionTypes } from '../../store/user-helper/action-types'
@@ -47,6 +48,7 @@ const password = ref('')
 
 const store = useStore()
 const router = useRouter()
+const recaptcha = useReCaptcha()
 
 const googleToken = computed({
   get: () => store.getters.getGoogleToken,
@@ -60,7 +62,12 @@ const unsubscribeGoogleToken = ref<FunctionVoid>()
 
 const onLoginClick = () => {
   googleToken.value = ''
-  store.dispatch(UserActionTypes.GetGoogleToken, 'login')
+  store.dispatch(UserActionTypes.GetGoogleToken,
+    {
+      Recaptcha: recaptcha,
+      Req: 'login'
+    }
+  )
 }
 
 onMounted(() => {
@@ -74,6 +81,7 @@ onMounted(() => {
       if (mutation.payload === '') {
         return
       }
+
       // TODO: validate input
       store.dispatch(UserActionTypes.Login, {
         Username: username.value,
