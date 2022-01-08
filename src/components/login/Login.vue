@@ -48,34 +48,46 @@ const password = ref('')
 const store = useStore()
 const router = useRouter()
 
-const googleToken = computed(() => store.getters.getGoogleToken)
+const googleToken = computed({
+  get: () => store.getters.getGoogleToken,
+  set: (val) => {
+    store.commit(UserMutationTypes.SetGoogleToken, val)
+  }
+})
 
-const unsubscribe = ref<FunctionVoid>()
+const unsubscribeLogin = ref<FunctionVoid>()
+const unsubscribeGoogleToken = ref<FunctionVoid>()
 
 const onLoginClick = () => {
-  if (googleToken.value === '') {
-    // TODO: check if google verification done
-    return
-  }
-  // TODO: validate input
-  store.dispatch(UserActionTypes.Login, {
-    Username: username.value,
-    Password: password.value,
-    GoogleRecaptchaResponse: googleToken.value,
-    LoginType: LoginType.USERNAME
-  })
+  googleToken.value = ''
+  store.dispatch(UserActionTypes.GetGoogleToken, 'login')
 }
 
 onMounted(() => {
-  unsubscribe.value = store.subscribe((mutation) => {
+  unsubscribeLogin.value = store.subscribe((mutation) => {
     if (mutation.type === UserMutationTypes.SetUserInfo) {
       void router.push('/')
+    }
+  })
+  unsubscribeGoogleToken.value = store.subscribe((mutation) => {
+    if (mutation.type === UserMutationTypes.SetGoogleToken) {
+      if (mutation.payload === '') {
+        return
+      }
+      // TODO: validate input
+      store.dispatch(UserActionTypes.Login, {
+        Username: username.value,
+        Password: password.value,
+        GoogleRecaptchaResponse: mutation.payload as string,
+        LoginType: LoginType.USERNAME
+      })
     }
   })
 })
 
 onUnmounted(() => {
-  unsubscribe.value?.()
+  unsubscribeLogin.value?.()
+  unsubscribeGoogleToken.value?.()
 })
 
 </script>
