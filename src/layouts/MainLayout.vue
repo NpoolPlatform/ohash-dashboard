@@ -11,10 +11,18 @@
 </template>
 
 <script setup lang='ts'>
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent, onBeforeMount } from 'vue'
+import { AppID } from '../const/const'
+import { useQuasar } from 'quasar'
 
 const MainHeader = defineAsyncComponent(() => import('src/components/header/MainHeader.vue'))
 const MainDrawer = defineAsyncComponent(() => import('src/components/drawer/MainDrawer.vue'))
 const MainBreadcrumbs = defineAsyncComponent(() => import('src/components/breadcrumbs/MainBreadcrumbs.vue'))
+
+const q = useQuasar()
+
+onBeforeMount(() => {
+  q.cookies.set('AppID', AppID)
+})
 
 </script>
