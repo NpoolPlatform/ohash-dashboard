@@ -10,6 +10,7 @@ import { API } from './const'
 import { MutationTypes as NotificationMutationTypes } from '../notifications/mutation-types'
 import { notificationPush, notificationPop } from '../notifications/helper'
 import { Notification } from '../notifications/types'
+import { AxiosResponse } from 'axios'
 
 interface UserActions {
   [ActionTypes.Login]({
@@ -37,9 +38,9 @@ const actions: ActionTree<UserState, RootState> = {
       commit(NotificationMutationTypes.Push, waitingNotification)
     }
     api
-      .post<LoginRequest, LoginResponse>(API.LOGIN, req)
-      .then((response: LoginResponse) => {
-        commit(MutationTypes.SetUserInfo, response.Info)
+      .post<LoginRequest, AxiosResponse<LoginResponse>>(API.LOGIN, req)
+      .then((response: AxiosResponse<LoginResponse>) => {
+        commit(MutationTypes.SetUserInfo, response.data)
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
         }
