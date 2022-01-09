@@ -22,32 +22,34 @@
 <script setup lang='ts'>
 import { MainBreadcrumbs } from 'src/store/main-breadcrumbs/types'
 import { HomePageBreadcrumbs } from 'src/store/main-breadcrumbs/state'
-import { ref, defineAsyncComponent, computed } from 'vue'
+import { ref, defineAsyncComponent, computed, onMounted, onUnmounted } from 'vue'
 import { useStore } from 'src/store'
+import { FunctionVoid } from 'src/types/types'
 
-import { MutationTypes } from 'src/store/main-breadcrumbs/mutation-types'
+import { MutationTypes as MainBreadcrumbsMutationTypes } from 'src/store/main-breadcrumbs/mutation-types'
+import { MutationTypes as UserMutationTypes } from 'src/store/user-helper/mutation-types'
 
 const store = useStore()
 
 const DrawerMenu = defineAsyncComponent(() => import('src/components/drawer/DrawerMenu.vue'))
 
-const loggined = computed(() => store.getters.getLogined)
+const logined = computed(() => store.getters.getLogined)
 
 const leftDrawerOpen = ref(true)
-const leftDrawerMini = ref(!loggined.value)
+const leftDrawerMini = ref(!logined.value)
 
 const toggleLeftDrawer = (): void => {
-  if (!loggined.value) {
+  if (!logined.value) {
     return
   }
   leftDrawerMini.value = !leftDrawerMini.value
 }
 
 const onItemClick = (item: MainBreadcrumbs) => {
-  if (!loggined.value) {
+  if (!logined.value) {
     return
   }
-  store.commit(MutationTypes.SetMainBreadcrumbs,
+  store.commit(MainBreadcrumbsMutationTypes.SetMainBreadcrumbs,
     [
       HomePageBreadcrumbs,
       {
@@ -59,6 +61,20 @@ const onItemClick = (item: MainBreadcrumbs) => {
     ]
   )
 }
+
+const unsubscribe = ref<FunctionVoid>()
+
+onMounted(() => {
+  unsubscribe.value = store.subscribe((mutation) => {
+    if (mutation.type === UserMutationTypes.SetUserInfo) {
+      leftDrawerMini.value = !logined.value
+    }
+  })
+})
+
+onUnmounted(() => {
+  unsubscribe.value?.()
+})
 
 interface MenuItem {
   label: string
