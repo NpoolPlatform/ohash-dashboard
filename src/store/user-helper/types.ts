@@ -13,10 +13,16 @@ interface LoginRequest {
 interface UserInfo {
   UserID: string
   Username: string
+  EmailAddress: string
+  Avatar: string
+  PhoneNO: string
+  MyInfo: unknown
 }
 
 interface LoginResponse {
-  Info: UserInfo
+  Info: {
+    UserBasicInfo: UserInfo
+  }
 }
 
 interface GetGoogleTokenRequest {

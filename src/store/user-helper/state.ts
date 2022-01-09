@@ -1,15 +1,19 @@
 import { UserInfo } from './types'
 
 interface UserState {
-  Info: UserInfo
+  LoginedUser: UserInfo
   GoogleToken: string
 }
 
 function state (): UserState {
   return {
-    Info: {
+    LoginedUser: {
       UserID: '',
-      Username: ''
+      Username: '',
+      EmailAddress: '',
+      Avatar: '',
+      PhoneNO: '',
+      MyInfo: {}
     },
     GoogleToken: ''
   }

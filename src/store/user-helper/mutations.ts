@@ -4,14 +4,14 @@ import { UserState, state as emptyState } from './state'
 import { UserInfo } from './types'
 
 type UserMutations<S = UserState> = {
-  [MutationTypes.SetUserInfo] (state: S, payload: UserInfo): void
+  [MutationTypes.SetLoginedUser] (state: S, payload: UserInfo): void
   [MutationTypes.SetGoogleToken] (state: S, payload: string): void
   [MutationTypes.Reset] (state: S): void
 }
 
 const mutations: MutationTree<UserState> & UserMutations = {
-  [MutationTypes.SetUserInfo] (state: UserState, payload: UserInfo) {
-    state.Info = payload
+  [MutationTypes.SetLoginedUser] (state: UserState, payload: UserInfo) {
+    state.LoginedUser = payload
   },
   [MutationTypes.SetGoogleToken] (state: UserState, payload: string): void {
     state.GoogleToken = payload

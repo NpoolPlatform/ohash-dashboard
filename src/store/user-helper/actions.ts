@@ -40,7 +40,14 @@ const actions: ActionTree<UserState, RootState> = {
     api
       .post<LoginRequest, AxiosResponse<LoginResponse>>(API.LOGIN, req)
       .then((response: AxiosResponse<LoginResponse>) => {
-        commit(MutationTypes.SetUserInfo, response.data)
+        commit(MutationTypes.SetLoginedUser, {
+          UserID: response.data.Info.UserBasicInfo.UserID,
+          Username: response.data.Info.UserBasicInfo.Username,
+          EmailAddress: response.data.Info.UserBasicInfo.EmailAddress,
+          Avatar: response.data.Info.UserBasicInfo.Avatar,
+          PhoneNO: response.data.Info.UserBasicInfo.PhoneNO,
+          MyInfo: response.data.Info
+        })
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
         }
