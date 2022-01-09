@@ -1,3 +1,5 @@
+import { ReqMessage } from '../notifications/types'
+
 interface Language {
   Lang: string
   Logo: string
@@ -6,10 +8,15 @@ interface Language {
 }
 
 interface GetLanguagesResponse {
-  Languages: ReadonlyArray<Language>
+  Infos: ReadonlyArray<Language>
+}
+
+interface GetLanguagesRequest {
+  Message: ReqMessage
 }
 
 export {
   Language,
+  GetLanguagesRequest,
   GetLanguagesResponse
 }
