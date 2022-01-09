@@ -1,28 +1,20 @@
 <template>
   <q-header class='header'>
     <q-toolbar>
-      <q-img src='../../../public/logos/logo.png' class='header-icon' />
-      <q-toolbar-title class='header-name'>
-        {{ productName }} {{ version }}
-      </q-toolbar-title>
+      <Logo />
     </q-toolbar>
   </q-header>
 </template>
 
 <script setup lang='ts'>
-import { productName, version } from '../../../package.json'
+import { defineAsyncComponent } from 'vue'
+
+const Logo = defineAsyncComponent(() => import('src/components/logo/Logo.vue'))
 </script>
 
 <style lang='sass' scoped>
 .header
   background-color: white
   border-bottom: solid 1px $grey-4
-
-.header-name
-  font-weight: bold
-  color: black
-
-.header-icon
   height: 48px
-  width: 80px
 </style>
