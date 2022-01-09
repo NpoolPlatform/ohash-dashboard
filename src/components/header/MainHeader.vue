@@ -2,6 +2,7 @@
   <q-header class='header'>
     <q-toolbar>
       <Logo />
+      <HeaderTools />
     </q-toolbar>
   </q-header>
 </template>
@@ -10,6 +11,7 @@
 import { defineAsyncComponent } from 'vue'
 
 const Logo = defineAsyncComponent(() => import('src/components/logo/Logo.vue'))
+const HeaderTools = defineAsyncComponent(() => import('src/components/header/HeaderTools.vue'))
 </script>
 
 <style lang='sass' scoped>
