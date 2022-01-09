@@ -6,10 +6,12 @@ interface MainBreadcrumbsState {
 }
 
 const HomePageBreadcrumbs = {
+  menuId: 0,
   icon: 'home',
   label: 'Home',
   target: '/',
-  caption: 'Home Page'
+  caption: 'Home Page',
+  level: 0
 }
 
 function state (): MainBreadcrumbsState {

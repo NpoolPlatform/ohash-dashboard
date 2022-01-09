@@ -43,6 +43,7 @@ import { MutationTypes } from 'src/store/main-breadcrumbs/mutation-types'
 import { MainBreadcrumbs } from 'src/store/main-breadcrumbs/types'
 
 interface Props {
+  menuId?: number
   label?: string
   caption?: string
   target?: string
@@ -56,6 +57,7 @@ const label = toRef(props, 'label')
 const caption = toRef(props, 'caption')
 const target = toRef(props, 'target')
 const icon = toRef(props, 'icon')
+const menuId = toRef(props, 'menuId')
 const level = computed(() => {
   return props.level === undefined ? 0 : props.level
 })
@@ -75,7 +77,7 @@ const active = computed({
 })
 
 const itemActive = computed(() => {
-  return active.value.label === label.value
+  return active.value.label === label.value && active.value.level === level.value && active.value.menuId === menuId.value
 })
 
 const loggined = computed(() => store.getters.getLogined)
@@ -85,10 +87,12 @@ const onItemClick = () => {
     return
   }
   active.value = {
+    menuId: menuId.value,
     label: label.value,
     caption: caption.value,
     target: target.value,
-    icon: icon.value
+    icon: icon.value,
+    level: level.value
   } as MainBreadcrumbs
 
   const curMainBreadcrumbs = store.state.mainBreadcrumbs.Infos

@@ -1,8 +1,10 @@
 interface MainBreadcrumbs {
+  menuId: number
   icon: string
   label: string
   target: string
   caption: string
+  level: number
 }
 
 interface GetMainBreadcrumbsResponse {

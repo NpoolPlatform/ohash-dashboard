@@ -55,10 +55,12 @@ const onItemClick = (item: MainBreadcrumbs) => {
     [
       HomePageBreadcrumbs,
       {
+        menuId: item.menuId,
         label: item.label,
         caption: item.caption,
         icon: item.icon,
-        target: item.target
+        target: item.target,
+        level: item.level
       }
     ]
   )
@@ -80,6 +82,7 @@ onUnmounted(() => {
 })
 
 interface MenuItem {
+  menuId: number
   label: string
   caption: string
   icon: string
@@ -90,6 +93,7 @@ interface MenuItem {
 
 const drawerItems: Array<MenuItem> = [
   {
+    menuId: 0,
     label: '语言包',
     caption: '管理国际化语言包',
     icon: 'language',
@@ -97,6 +101,7 @@ const drawerItems: Array<MenuItem> = [
     level: 0,
     children: [
       {
+        menuId: 0,
         label: '添加文案',
         caption: '添加多国语言文案',
         icon: 'language',
@@ -104,6 +109,7 @@ const drawerItems: Array<MenuItem> = [
         level: 1,
         children: []
       }, {
+        menuId: 1,
         label: '修改文案',
         caption: '修改多国语言文案',
         icon: 'language',
@@ -113,12 +119,57 @@ const drawerItems: Array<MenuItem> = [
       }
     ]
   }, {
+    menuId: 1,
     label: '商品',
     caption: '管理算力商品',
     icon: 'format_list_numbered',
     target: '/goods',
     level: 0,
     children: []
+  }, {
+    menuId: 2,
+    label: '多层菜单',
+    caption: '多层菜单',
+    icon: 'menu',
+    target: '/internationalization',
+    level: 0,
+    children: [
+      {
+        menuId: 0,
+        label: '多层菜单',
+        caption: '多层菜单',
+        icon: 'menu',
+        target: '/example',
+        level: 1,
+        children: [
+          {
+            menuId: 0,
+            label: '多层菜单',
+            caption: '多层菜单',
+            icon: 'menu',
+            target: '/example',
+            level: 2,
+            children: []
+          }, {
+            menuId: 1,
+            label: '多层菜单',
+            caption: '多层菜单',
+            icon: 'menu',
+            target: '/example',
+            level: 2,
+            children: []
+          }
+        ]
+      }, {
+        menuId: 1,
+        label: '多层菜单',
+        caption: '多层菜单',
+        icon: 'menu',
+        target: '/example',
+        level: 1,
+        children: []
+      }
+    ]
   }
 ]
 
