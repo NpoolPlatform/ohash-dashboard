@@ -87,7 +87,7 @@ const onLoginClick = () => {
 
 onMounted(() => {
   unsubscribe.value = store.subscribe((mutation) => {
-    if (mutation.type === UserMutationTypes.SetUserInfo) {
+    if (mutation.type === UserMutationTypes.SetLoginedUser) {
       void router.push('/')
     }
 
