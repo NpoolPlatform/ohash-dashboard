@@ -1,9 +1,15 @@
 <template>
-  <q-btn flat dense round :icon='icon' />
+  <q-btn
+    flat
+    dense
+    round
+    :icon='icon'
+    @click='onClick'
+  />
 </template>
 
 <script setup lang='ts'>
-import { defineProps, withDefaults, computed } from 'vue'
+import { defineProps, withDefaults, computed, defineEmits } from 'vue'
 
 interface Props {
   icon: string
@@ -14,6 +20,11 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const icon = computed(() => 'img:' + props.icon)
+
+const emit = defineEmits<{(e: 'click'): void }>()
+const onClick = () => {
+  emit('click')
+}
 
 </script>
 

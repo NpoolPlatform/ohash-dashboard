@@ -1,6 +1,6 @@
 <template>
   <div class='row'>
-    <HeaderToolBtn />
+    <HeaderToolBtn icon='icons/github.png' @click='onGithubClick' />
     <Avatar />
   </div>
 </template>
@@ -10,5 +10,9 @@ import { defineAsyncComponent } from 'vue'
 
 const Avatar = defineAsyncComponent(() => import('src/components/avatar/Avatar.vue'))
 const HeaderToolBtn = defineAsyncComponent(() => import('src/components/header/HeaderToolBtn.vue'))
+
+const onGithubClick = () => {
+  window.open('https://github.com')
+}
 
 </script>
