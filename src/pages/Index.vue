@@ -1,7 +1,5 @@
 <template>
-  <q-page class='row items-center justify-evenly'>
-    HHHHHHHHHHHHHHHHHHHHH
-  </q-page>
+  <q-page class='row items-center justify-evenly' />
 </template>
 
 <script setup lang='ts'>

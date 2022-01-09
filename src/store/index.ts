@@ -43,9 +43,9 @@ export interface RootState {
 
 // 3 combine your actions, mutations and getters to root, if have multi use & combin
 // for example a & b
-type Actions = UserActions
-type Mutations = UserMutations & MainBreadcrumbsMutations & NotificationMutations
-type Getters = UserGetters & MainBreadcrumbsGetters & NotificationGetters
+export type Actions = UserActions
+export type Mutations = UserMutations & MainBreadcrumbsMutations & NotificationMutations
+export type Getters = UserGetters & MainBreadcrumbsGetters & NotificationGetters
 
 // 4 attach your module to root
 export default store(function (/* { ssrContext } */) {

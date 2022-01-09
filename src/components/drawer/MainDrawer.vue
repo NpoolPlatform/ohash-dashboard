@@ -25,11 +25,13 @@ import { HomePageBreadcrumbs } from 'src/store/main-breadcrumbs/state'
 import { ref, defineAsyncComponent, computed, onMounted, onUnmounted } from 'vue'
 import { useStore } from 'src/store'
 import { FunctionVoid } from 'src/types/types'
+import { useRouter } from 'vue-router'
 
 import { MutationTypes as MainBreadcrumbsMutationTypes } from 'src/store/main-breadcrumbs/mutation-types'
 import { MutationTypes as UserMutationTypes } from 'src/store/user-helper/mutation-types'
 
 const store = useStore()
+const router = useRouter()
 
 const DrawerMenu = defineAsyncComponent(() => import('src/components/drawer/DrawerMenu.vue'))
 
@@ -60,13 +62,14 @@ const onItemClick = (item: MainBreadcrumbs) => {
       }
     ]
   )
+  void router.push(item.target)
 }
 
 const unsubscribe = ref<FunctionVoid>()
 
 onMounted(() => {
   unsubscribe.value = store.subscribe((mutation) => {
-    if (mutation.type === UserMutationTypes.SetUserInfo) {
+    if (mutation.type === UserMutationTypes.SetLoginedUser) {
       leftDrawerMini.value = !logined.value
     }
   })
@@ -90,7 +93,7 @@ const drawerItems: Array<MenuItem> = [
     label: '语言包',
     caption: '管理国际化语言包',
     icon: 'language',
-    target: 'https://github.com',
+    target: '/internationalization',
     level: 0,
     children: [
       {
@@ -113,7 +116,7 @@ const drawerItems: Array<MenuItem> = [
     label: '商品',
     caption: '管理算力商品',
     icon: 'format_list_numbered',
-    target: 'https://github.com',
+    target: '/goods',
     level: 0,
     children: []
   }
