@@ -21,6 +21,7 @@
     clickable
     :target='target'
     class='item-container'
+    active-class='item-active'
     :active='itemActive'
     @click='onItemClick()'
   >
@@ -116,4 +117,8 @@ const onItemClick = () => {
 <style lang='sass' scoped>
 .item-container
   line-height: 56px
+
+.item-active
+  background-color: $grey-3
+  font-weight: bold
 </style>
