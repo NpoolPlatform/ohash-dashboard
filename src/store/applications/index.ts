@@ -3,9 +3,11 @@ import { RootState } from '../index'
 import { state, ApplicationsState } from './state'
 import { ApplicationGetters, getters } from './getters'
 import { ApplicationMutations, mutations } from './mutations'
+import { ApplicationActions, actions } from './actions'
 
 const applications: Module<ApplicationsState, RootState> = {
   // namespaced: true,
+  actions,
   getters,
   mutations,
   state
@@ -14,5 +16,6 @@ const applications: Module<ApplicationsState, RootState> = {
 export {
   applications, ApplicationsState,
   mutations, ApplicationMutations,
-  getters, ApplicationGetters
+  getters, ApplicationGetters,
+  actions, ApplicationActions
 }

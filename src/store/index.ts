@@ -34,18 +34,27 @@ import {
   NotificationGetters
 } from './notifications'
 
+import {
+  applications,
+  ApplicationsState,
+  ApplicationMutations,
+  ApplicationGetters,
+  ApplicationActions
+} from './applications'
+
 // 2 combine your store to root store
 export interface RootState {
   user: UserState,
   mainBreadcrumbs: MainBreadcrumbsState,
   notifications: NotificationState
+  applications: ApplicationsState
 }
 
 // 3 combine your actions, mutations and getters to root, if have multi use & combin
 // for example a & b
-export type Actions = UserActions
-export type Mutations = UserMutations & MainBreadcrumbsMutations & NotificationMutations
-export type Getters = UserGetters & MainBreadcrumbsGetters & NotificationGetters
+type Actions = UserActions & ApplicationActions
+type Mutations = UserMutations & MainBreadcrumbsMutations & NotificationMutations & ApplicationMutations
+type Getters = UserGetters & MainBreadcrumbsGetters & NotificationGetters & ApplicationGetters
 
 // 4 attach your module to root
 export default store(function (/* { ssrContext } */) {
@@ -53,7 +62,8 @@ export default store(function (/* { ssrContext } */) {
     modules: {
       user,
       mainBreadcrumbs,
-      notifications
+      notifications,
+      applications
     },
 
     // enable strict mode (adds overhead!)
