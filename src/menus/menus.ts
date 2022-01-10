@@ -11,6 +11,14 @@ interface MenuItem {
 const MainDrawerMenus = [
   {
     menuId: 0,
+    label: '应用',
+    caption: '管理应用',
+    icon: 'pending',
+    target: '/applications',
+    level: 0,
+    children: []
+  }, {
+    menuId: 0,
     label: '审核',
     caption: '管理审核项目',
     icon: 'reviews',
