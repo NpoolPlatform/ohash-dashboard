@@ -13,6 +13,7 @@ const routes: RouteRecordRaw[] = [
       // Review pages
       { path: 'review/kyc', component: () => import('pages/review/KYC.vue') },
       { path: 'review/api', component: () => import('pages/review/API.vue') },
+      { path: 'review/good', component: () => import('pages/review/Good.vue') },
 
       // Applications page
       { path: 'applications', component: () => import('pages/Applications.vue') }

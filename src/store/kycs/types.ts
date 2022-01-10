@@ -13,8 +13,25 @@ interface GetKYCReviewsRequest {
   Message: ReqMessage
 }
 
+interface GoodReview {
+  ID: string
+}
+
+interface GetGoodReviewsRequest {
+  AppID: string
+  GoodID: string
+  Message: ReqMessage
+}
+
+interface GetGoodReviewsResponse {
+  Infos: ReadonlyArray<GoodReview>
+}
+
 export {
   KYCReview,
   GetKYCReviewsRequest,
-  GetKYCReviewsResponse
+  GetKYCReviewsResponse,
+  GoodReview,
+  GetGoodReviewsRequest,
+  GetGoodReviewsResponse
 }

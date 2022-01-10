@@ -41,6 +41,14 @@ const MainDrawerMenus = [
         target: '/review/api',
         level: 1,
         children: []
+      }, {
+        menuId: 1,
+        label: '商品',
+        caption: '管理商品',
+        icon: 'format_list_numbered',
+        target: '/review/good',
+        level: 1,
+        children: []
       }
     ]
   }, {
