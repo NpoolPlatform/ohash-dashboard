@@ -1,5 +1,4 @@
 <template>
-  <ApplicationSelector v-model:selected-app-id='selectedAppID' />
   <q-table
     flat
     dense
@@ -9,7 +8,7 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, defineAsyncComponent, ref, computed } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useStore } from 'src/store'
@@ -18,16 +17,12 @@ import { MutationTypes as ApplicationMutationTypes } from 'src/store/application
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { notify, notificationPop } from 'src/store/notifications/helper'
-import { AppID } from 'src/const/const'
 import { FunctionVoid } from 'src/types/types'
 
 const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
 
-const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
-
-const selectedAppID = ref(AppID)
 const applications = computed(() => store.getters.getApplications)
 const loading = ref(true)
 
