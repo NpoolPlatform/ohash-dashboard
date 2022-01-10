@@ -9,8 +9,15 @@ type GoodMutations<S = GoodsState> = {
 
 const mutations: MutationTree<GoodsState> & GoodMutations = {
   [MutationTypes.SetAllGoods] (state: GoodsState, payload: Array<Good>) {
-    payload.forEach((app) => {
-      state.AllGoods.set(app.ID, app)
+    payload.forEach((good) => {
+      state.AllGoods.set(good.ID, {
+        ID: good.ID,
+        BenefitType: good.BenefitType,
+        Title: good.Title,
+        Total: good.Total,
+        Price: good.Price,
+        MyInfo: good
+      })
     })
   }
 }

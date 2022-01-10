@@ -2,10 +2,15 @@ import { ReqMessage } from '../notifications/types'
 
 interface Good {
   ID: string
+  BenefitType: string
+  Title: string
+  Total: number
+  Price: number
+  MyInfo: unknown
 }
 
 interface GetAllGoodsResponse {
-  Infos: ReadonlyArray<Good>
+  Details: ReadonlyArray<Good>
 }
 
 interface GetAllGoodsRequest {

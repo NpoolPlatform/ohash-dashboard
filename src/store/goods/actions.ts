@@ -32,7 +32,7 @@ const actions: ActionTree<GoodsState, RootState> = {
     api
       .post<GetAllGoodsRequest, AxiosResponse<GetAllGoodsResponse>>(API.GET_ALL_GOODS, req)
       .then((response: AxiosResponse<GetAllGoodsResponse>) => {
-        commit(MutationTypes.SetAllGoods, response.data.Infos)
+        commit(MutationTypes.SetAllGoods, response.data.Details)
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
         }
