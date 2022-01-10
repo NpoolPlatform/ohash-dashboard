@@ -69,7 +69,7 @@ const actions: ActionTree<ReviewsState, RootState> = {
     api
       .post<GetGoodReviewsRequest, AxiosResponse<GetGoodReviewsResponse>>(API.GET_GOOD_REVIEWS, req)
       .then((response: AxiosResponse<GetGoodReviewsResponse>) => {
-        commit(MutationTypes.SetKYCReviews, response.data.Infos)
+        commit(MutationTypes.SetGoodReviews, response.data.Infos)
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
         }
