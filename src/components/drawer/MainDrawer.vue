@@ -28,6 +28,7 @@ import { useRouter } from 'vue-router'
 
 import { MutationTypes as MainBreadcrumbsMutationTypes } from 'src/store/main-breadcrumbs/mutation-types'
 import { MutationTypes as UserMutationTypes } from 'src/store/user-helper/mutation-types'
+import { MenuItem, MainDrawerMenus } from 'src/menus/menus'
 
 const store = useStore()
 const router = useRouter()
@@ -44,16 +45,6 @@ const toggleLeftDrawer = (): void => {
     return
   }
   leftDrawerMini.value = !leftDrawerMini.value
-}
-
-interface MenuItem {
-  menuId: number
-  label: string
-  caption: string
-  icon: string
-  target: string
-  level: number
-  children: Array<MenuItem>
 }
 
 const onItemClick = (item: MenuItem) => {
@@ -93,95 +84,7 @@ onUnmounted(() => {
   unsubscribe.value?.()
 })
 
-const drawerItems: Array<MenuItem> = [
-  {
-    menuId: 0,
-    label: '审核',
-    caption: '管理审核项目',
-    icon: 'reviews',
-    target: '/review',
-    level: 0,
-    children: [
-      {
-        menuId: 1,
-        label: 'KYC',
-        caption: '管理身份审核',
-        icon: 'perm_identity',
-        target: '/review/kyc',
-        level: 1,
-        children: []
-      }, {
-        menuId: 1,
-        label: 'API',
-        caption: '管理API授权',
-        icon: 'perm_identity',
-        target: '/review/api',
-        level: 1,
-        children: []
-      }
-    ]
-  }, {
-    menuId: 0,
-    label: '语言包',
-    caption: '管理国际化语言包',
-    icon: 'language',
-    target: '/internationalization',
-    level: 0,
-    children: []
-  }, {
-    menuId: 1,
-    label: '商品',
-    caption: '管理算力商品',
-    icon: 'format_list_numbered',
-    target: '/goods',
-    level: 0,
-    children: []
-  }, {
-    menuId: 2,
-    label: '多层菜单',
-    caption: '多层菜单',
-    icon: 'menu',
-    target: '/internationalization',
-    level: 0,
-    children: [
-      {
-        menuId: 0,
-        label: '多层菜单',
-        caption: '多层菜单',
-        icon: 'menu',
-        target: '/example',
-        level: 1,
-        children: [
-          {
-            menuId: 0,
-            label: '多层菜单',
-            caption: '多层菜单',
-            icon: 'menu',
-            target: '/example',
-            level: 2,
-            children: []
-          }, {
-            menuId: 1,
-            label: '多层菜单',
-            caption: '多层菜单',
-            icon: 'menu',
-            target: '/example',
-            level: 2,
-            children: []
-          }
-        ]
-      }, {
-        menuId: 1,
-        label: '多层菜单',
-        caption: '多层菜单',
-        icon: 'menu',
-        target: '/example',
-        level: 1,
-        children: []
-      }
-    ]
-  }
-]
+const drawerItems: Array<MenuItem> = MainDrawerMenus
 
 </script>
 <style lang='sass' scoped>
