@@ -44,11 +44,11 @@ import {
 
 import {
   KYCs,
-  KYCsState,
-  KYCMutations,
-  KYCGetters,
-  KYCActions
-} from './kycs'
+  ReviewsState,
+  ReviewMutations,
+  ReviewGetters,
+  ReviewActions
+} from './reviews'
 
 import {
   goods,
@@ -64,15 +64,15 @@ export interface RootState {
   mainBreadcrumbs: MainBreadcrumbsState,
   notifications: NotificationState
   applications: ApplicationsState
-  KYCs: KYCsState
+  KYCs: ReviewsState
   goods: GoodsState
 }
 
 // 3 combine your actions, mutations and getters to root, if have multi use & combin
 // for example a & b
-type Actions = UserActions & ApplicationActions & KYCActions & GoodActions
-type Mutations = UserMutations & MainBreadcrumbsMutations & NotificationMutations & ApplicationMutations & KYCMutations & GoodMutations
-type Getters = UserGetters & MainBreadcrumbsGetters & NotificationGetters & ApplicationGetters & KYCGetters & GoodGetters
+type Actions = UserActions & ApplicationActions & ReviewActions & GoodActions
+type Mutations = UserMutations & MainBreadcrumbsMutations & NotificationMutations & ApplicationMutations & ReviewMutations & GoodMutations
+type Getters = UserGetters & MainBreadcrumbsGetters & NotificationGetters & ApplicationGetters & ReviewGetters & GoodGetters
 
 // 4 attach your module to root
 export default store(function (/* { ssrContext } */) {

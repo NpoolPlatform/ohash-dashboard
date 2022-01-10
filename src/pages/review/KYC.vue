@@ -18,9 +18,9 @@ import { useI18n } from 'vue-i18n'
 import { useStore } from '../../store'
 import { ActionTypes as ApplicationActionTypes } from '../../store/applications/action-types'
 import { ModuleKey, Type as NotificationType } from '../../store/notifications/const'
-import { MutationTypes as KYCMutationTypes } from '../../store/kycs/mutation-types'
+import { MutationTypes as ReviewMutationTypes } from '../../store/reviews/mutation-types'
 import { MutationTypes as ApplicationMutationTypes } from '../../store/applications/mutation-types'
-import { ActionTypes as KYCActionTypes } from '../../store/kycs/action-types'
+import { ActionTypes as ReviewActionTypes } from '../../store/reviews/action-types'
 import { FunctionVoid } from '../../types/types'
 import { MutationTypes as NotificationMutationTypes } from '../../store/notifications/mutation-types'
 import { notify, notificationPop } from '../../store/notifications/helper'
@@ -34,7 +34,7 @@ const ApplicationSelector = defineAsyncComponent(() => import('src/components/dr
 const selectedAppID = computed({
   get: () => store.getters.getKYCSelectedAppID,
   set: (val) => {
-    store.commit(KYCMutationTypes.SetKYCSelectedAppID, val)
+    store.commit(ReviewMutationTypes.SetKYCSelectedAppID, val)
   }
 })
 
@@ -57,9 +57,9 @@ onMounted(() => {
   })
 
   unsubscribe.value = store.subscribe((mutation) => {
-    if (mutation.type === KYCMutationTypes.SetKYCSelectedAppID) {
+    if (mutation.type === ReviewMutationTypes.SetKYCSelectedAppID) {
       kycReviewsLoading.value = true
-      store.dispatch(KYCActionTypes.GetKYCReviews, {
+      store.dispatch(ReviewActionTypes.GetKYCReviews, {
         AppID: selectedAppID.value,
         Message: {
           ModuleKey: ModuleKey.ModuleKYCs,

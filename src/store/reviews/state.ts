@@ -1,21 +1,21 @@
 import { AppID } from 'src/const/const'
 import { KYCReview, GoodReview } from './types'
 
-interface KYCsState {
+interface ReviewsState {
   KYCReviews: Array<KYCReview>
   GoodReviews: Array<GoodReview>
-  SelectedAppID: string
+  SelectedKYCAppID: string
 }
 
-function state (): KYCsState {
+function state (): ReviewsState {
   return {
     KYCReviews: [] as Array<KYCReview>,
     GoodReviews: [] as Array<GoodReview>,
-    SelectedAppID: AppID
+    SelectedKYCAppID: AppID
   }
 }
 
 export {
   state,
-  KYCsState
+  ReviewsState
 }

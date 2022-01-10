@@ -6,10 +6,10 @@ import {
   GetGoodReviewsRequest,
   GetGoodReviewsResponse
 } from './types'
-import { KYCsState } from './state'
+import { ReviewsState } from './state'
 import { ActionTree } from 'vuex'
 import { AugmentedActionContext, RootState } from '../index'
-import { KYCMutations } from './mutations'
+import { ReviewMutations } from './mutations'
 import { notificationPush, notificationPop } from '../notifications/helper'
 import { MutationTypes as NotificationMutationTypes } from '../notifications/mutation-types'
 import { Notification } from '../notifications/types'
@@ -17,25 +17,25 @@ import { api } from 'src/boot/axios'
 import { API } from './const'
 import { AxiosResponse } from 'axios'
 
-interface KYCActions {
+interface ReviewActions {
   [ActionTypes.GetKYCReviews]({
     commit
   }: AugmentedActionContext<
-    KYCsState,
+  ReviewsState,
     RootState,
-    KYCMutations<KYCsState>>,
+    ReviewMutations<ReviewsState>>,
     req: GetKYCReviewsRequest): void
 
   [ActionTypes.GetGoodReviews]({
     commit
   }: AugmentedActionContext<
-    KYCsState,
+  ReviewsState,
     RootState,
-    KYCMutations<KYCsState>>,
+    ReviewMutations<ReviewsState>>,
     req: GetGoodReviewsRequest): void
 }
 
-const actions: ActionTree<KYCsState, RootState> = {
+const actions: ActionTree<ReviewsState, RootState> = {
   [ActionTypes.GetKYCReviews] ({ commit }, req: GetKYCReviewsRequest) {
     let waitingNotification: Notification
     if (req.Message.Waiting) {
@@ -87,5 +87,5 @@ const actions: ActionTree<KYCsState, RootState> = {
 
 export {
   actions,
-  KYCActions
+  ReviewActions
 }

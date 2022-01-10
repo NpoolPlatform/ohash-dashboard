@@ -13,8 +13,8 @@ import { useI18n } from 'vue-i18n'
 
 import { useStore } from '../../store'
 import { ModuleKey, Type as NotificationType } from '../../store/notifications/const'
-import { MutationTypes as KYCMutationTypes } from '../../store/kycs/mutation-types'
-import { ActionTypes as KYCActionTypes } from '../../store/kycs/action-types'
+import { MutationTypes as ReviewMutationTypes } from '../../store/reviews/mutation-types'
+import { ActionTypes as ReviewActionTypes } from '../../store/reviews/action-types'
 import { FunctionVoid } from '../../types/types'
 import { MutationTypes as NotificationMutationTypes } from '../../store/notifications/mutation-types'
 import { notify, notificationPop } from '../../store/notifications/helper'
@@ -30,11 +30,11 @@ const unsubscribe = ref<FunctionVoid>()
 
 onMounted(() => {
   goodReviewsLoading.value = true
-  store.dispatch(KYCActionTypes.GetGoodReviews, {
+  store.dispatch(ReviewActionTypes.GetGoodReviews, {
     Message: {
       ModuleKey: ModuleKey.ModuleKYCs,
       Error: {
-        Title: t('MSG_GET_ALL_GOODS_FAIL'),
+        Title: t('MSG_GET_GOOD_REVIEWS_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
@@ -51,7 +51,7 @@ onMounted(() => {
       }
     }
 
-    if (mutation.type === KYCMutationTypes.SetGoodReviews) {
+    if (mutation.type === ReviewMutationTypes.SetGoodReviews) {
       goodReviewsLoading.value = false
     }
   })
