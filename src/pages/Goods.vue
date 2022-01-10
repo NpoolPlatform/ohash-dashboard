@@ -1,5 +1,12 @@
 <template>
-  <q-table flat dense :rows='allGoods' />
+  <q-table flat dense :rows='allGoods'>
+    <template #top-right>
+      <div class='good-tools row'>
+        <q-space />
+        <q-btn dense flat icon='note_add' />
+      </div>
+    </template>
+  </q-table>
 </template>
 
 <script setup lang='ts'>
@@ -30,3 +37,9 @@ onMounted(() => {
 })
 
 </script>
+
+<style lang='sass' scoped>
+.good-tools
+  width: 400px
+  border-bottom: solid 1px $grey-4
+</style>
