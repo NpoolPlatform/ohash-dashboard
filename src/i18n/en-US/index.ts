@@ -8,5 +8,6 @@ export default {
   MSG_CONTACT_ADMIN: 'Contact Admin',
   MSG_GOOGLE_TOKEN_FAIL: 'Cannot get google security token',
   MSG_LOGIN_FAIL: 'You failed to login',
-  MSG_GET_APPLICATIONS_FAIL: 'Cannot get applications list'
+  MSG_GET_APPLICATIONS_FAIL: 'Cannot get applications list',
+  MSG_GET_KYC_REVIEWS_FAIL: 'Cannot get kyc reviews'
 }

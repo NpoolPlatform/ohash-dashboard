@@ -3,6 +3,8 @@
     split
     icon='pending'
     no-caps
+    flat
+    class='selector-border'
     :label='selectedAppName'
   >
     <q-list>
@@ -61,3 +63,9 @@ const onItemClick = (application: Application) => {
 }
 
 </script>
+
+<style lang='sass' scoped>
+.selector-border
+  border-bottom: solid 1px $grey-4
+  border-radius: 0
+</style>

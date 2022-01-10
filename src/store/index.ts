@@ -42,19 +42,28 @@ import {
   ApplicationActions
 } from './applications'
 
+import {
+  KYCs,
+  KYCsState,
+  KYCMutations,
+  KYCGetters,
+  KYCActions
+} from './kycs'
+
 // 2 combine your store to root store
 export interface RootState {
   user: UserState,
   mainBreadcrumbs: MainBreadcrumbsState,
   notifications: NotificationState
   applications: ApplicationsState
+  KYCs: KYCsState
 }
 
 // 3 combine your actions, mutations and getters to root, if have multi use & combin
 // for example a & b
-type Actions = UserActions & ApplicationActions
-type Mutations = UserMutations & MainBreadcrumbsMutations & NotificationMutations & ApplicationMutations
-type Getters = UserGetters & MainBreadcrumbsGetters & NotificationGetters & ApplicationGetters
+type Actions = UserActions & ApplicationActions & KYCActions
+type Mutations = UserMutations & MainBreadcrumbsMutations & NotificationMutations & ApplicationMutations & KYCMutations
+type Getters = UserGetters & MainBreadcrumbsGetters & NotificationGetters & ApplicationGetters & KYCGetters
 
 // 4 attach your module to root
 export default store(function (/* { ssrContext } */) {
@@ -63,7 +72,8 @@ export default store(function (/* { ssrContext } */) {
       user,
       mainBreadcrumbs,
       notifications,
-      applications
+      applications,
+      KYCs
     },
 
     // enable strict mode (adds overhead!)
