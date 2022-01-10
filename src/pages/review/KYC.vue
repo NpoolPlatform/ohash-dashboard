@@ -19,6 +19,7 @@ import { useStore } from '../../store'
 import { ActionTypes as ApplicationActionTypes } from '../../store/applications/action-types'
 import { ModuleKey, Type as NotificationType } from '../../store/notifications/const'
 import { MutationTypes as KYCMutationTypes } from '../../store/kycs/mutation-types'
+import { MutationTypes as ApplicationMutationTypes } from '../../store/applications/mutation-types'
 import { ActionTypes as KYCActionTypes } from '../../store/kycs/action-types'
 import { FunctionVoid } from '../../types/types'
 import { MutationTypes as NotificationMutationTypes } from '../../store/notifications/mutation-types'
@@ -43,6 +44,7 @@ const kycReviewsLoading = ref(false)
 const unsubscribe = ref<FunctionVoid>()
 
 onMounted(() => {
+  kycReviewsLoading.value = true
   store.dispatch(ApplicationActionTypes.GetApplications, {
     Message: {
       ModuleKey: ModuleKey.ModuleKYCs,
@@ -77,6 +79,10 @@ onMounted(() => {
         notify(notification)
         store.commit(NotificationMutationTypes.Pop, notificationPop(notification))
       }
+    }
+
+    if (mutation.type === ApplicationMutationTypes.SetApplications) {
+      kycReviewsLoading.value = false
     }
   })
 })

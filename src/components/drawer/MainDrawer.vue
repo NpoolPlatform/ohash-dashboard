@@ -9,7 +9,7 @@
         @click='toggleLeftDrawer'
       />
     </div>
-    <q-list>
+    <q-list separator>
       <DrawerMenu
         v-for='item in drawerItems'
         :key='item.label'
