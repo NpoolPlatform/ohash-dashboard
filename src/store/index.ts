@@ -43,7 +43,7 @@ import {
 } from './applications'
 
 import {
-  KYCs,
+  reviews,
   ReviewsState,
   ReviewMutations,
   ReviewGetters,
@@ -82,7 +82,7 @@ export default store(function (/* { ssrContext } */) {
       mainBreadcrumbs,
       notifications,
       applications,
-      KYCs,
+      reviews,
       goods
     },
 

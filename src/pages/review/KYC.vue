@@ -47,7 +47,7 @@ onMounted(() => {
   kycReviewsLoading.value = true
   store.dispatch(ApplicationActionTypes.GetApplications, {
     Message: {
-      ModuleKey: ModuleKey.ModuleKYCs,
+      ModuleKey: ModuleKey.ModuleReviews,
       Error: {
         Title: t('MSG_GET_APPLICATIONS_FAIL'),
         Popup: true,
@@ -62,7 +62,7 @@ onMounted(() => {
       store.dispatch(ReviewActionTypes.GetKYCReviews, {
         AppID: selectedAppID.value,
         Message: {
-          ModuleKey: ModuleKey.ModuleKYCs,
+          ModuleKey: ModuleKey.ModuleReviews,
           Error: {
             Title: t('MSG_GET_KYC_REVIEWS_FAIL'),
             Popup: true,
@@ -74,7 +74,7 @@ onMounted(() => {
 
     if (mutation.type === NotificationMutationTypes.Push) {
       kycReviewsLoading.value = false
-      const notification = store.getters.peekNotification(ModuleKey.ModuleKYCs)
+      const notification = store.getters.peekNotification(ModuleKey.ModuleReviews)
       if (notification) {
         notify(notification)
         store.commit(NotificationMutationTypes.Pop, notificationPop(notification))

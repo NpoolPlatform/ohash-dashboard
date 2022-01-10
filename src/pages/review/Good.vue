@@ -32,9 +32,9 @@ onMounted(() => {
   goodReviewsLoading.value = true
   store.dispatch(ReviewActionTypes.GetGoodReviews, {
     Message: {
-      ModuleKey: ModuleKey.ModuleKYCs,
+      ModuleKey: ModuleKey.ModuleReviews,
       Error: {
-        Title: t('MSG_GET_GOOD_REVIEWS_FAIL'),
+        Title: t('MSG_GET_ALL_GOODS_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
@@ -44,7 +44,7 @@ onMounted(() => {
   unsubscribe.value = store.subscribe((mutation) => {
     if (mutation.type === NotificationMutationTypes.Push) {
       goodReviewsLoading.value = false
-      const notification = store.getters.peekNotification(ModuleKey.ModuleKYCs)
+      const notification = store.getters.peekNotification(ModuleKey.ModuleReviews)
       if (notification) {
         notify(notification)
         store.commit(NotificationMutationTypes.Pop, notificationPop(notification))

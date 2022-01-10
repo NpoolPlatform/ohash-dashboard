@@ -5,7 +5,7 @@ import { ReviewGetters, getters } from './getters'
 import { ReviewMutations, mutations } from './mutations'
 import { ReviewActions, actions } from './actions'
 
-const KYCs: Module<ReviewsState, RootState> = {
+const reviews: Module<ReviewsState, RootState> = {
   // namespaced: true,
   actions,
   getters,
@@ -14,7 +14,7 @@ const KYCs: Module<ReviewsState, RootState> = {
 }
 
 export {
-  KYCs, ReviewsState,
+  reviews, ReviewsState,
   mutations, ReviewMutations,
   getters, ReviewGetters,
   actions, ReviewActions
