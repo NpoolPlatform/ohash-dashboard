@@ -41,6 +41,7 @@ import { defineProps, toRef, computed } from 'vue'
 import { useStore } from 'src/store'
 import { MutationTypes } from 'src/store/main-breadcrumbs/mutation-types'
 import { MainBreadcrumbs } from 'src/store/main-breadcrumbs/types'
+import { useRouter } from 'vue-router'
 
 interface Props {
   menuId?: number
@@ -69,6 +70,8 @@ const children = computed(() => {
 })
 
 const store = useStore()
+const router = useRouter()
+
 const active = computed({
   get: () => store.getters.getActiveBreadcrumbs,
   set: (val) => {
@@ -102,6 +105,10 @@ const onItemClick = () => {
 
   newMainBreadcrumbs.push(active.value)
   store.commit(MutationTypes.SetMainBreadcrumbs, newMainBreadcrumbs)
+
+  if (children.value.length === 0) {
+    void router.push(active.value.target)
+  }
 }
 
 </script>

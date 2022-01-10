@@ -10,6 +10,7 @@
         :icon='router.icon'
         :to='router.target'
         :label='router.label'
+        disable
       />
     </q-breadcrumbs>
   </div>
