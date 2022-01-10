@@ -18,8 +18,6 @@ interface GoodReview {
 }
 
 interface GetGoodReviewsRequest {
-  AppID: string
-  GoodID: string
   Message: ReqMessage
 }
 
