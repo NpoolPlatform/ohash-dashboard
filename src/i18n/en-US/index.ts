@@ -12,5 +12,7 @@ export default {
   MSG_GET_KYC_REVIEWS_FAIL: 'Cannot get kyc reviews',
   MSG_GET_ALL_GOODS_FAIL: 'Cannot get goods list',
   MSG_GET_GOOD_REVIEWS_FAIL: 'Cannot get good reviews',
-  MSG_CREATE_DEVICE: '创建设备'
+  MSG_CREATE_DEVICE: '创建设备',
+  MSG_CREATE_GOOD: '创建商品',
+  MSG_CREATE_VENDOR_LOCATION: '创建场地信息'
 }

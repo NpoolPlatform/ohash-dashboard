@@ -1,7 +1,11 @@
 <template>
   <q-table flat dense :rows='allGoods'>
     <template #top-right>
-      <GoodTools @create-device='onCreateDeviceClick' />
+      <GoodTools
+        @create-device='onCreateDeviceClick'
+        @create-good='onCreateGoodClick'
+        @create-vendor-location='onCreateVendorLocationClick'
+      />
     </template>
   </q-table>
   <q-dialog
@@ -13,7 +17,8 @@
     no-shake
     @hide='onMenuHide'
   >
-    <CreateGoodMenu />
+    <CreateGoodMenu v-if='addingType === AddingType.AddingGood' />
+    <CreateDeviceMenu v-if='addingType === AddingType.AddingDevice' />
   </q-dialog>
 </template>
 
@@ -26,11 +31,13 @@ import { ModuleKey, Type as NotificationType } from 'src/store/notifications/con
 import { useI18n } from 'vue-i18n'
 
 const CreateGoodMenu = defineAsyncComponent(() => import('src/components/good/CreateGoodMenu.vue'))
+const CreateDeviceMenu = defineAsyncComponent(() => import('src/components/good/CreateDeviceMenu.vue'))
 const GoodTools = defineAsyncComponent(() => import('src/components/good/GoodTools.vue'))
 
 enum AddingType {
   AddingNone = 'none',
   AddingDevice = 'device',
+  AddingVendorLocation = 'vendor-location',
   AddingGood = 'good'
 }
 
@@ -62,6 +69,14 @@ watch(addingType, function (val) {
 
 const onCreateDeviceClick = () => {
   addingType.value = AddingType.AddingDevice
+}
+
+const onCreateGoodClick = () => {
+  addingType.value = AddingType.AddingGood
+}
+
+const onCreateVendorLocationClick = () => {
+  addingType.value = AddingType.AddingVendorLocation
 }
 
 const onMenuHide = () => {
