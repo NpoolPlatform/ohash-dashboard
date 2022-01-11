@@ -31,6 +31,7 @@ import { useStore } from 'src/store'
 import { ActionTypes as GoodActionTypes } from 'src/store/goods/action-types'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { useI18n } from 'vue-i18n'
+import { DeviceInfo } from 'src/store/goods/types'
 
 const CreateGoodMenu = defineAsyncComponent(() => import('src/components/good/CreateGoodMenu.vue'))
 const CreateDeviceMenu = defineAsyncComponent(() => import('src/components/good/CreateDeviceMenu.vue'))
@@ -81,8 +82,10 @@ const onCreateVendorLocationClick = () => {
   addingType.value = AddingType.AddingVendorLocation
 }
 
-const onCreateDeviceSubmit = () => {
+const onCreateDeviceSubmit = (device: DeviceInfo) => {
   addingType.value = AddingType.AddingNone
+  // TODO: create device
+  console.log(device)
 }
 
 const onMenuHide = () => {
