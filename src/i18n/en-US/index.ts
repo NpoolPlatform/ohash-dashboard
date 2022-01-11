@@ -24,5 +24,6 @@ export default {
   MSG_VENDOR_LOCATION_LIST: '矿场列表',
   MSG_GOOD_LIST: '商品列表',
   MSG_GET_ALL_DEVICES_FAIL: 'Cannot get devices',
-  MSG_GET_ALL_VENDOR_LOCATIONS_FAIL: 'Cannot get vendor locations'
+  MSG_GET_ALL_VENDOR_LOCATIONS_FAIL: 'Cannot get vendor locations',
+  MSG_CREATE_DEVICE_FAIL: 'Cannot create device'
 }

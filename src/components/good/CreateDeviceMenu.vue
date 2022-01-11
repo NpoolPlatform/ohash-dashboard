@@ -5,6 +5,14 @@
     </q-card-section>
     <q-item-section>
       <q-input
+        v-model='myDeviceType'
+        :label='$t("MSG_DEVICE_TYPE")'
+      >
+        <template #prepend>
+          <q-icon name='window' />
+        </template>
+      </q-input>
+      <q-input
         v-model='manufacturer'
         :label='$t("MSG_DEVICE_MANUFACTURER")'
       >
@@ -28,14 +36,6 @@
           <q-icon name='window' />
         </template>
       </q-input>
-      <q-input
-        v-model='deviceType'
-        :label='$t("MSG_DEVICE_TYPE")'
-      >
-        <template #prepend>
-          <q-icon name='window' />
-        </template>
-      </q-input>
     </q-item-section>
     <q-item-section>
       <q-btn
@@ -48,24 +48,38 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, watch, withDefaults, defineProps, toRef } from 'vue'
 import { DeviceInfo } from 'src/store/goods/types'
 
 const manufacturer = ref('')
 const consumption = ref(0)
 const shipmentAt = ref(0)
-const deviceType = ref('')
 
-const emit = defineEmits<{(e: 'submit', info: DeviceInfo): void}>()
+interface Props {
+  inputDeviceType: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  inputDeviceType: ''
+})
+
+const inputDeviceType = toRef(props, 'inputDeviceType')
+const myDeviceType = ref(inputDeviceType.value)
+
+const emit = defineEmits<{(e: 'submit', info: DeviceInfo): void, (e: 'update:inputDeviceType', type: string): void}>()
 
 const onSubmit = () => {
   emit('submit', {
     Manufacturer: manufacturer.value,
     Consumption: consumption.value,
     ShipmentAt: shipmentAt.value,
-    Type: deviceType.value
+    Type: inputDeviceType.value
   })
 }
+
+watch(myDeviceType, function (val) {
+  emit('update:inputDeviceType', val)
+})
 
 </script>
 

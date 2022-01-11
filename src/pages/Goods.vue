@@ -17,9 +17,13 @@
     no-shake
     @hide='onMenuHide'
   >
-    <CreateGoodMenu v-if='addingType === AddingType.AddingGood' class='add-menu' />
+    <CreateGoodMenu
+      v-if='addingType === AddingType.AddingGood'
+      class='add-menu'
+    />
     <CreateDeviceMenu
       v-if='addingType === AddingType.AddingDevice'
+      v-model:input-device-type='inputDeviceType'
       class='add-menu'
       @submit='onCreateDeviceSubmit'
     />
@@ -31,9 +35,12 @@ import { onMounted, computed, defineAsyncComponent, ref, watch } from 'vue'
 import { useStore } from 'src/store'
 
 import { ActionTypes as GoodActionTypes } from 'src/store/goods/action-types'
+import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
+import { notify, notificationPop } from 'src/store/notifications/helper'
 import { useI18n } from 'vue-i18n'
 import { DeviceInfo } from 'src/store/goods/types'
+import { FunctionVoid } from 'src/types/types'
 
 const CreateGoodMenu = defineAsyncComponent(() => import('src/components/good/CreateGoodMenu.vue'))
 const CreateDeviceMenu = defineAsyncComponent(() => import('src/components/good/CreateDeviceMenu.vue'))
@@ -49,18 +56,27 @@ enum AddingType {
 const addingType = ref(AddingType.AddingNone)
 const adding = ref(false)
 
+const inputDeviceType = ref('')
+
 const store = useStore()
 const allGoods = computed(() => store.getters.getAllGoods)
-const allDevices = computed(() => store.getters.getAllDevices)
 const allVendorLocations = computed(() => store.getters.getAllVendorLocations)
+
+const allDevices = computed(() => {
+  return store.getters.getAllDevices.filter((device) => {
+    return device.Type.toLowerCase().includes(inputDeviceType.value.toLowerCase())
+  })
+})
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
 
+const unsubscribe = ref<FunctionVoid>()
+
 onMounted(() => {
   store.dispatch(GoodActionTypes.GetAllGoods, {
     Message: {
-      ModuleKey: ModuleKey.ModuleReviews,
+      ModuleKey: ModuleKey.ModuleGoods,
       Error: {
         Title: t('MSG_GET_ALL_GOODS_FAIL'),
         Popup: true,
@@ -70,7 +86,7 @@ onMounted(() => {
   })
   store.dispatch(GoodActionTypes.GetAllDevices, {
     Message: {
-      ModuleKey: ModuleKey.ModuleReviews,
+      ModuleKey: ModuleKey.ModuleGoods,
       Error: {
         Title: t('MSG_GET_ALL_DEVICES_FAIL'),
         Popup: true,
@@ -80,11 +96,21 @@ onMounted(() => {
   })
   store.dispatch(GoodActionTypes.GetAllVendorLocations, {
     Message: {
-      ModuleKey: ModuleKey.ModuleReviews,
+      ModuleKey: ModuleKey.ModuleGoods,
       Error: {
         Title: t('MSG_GET_ALL_VENDOR_LOCATIONS_FAIL'),
         Popup: true,
         Type: NotificationType.Error
+      }
+    }
+  })
+
+  unsubscribe.value = store.subscribe((mutation) => {
+    if (mutation.type === NotificationMutationTypes.Push) {
+      const notification = store.getters.peekNotification(ModuleKey.ModuleGoods)
+      if (notification) {
+        notify(notification)
+        store.commit(NotificationMutationTypes.Pop, notificationPop(notification))
       }
     }
   })
@@ -108,8 +134,17 @@ const onCreateVendorLocationClick = () => {
 
 const onCreateDeviceSubmit = (device: DeviceInfo) => {
   addingType.value = AddingType.AddingNone
-  // TODO: create device
-  console.log(device)
+  store.dispatch(GoodActionTypes.CreateDevice, {
+    Info: device,
+    Message: {
+      ModuleKey: ModuleKey.ModuleGoods,
+      Error: {
+        Title: t('MSG_CREATE_DEVICE_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
 }
 
 const onMenuHide = () => {

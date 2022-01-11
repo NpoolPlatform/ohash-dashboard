@@ -1,6 +1,6 @@
 import { ActionTypes } from './action-types'
 import { MutationTypes } from './mutation-types'
-import { GetAllDevicesRequest, GetAllDevicesResponse, GetAllGoodsRequest, GetAllGoodsResponse, GetAllVendorLocationsRequest, GetAllVendorLocationsResponse } from './types'
+import { CreateDeviceRequest, CreateDeviceResponse, GetAllDevicesRequest, GetAllDevicesResponse, GetAllGoodsRequest, GetAllGoodsResponse, GetAllVendorLocationsRequest, GetAllVendorLocationsResponse } from './types'
 import { GoodsState } from './state'
 import { ActionTree } from 'vuex'
 import { AugmentedActionContext, RootState } from '../index'
@@ -36,6 +36,14 @@ interface GoodActions {
     RootState,
     GoodMutations<GoodsState>>,
     req: GetAllVendorLocationsRequest): void
+
+  [ActionTypes.CreateDevice]({
+    commit
+  }: AugmentedActionContext<
+    GoodsState,
+    RootState,
+    GoodMutations<GoodsState>>,
+    req: CreateDeviceRequest): void
 }
 
 const actions: ActionTree<GoodsState, RootState> = {
@@ -97,6 +105,30 @@ const actions: ActionTree<GoodsState, RootState> = {
       .post<GetAllVendorLocationsRequest, AxiosResponse<GetAllVendorLocationsResponse>>(API.GET_ALL_VENDOR_LOCATIONS, req)
       .then((response: AxiosResponse<GetAllVendorLocationsResponse>) => {
         commit(MutationTypes.SetAllVendorLocations, response.data.Infos)
+        if (waitingNotification) {
+          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
+        }
+      })
+      .catch((err: Error) => {
+        const error = req.Message.Error
+        if (error) {
+          error.Description = err.message
+          const errorNotification = notificationPush(req.Message.ModuleKey, error)
+          commit(NotificationMutationTypes.Push, errorNotification)
+        }
+      })
+  },
+
+  [ActionTypes.CreateDevice] ({ commit }, req: CreateDeviceRequest) {
+    let waitingNotification: Notification
+    if (req.Message.Waiting) {
+      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
+      commit(NotificationMutationTypes.Push, waitingNotification)
+    }
+    api
+      .post<CreateDeviceRequest, AxiosResponse<CreateDeviceResponse>>(API.CREATE_DEVICE, req)
+      .then((response: AxiosResponse<CreateDeviceResponse>) => {
+        commit(MutationTypes.AppendDevice, response.data.Info)
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
         }

@@ -18,7 +18,7 @@ interface GetAllGoodsResponse {
 }
 
 interface DeviceInfo {
-  ID: string
+  ID?: string
   Manufacturer: string
   Consumption: number
   ShipmentAt: number
@@ -31,6 +31,15 @@ interface GetAllDevicesRequest {
 
 interface GetAllDevicesResponse {
   Infos: ReadonlyArray<DeviceInfo>
+}
+
+interface CreateDeviceRequest {
+  Info: DeviceInfo
+  Message: ReqMessage
+}
+
+interface CreateDeviceResponse {
+  Info: DeviceInfo
 }
 
 interface VendorLocation {
@@ -56,6 +65,8 @@ export {
   DeviceInfo,
   GetAllDevicesRequest,
   GetAllDevicesResponse,
+  CreateDeviceRequest,
+  CreateDeviceResponse,
   VendorLocation,
   GetAllVendorLocationsRequest,
   GetAllVendorLocationsResponse
