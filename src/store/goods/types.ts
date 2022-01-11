@@ -17,8 +17,16 @@ interface GetAllGoodsRequest {
   Message: ReqMessage
 }
 
+interface DeviceInfo {
+  Manufacturer: string
+  Consumption: number
+  ShipmentAt: number
+  Type: string
+}
+
 export {
   Good,
   GetAllGoodsRequest,
-  GetAllGoodsResponse
+  GetAllGoodsResponse,
+  DeviceInfo
 }

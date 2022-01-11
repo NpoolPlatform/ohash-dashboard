@@ -14,5 +14,10 @@ export default {
   MSG_GET_GOOD_REVIEWS_FAIL: 'Cannot get good reviews',
   MSG_CREATE_DEVICE: '创建设备',
   MSG_CREATE_GOOD: '创建商品',
-  MSG_CREATE_VENDOR_LOCATION: '创建场地信息'
+  MSG_CREATE_VENDOR_LOCATION: '创建场地信息',
+  MSG_DEVICE_MANUFACTURER: '供应商',
+  MSG_DEVICE_CONSUMPTION: '功耗',
+  MSG_DEVICE_SHIPMENT_AT: '出厂日期',
+  MSG_DEVICE_TYPE: '型号',
+  MSG_SUBMIT: '提交'
 }

@@ -11,14 +11,16 @@
   <q-dialog
     v-model='adding'
     position='right'
-    class='add-menu'
     square
-    auto-close
     no-shake
     @hide='onMenuHide'
   >
-    <CreateGoodMenu v-if='addingType === AddingType.AddingGood' />
-    <CreateDeviceMenu v-if='addingType === AddingType.AddingDevice' />
+    <CreateGoodMenu v-if='addingType === AddingType.AddingGood' class='add-menu' />
+    <CreateDeviceMenu
+      v-if='addingType === AddingType.AddingDevice'
+      class='add-menu'
+      @submit='onCreateDeviceSubmit'
+    />
   </q-dialog>
 </template>
 
@@ -79,6 +81,10 @@ const onCreateVendorLocationClick = () => {
   addingType.value = AddingType.AddingVendorLocation
 }
 
+const onCreateDeviceSubmit = () => {
+  addingType.value = AddingType.AddingNone
+}
+
 const onMenuHide = () => {
   addingType.value = AddingType.AddingNone
 }
@@ -92,4 +98,5 @@ const onMenuHide = () => {
 
 .add-menu
   width: 400px
+  padding: 0 24px 24px 24px
 </style>
