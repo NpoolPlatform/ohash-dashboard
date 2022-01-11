@@ -1,11 +1,12 @@
 import { MutationTree } from 'vuex'
 import { MutationTypes } from './mutation-types'
 import { GoodsState } from './state'
-import { DeviceInfo, Good } from './types'
+import { DeviceInfo, Good, VendorLocation } from './types'
 
 type GoodMutations<S = GoodsState> = {
   [MutationTypes.SetAllGoods] (state: S, payload: Array<Good>): void
   [MutationTypes.SetAllDevices] (state: S, payload: Array<DeviceInfo>): void
+  [MutationTypes.SetAllVendorLocations] (state: S, payload: Array<VendorLocation>): void
 }
 
 const mutations: MutationTree<GoodsState> & GoodMutations = {
@@ -24,6 +25,10 @@ const mutations: MutationTree<GoodsState> & GoodMutations = {
 
   [MutationTypes.SetAllDevices] (state: GoodsState, payload: Array<DeviceInfo>) {
     state.AllDevices = payload
+  },
+
+  [MutationTypes.SetAllVendorLocations] (state: GoodsState, payload: Array<VendorLocation>): void {
+    state.AllVendorLocations = payload
   }
 }
 

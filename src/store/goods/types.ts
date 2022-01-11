@@ -18,13 +18,13 @@ interface GetAllGoodsResponse {
 }
 
 interface DeviceInfo {
+  ID: string
   Manufacturer: string
   Consumption: number
   ShipmentAt: number
   Type: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface GetAllDevicesRequest {
   Message: ReqMessage
 }
@@ -33,11 +33,30 @@ interface GetAllDevicesResponse {
   Infos: ReadonlyArray<DeviceInfo>
 }
 
+interface VendorLocation {
+  ID: string
+  Country: string
+  Province: string
+  City: string
+  Address: string
+}
+
+interface GetAllVendorLocationsRequest {
+  Message: ReqMessage
+}
+
+interface GetAllVendorLocationsResponse {
+  Infos: ReadonlyArray<VendorLocation>
+}
+
 export {
   Good,
   GetAllGoodsRequest,
   GetAllGoodsResponse,
   DeviceInfo,
   GetAllDevicesRequest,
-  GetAllDevicesResponse
+  GetAllDevicesResponse,
+  VendorLocation,
+  GetAllVendorLocationsRequest,
+  GetAllVendorLocationsResponse
 }

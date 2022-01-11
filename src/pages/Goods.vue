@@ -8,7 +8,7 @@
     />
   </div>
   <q-table :title='$t("MSG_DEVICE_LIST")' flat dense :rows='allDevices' />
-  <q-table :title='$t("MSG_VENDOR_LOCATION_LIST")' flat dense :rows='allGoods' />
+  <q-table :title='$t("MSG_VENDOR_LOCATION_LIST")' flat dense :rows='allVendorLocations' />
   <q-table :title='$t("MSG_GOOD_LIST")' flat dense :rows='allGoods' />
   <q-dialog
     v-model='adding'
@@ -52,6 +52,7 @@ const adding = ref(false)
 const store = useStore()
 const allGoods = computed(() => store.getters.getAllGoods)
 const allDevices = computed(() => store.getters.getAllDevices)
+const allVendorLocations = computed(() => store.getters.getAllVendorLocations)
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
@@ -72,6 +73,16 @@ onMounted(() => {
       ModuleKey: ModuleKey.ModuleReviews,
       Error: {
         Title: t('MSG_GET_ALL_DEVICES_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+  store.dispatch(GoodActionTypes.GetAllVendorLocations, {
+    Message: {
+      ModuleKey: ModuleKey.ModuleReviews,
+      Error: {
+        Title: t('MSG_GET_ALL_VENDOR_LOCATIONS_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
