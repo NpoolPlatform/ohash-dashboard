@@ -1,13 +1,15 @@
 <template>
-  <q-table flat dense :rows='allGoods'>
-    <template #top-right>
-      <GoodTools
-        @create-device='onCreateDeviceClick'
-        @create-good='onCreateGoodClick'
-        @create-vendor-location='onCreateVendorLocationClick'
-      />
-    </template>
-  </q-table>
+  <div class='row good-tools'>
+    <q-space />
+    <GoodTools
+      @create-device='onCreateDeviceClick'
+      @create-good='onCreateGoodClick'
+      @create-vendor-location='onCreateVendorLocationClick'
+    />
+  </div>
+  <q-table :title='$t("MSG_DEVICE_LIST")' flat dense :rows='allDevices' />
+  <q-table :title='$t("MSG_VENDOR_LOCATION_LIST")' flat dense :rows='allGoods' />
+  <q-table :title='$t("MSG_GOOD_LIST")' flat dense :rows='allGoods' />
   <q-dialog
     v-model='adding'
     position='right'
@@ -49,6 +51,7 @@ const adding = ref(false)
 
 const store = useStore()
 const allGoods = computed(() => store.getters.getAllGoods)
+const allDevices = computed(() => store.getters.getAllDevices)
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
@@ -58,7 +61,17 @@ onMounted(() => {
     Message: {
       ModuleKey: ModuleKey.ModuleReviews,
       Error: {
-        Title: t('MSG_GET_KYC_REVIEWS_FAIL'),
+        Title: t('MSG_GET_ALL_GOODS_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+  store.dispatch(GoodActionTypes.GetAllDevices, {
+    Message: {
+      ModuleKey: ModuleKey.ModuleReviews,
+      Error: {
+        Title: t('MSG_GET_ALL_DEVICES_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
@@ -96,8 +109,7 @@ const onMenuHide = () => {
 
 <style lang='sass' scoped>
 .good-tools
-  width: 400px
-  border-bottom: solid 1px $grey-4
+  margin-right: 8px
 
 .add-menu
   width: 400px

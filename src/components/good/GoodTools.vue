@@ -48,6 +48,10 @@ const onCreateVendorLocationClick = () => {
 </script>
 
 <style lang='sass' scoped>
+.good-tools
+  width: 400px
+  border-bottom: solid 1px $grey-4
+
 .tool-btn
   color: blue
   font-size: 10px

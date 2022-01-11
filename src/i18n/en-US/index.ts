@@ -19,5 +19,9 @@ export default {
   MSG_DEVICE_CONSUMPTION: '功耗',
   MSG_DEVICE_SHIPMENT_AT: '出厂日期',
   MSG_DEVICE_TYPE: '型号',
-  MSG_SUBMIT: '提交'
+  MSG_SUBMIT: '提交',
+  MSG_DEVICE_LIST: '设备列表',
+  MSG_VENDOR_LOCATION_LIST: '矿场列表',
+  MSG_GOOD_LIST: '商品列表',
+  MSG_GET_ALL_DEVICES_FAIL: 'Cannot get devices'
 }

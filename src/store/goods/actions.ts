@@ -1,6 +1,6 @@
 import { ActionTypes } from './action-types'
 import { MutationTypes } from './mutation-types'
-import { GetAllGoodsRequest, GetAllGoodsResponse } from './types'
+import { GetAllDevicesRequest, GetAllDevicesResponse, GetAllGoodsRequest, GetAllGoodsResponse } from './types'
 import { GoodsState } from './state'
 import { ActionTree } from 'vuex'
 import { AugmentedActionContext, RootState } from '../index'
@@ -20,6 +20,14 @@ interface GoodActions {
     RootState,
     GoodMutations<GoodsState>>,
     req: GetAllGoodsRequest): void
+
+  [ActionTypes.GetAllDevices]({
+    commit
+  }: AugmentedActionContext<
+    GoodsState,
+    RootState,
+    GoodMutations<GoodsState>>,
+    req: GetAllDevicesRequest): void
 }
 
 const actions: ActionTree<GoodsState, RootState> = {
@@ -33,6 +41,30 @@ const actions: ActionTree<GoodsState, RootState> = {
       .post<GetAllGoodsRequest, AxiosResponse<GetAllGoodsResponse>>(API.GET_ALL_GOODS, req)
       .then((response: AxiosResponse<GetAllGoodsResponse>) => {
         commit(MutationTypes.SetAllGoods, response.data.Details)
+        if (waitingNotification) {
+          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
+        }
+      })
+      .catch((err: Error) => {
+        const error = req.Message.Error
+        if (error) {
+          error.Description = err.message
+          const errorNotification = notificationPush(req.Message.ModuleKey, error)
+          commit(NotificationMutationTypes.Push, errorNotification)
+        }
+      })
+  },
+
+  [ActionTypes.GetAllDevices] ({ commit }, req: GetAllDevicesRequest) {
+    let waitingNotification: Notification
+    if (req.Message.Waiting) {
+      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
+      commit(NotificationMutationTypes.Push, waitingNotification)
+    }
+    api
+      .post<GetAllDevicesRequest, AxiosResponse<GetAllDevicesResponse>>(API.GET_ALL_DEVICES, req)
+      .then((response: AxiosResponse<GetAllDevicesResponse>) => {
+        commit(MutationTypes.SetAllDevices, response.data.Infos)
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
         }

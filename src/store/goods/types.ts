@@ -9,12 +9,12 @@ interface Good {
   MyInfo: unknown
 }
 
-interface GetAllGoodsResponse {
-  Details: ReadonlyArray<Good>
-}
-
 interface GetAllGoodsRequest {
   Message: ReqMessage
+}
+
+interface GetAllGoodsResponse {
+  Details: ReadonlyArray<Good>
 }
 
 interface DeviceInfo {
@@ -24,9 +24,20 @@ interface DeviceInfo {
   Type: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface GetAllDevicesRequest {
+  Message: ReqMessage
+}
+
+interface GetAllDevicesResponse {
+  Infos: ReadonlyArray<DeviceInfo>
+}
+
 export {
   Good,
   GetAllGoodsRequest,
   GetAllGoodsResponse,
-  DeviceInfo
+  DeviceInfo,
+  GetAllDevicesRequest,
+  GetAllDevicesResponse
 }
