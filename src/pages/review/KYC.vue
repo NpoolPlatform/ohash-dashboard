@@ -1,14 +1,17 @@
 <template>
-  <div class='row'>
-    <q-space />
-    <ApplicationSelector v-model:selected-app-id='selectedAppID' />
-  </div>
   <q-table
     flat
     dense
     :loading='kycReviewsLoading'
     :rows='kycReviews'
-  />
+  >
+    <template #top-right>
+      <div class='row'>
+        <q-space />
+        <ApplicationSelector v-model:selected-app-id='selectedAppID' />
+      </div>
+    </template>
+  </q-table>
 </template>
 
 <script setup lang='ts'>
