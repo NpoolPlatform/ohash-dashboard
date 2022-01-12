@@ -7,9 +7,9 @@
       @create-vendor-location='onCreateVendorLocationClick'
     />
   </div>
-  <q-table :title='$t("MSG_DEVICE_LIST")' flat dense :rows='allDevices' />
-  <q-table :title='$t("MSG_VENDOR_LOCATION_LIST")' flat dense :rows='allVendorLocations' />
-  <q-table :title='$t("MSG_GOOD_LIST")' flat dense :rows='allGoods' />
+  <q-table :title='$t("MSG_DEVICE_LIST")' flat dense :rows='filterDevices' />
+  <q-table :title='$t("MSG_VENDOR_LOCATION_LIST")' flat dense :rows='filterVendorLocations' />
+  <q-table :title='$t("MSG_GOOD_LIST")' flat dense :rows='filterGoods' />
   <q-dialog
     v-model='adding'
     position='right'
@@ -19,6 +19,8 @@
   >
     <CreateGoodMenu
       v-if='addingType === AddingType.AddingGood'
+      v-model:devices='allDevices'
+      v-model:vendor-locations='allVendorLocations'
       class='add-menu'
     />
     <CreateDeviceMenu
@@ -74,10 +76,13 @@ const inputCity = ref('')
 const inputAddress = ref('')
 
 const store = useStore()
-const allGoods = computed(() => store.getters.getAllGoods)
 
-const allVendorLocations = computed(() => {
-  return store.getters.getAllVendorLocations.filter((vendorLocation) => {
+const allGoods = computed(() => store.getters.getAllGoods)
+const filterGoods = computed(() => allGoods.value)
+
+const allVendorLocations = computed(() => store.getters.getAllVendorLocations)
+const filterVendorLocations = computed(() => {
+  return allVendorLocations.value.filter((vendorLocation) => {
     return vendorLocation.Country.toLowerCase().includes(inputCountry.value.toLowerCase()) &&
       vendorLocation.Province.toLowerCase().includes(inputProvince.value.toLowerCase()) &&
       vendorLocation.City.toLowerCase().includes(inputCity.value.toLowerCase()) &&
@@ -85,8 +90,9 @@ const allVendorLocations = computed(() => {
   })
 })
 
-const allDevices = computed(() => {
-  return store.getters.getAllDevices.filter((device) => {
+const allDevices = computed(() => store.getters.getAllDevices)
+const filterDevices = computed(() => {
+  return allDevices.value.filter((device) => {
     return device.Type.toLowerCase().includes(inputDeviceType.value.toLowerCase())
   })
 })

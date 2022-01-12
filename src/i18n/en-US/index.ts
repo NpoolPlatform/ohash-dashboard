@@ -29,5 +29,6 @@ export default {
   MSG_COUNTRY: '国家',
   MSG_PROVINCE: '省',
   MSG_CITY: '城市',
-  MSG_ADDRESS: '地址'
+  MSG_ADDRESS: '地址',
+  MSG_GOOD_NAME: '商品名称'
 }
