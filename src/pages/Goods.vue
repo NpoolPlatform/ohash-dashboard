@@ -27,6 +27,15 @@
       class='add-menu'
       @submit='onCreateDeviceSubmit'
     />
+    <CreateVendorLocationMenu
+      v-if='addingType === AddingType.AddingVendorLocation'
+      v-model:input-country='inputCountry'
+      v-model:input-province='inputProvince'
+      v-model:input-city='inputCity'
+      v-model:input-address='inputAddress'
+      class='add-menu'
+      @submit='onCreateVendorLocationSubmit'
+    />
   </q-dialog>
 </template>
 
@@ -39,11 +48,12 @@ import { MutationTypes as NotificationMutationTypes } from 'src/store/notificati
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { notify, notificationPop } from 'src/store/notifications/helper'
 import { useI18n } from 'vue-i18n'
-import { DeviceInfo } from 'src/store/goods/types'
+import { DeviceInfo, VendorLocation } from 'src/store/goods/types'
 import { FunctionVoid } from 'src/types/types'
 
 const CreateGoodMenu = defineAsyncComponent(() => import('src/components/good/CreateGoodMenu.vue'))
 const CreateDeviceMenu = defineAsyncComponent(() => import('src/components/good/CreateDeviceMenu.vue'))
+const CreateVendorLocationMenu = defineAsyncComponent(() => import('src/components/good/CreateVendorLocationMenu.vue'))
 const GoodTools = defineAsyncComponent(() => import('src/components/good/GoodTools.vue'))
 
 enum AddingType {
@@ -58,9 +68,22 @@ const adding = ref(false)
 
 const inputDeviceType = ref('')
 
+const inputCountry = ref('')
+const inputProvince = ref('')
+const inputCity = ref('')
+const inputAddress = ref('')
+
 const store = useStore()
 const allGoods = computed(() => store.getters.getAllGoods)
-const allVendorLocations = computed(() => store.getters.getAllVendorLocations)
+
+const allVendorLocations = computed(() => {
+  return store.getters.getAllVendorLocations.filter((vendorLocation) => {
+    return vendorLocation.Country.toLowerCase().includes(inputCountry.value.toLowerCase()) &&
+      vendorLocation.Province.toLowerCase().includes(inputProvince.value.toLowerCase()) &&
+      vendorLocation.City.toLowerCase().includes(inputCity.value.toLowerCase()) &&
+      vendorLocation.Address.toLowerCase().includes(inputAddress.value.toLowerCase())
+  })
+})
 
 const allDevices = computed(() => {
   return store.getters.getAllDevices.filter((device) => {
@@ -116,7 +139,7 @@ onMounted(() => {
   })
 })
 
-watch(addingType, function (val) {
+watch(addingType, (val) => {
   adding.value = val !== AddingType.AddingNone
 })
 
@@ -145,6 +168,27 @@ const onCreateDeviceSubmit = (device: DeviceInfo) => {
       }
     }
   })
+  inputDeviceType.value = ''
+}
+
+const onCreateVendorLocationSubmit = (vendorLication: VendorLocation) => {
+  addingType.value = AddingType.AddingNone
+  store.dispatch(GoodActionTypes.CreateVendorLocation, {
+    Info: vendorLication,
+    Message: {
+      ModuleKey: ModuleKey.ModuleGoods,
+      Error: {
+        Title: t('MSG_CREATE_DEVICE_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+
+  inputCountry.value = ''
+  inputProvince.value = ''
+  inputCity.value = ''
+  inputAddress.value = ''
 }
 
 const onMenuHide = () => {

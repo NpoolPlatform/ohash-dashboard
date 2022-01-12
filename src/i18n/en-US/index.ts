@@ -25,5 +25,9 @@ export default {
   MSG_GOOD_LIST: '商品列表',
   MSG_GET_ALL_DEVICES_FAIL: 'Cannot get devices',
   MSG_GET_ALL_VENDOR_LOCATIONS_FAIL: 'Cannot get vendor locations',
-  MSG_CREATE_DEVICE_FAIL: 'Cannot create device'
+  MSG_CREATE_DEVICE_FAIL: 'Cannot create device',
+  MSG_COUNTRY: '国家',
+  MSG_PROVINCE: '省',
+  MSG_CITY: '城市',
+  MSG_ADDRESS: '地址'
 }

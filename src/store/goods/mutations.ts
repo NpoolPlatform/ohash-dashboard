@@ -8,6 +8,7 @@ type GoodMutations<S = GoodsState> = {
   [MutationTypes.SetAllDevices] (state: S, payload: Array<DeviceInfo>): void
   [MutationTypes.SetAllVendorLocations] (state: S, payload: Array<VendorLocation>): void
   [MutationTypes.AppendDevice] (state: S, payload: DeviceInfo): void
+  [MutationTypes.AppendVendorLocation] (state: S, payload: VendorLocation): void
 }
 
 const mutations: MutationTree<GoodsState> & GoodMutations = {
@@ -33,11 +34,11 @@ const mutations: MutationTree<GoodsState> & GoodMutations = {
   },
 
   [MutationTypes.AppendDevice] (state: GoodsState, payload: DeviceInfo): void {
-    const devices = [payload]
-    state.AllDevices.forEach((device) => {
-      devices.push(device)
-    })
-    state.AllDevices = devices
+    state.AllDevices.splice(0, 0, payload)
+  },
+
+  [MutationTypes.AppendVendorLocation] (state: GoodsState, payload: VendorLocation): void {
+    state.AllVendorLocations.splice(0, 0, payload)
   }
 }
 

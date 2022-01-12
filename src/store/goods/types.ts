@@ -43,7 +43,7 @@ interface CreateDeviceResponse {
 }
 
 interface VendorLocation {
-  ID: string
+  ID?: string
   Country: string
   Province: string
   City: string
@@ -58,6 +58,15 @@ interface GetAllVendorLocationsResponse {
   Infos: ReadonlyArray<VendorLocation>
 }
 
+interface CreateVendorLocationRequest {
+  Info: VendorLocation
+  Message: ReqMessage
+}
+
+interface CreateVendorLocationResponse {
+  Info: VendorLocation
+}
+
 export {
   Good,
   GetAllGoodsRequest,
@@ -69,5 +78,7 @@ export {
   CreateDeviceResponse,
   VendorLocation,
   GetAllVendorLocationsRequest,
-  GetAllVendorLocationsResponse
+  GetAllVendorLocationsResponse,
+  CreateVendorLocationRequest,
+  CreateVendorLocationResponse
 }

@@ -66,7 +66,9 @@ const props = withDefaults(defineProps<Props>(), {
 const inputDeviceType = toRef(props, 'inputDeviceType')
 const myDeviceType = ref(inputDeviceType.value)
 
-const emit = defineEmits<{(e: 'submit', info: DeviceInfo): void, (e: 'update:inputDeviceType', type: string): void}>()
+const emit = defineEmits<{(e: 'submit', info: DeviceInfo): void,
+  (e: 'update:inputDeviceType', type: string): void
+}>()
 
 const onSubmit = () => {
   emit('submit', {
