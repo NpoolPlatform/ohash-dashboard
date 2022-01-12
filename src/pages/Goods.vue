@@ -5,6 +5,8 @@
       @create-device='onCreateDeviceClick'
       @create-good='onCreateGoodClick'
       @create-vendor-location='onCreateVendorLocationClick'
+      @create-fee-type='onCreateFeeTypeClick'
+      @create-fee='onCreateFeeClick'
     />
   </div>
   <q-table :title='$t("MSG_DEVICE")' flat dense :rows='filterDevices' />
@@ -42,6 +44,24 @@
       class='add-menu'
       @submit='onCreateVendorLocationSubmit'
     />
+    <CreateFeeTypeMenu
+      v-if='addingType === AddingType.AddingFeeType'
+      v-model:input-country='inputCountry'
+      v-model:input-province='inputProvince'
+      v-model:input-city='inputCity'
+      v-model:input-address='inputAddress'
+      class='add-menu'
+      @submit='onCreateFeeTypeSubmit'
+    />
+    <CreateFeeMenu
+      v-if='addingType === AddingType.AddingFee'
+      v-model:input-country='inputCountry'
+      v-model:input-province='inputProvince'
+      v-model:input-city='inputCity'
+      v-model:input-address='inputAddress'
+      class='add-menu'
+      @submit='onCreateFeeSubmit'
+    />
   </q-dialog>
 </template>
 
@@ -55,19 +75,23 @@ import { MutationTypes as NotificationMutationTypes } from 'src/store/notificati
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { notify, notificationPop } from 'src/store/notifications/helper'
 import { useI18n } from 'vue-i18n'
-import { DeviceInfo, VendorLocation } from 'src/store/goods/types'
+import { DeviceInfo, Fee, FeeType, VendorLocation } from 'src/store/goods/types'
 import { FunctionVoid } from 'src/types/types'
 
 const CreateGoodMenu = defineAsyncComponent(() => import('src/components/good/CreateGoodMenu.vue'))
 const CreateDeviceMenu = defineAsyncComponent(() => import('src/components/good/CreateDeviceMenu.vue'))
 const CreateVendorLocationMenu = defineAsyncComponent(() => import('src/components/good/CreateVendorLocationMenu.vue'))
+const CreateFeeTypeMenu = defineAsyncComponent(() => import('src/components/good/CreateFeeTypeMenu.vue'))
+const CreateFeeMenu = defineAsyncComponent(() => import('src/components/good/CreateFeeMenu.vue'))
 const GoodTools = defineAsyncComponent(() => import('src/components/good/GoodTools.vue'))
 
 enum AddingType {
   AddingNone = 'none',
   AddingDevice = 'device',
   AddingVendorLocation = 'vendor-location',
-  AddingGood = 'good'
+  AddingGood = 'good',
+  AddingFeeType = 'fee-type',
+  AddingFee = 'fee'
 }
 
 const addingType = ref(AddingType.AddingNone)
@@ -204,6 +228,14 @@ const onCreateVendorLocationClick = () => {
   addingType.value = AddingType.AddingVendorLocation
 }
 
+const onCreateFeeTypeClick = () => {
+  addingType.value = AddingType.AddingFeeType
+}
+
+const onCreateFeeClick = () => {
+  addingType.value = AddingType.AddingFee
+}
+
 const onCreateDeviceSubmit = (device: DeviceInfo) => {
   addingType.value = AddingType.AddingNone
   store.dispatch(GoodActionTypes.CreateDevice, {
@@ -238,6 +270,14 @@ const onCreateVendorLocationSubmit = (vendorLication: VendorLocation) => {
   inputProvince.value = ''
   inputCity.value = ''
   inputAddress.value = ''
+}
+
+const onCreateFeeTypeSubmit = (feeType: FeeType) => {
+  console.log(feeType)
+}
+
+const onCreateFeeSubmit = (fee: Fee) => {
+  console.log(fee)
 }
 
 const onMenuHide = () => {

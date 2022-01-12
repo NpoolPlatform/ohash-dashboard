@@ -68,7 +68,7 @@ interface CreateVendorLocationResponse {
 }
 
 interface FeeType {
-  ID: string
+  ID?: string
   FeeType: string
   FeeDescription: string
   PayType: string
@@ -92,7 +92,7 @@ interface CreateFeeTypeResponse {
 }
 
 interface Fee {
-  ID: string
+  ID?: string
   AppID: string
   FeeTypeID: string
   Value: number

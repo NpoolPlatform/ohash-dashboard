@@ -1,7 +1,7 @@
 <template>
   <q-card>
     <q-card-section>
-      <q-item-label>{{ $t('MSG_CREATE_VENDOR_LOCATION') }}</q-item-label>
+      <q-item-label>{{ $t('MSG_CREATE_FEE') }}</q-item-label>
     </q-card-section>
     <q-item-section>
       <q-input

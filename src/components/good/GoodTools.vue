@@ -5,6 +5,22 @@
       dense
       flat
       no-caps
+      :label='$t("MSG_CREATE_FEE_TYPE")'
+      class='tool-btn'
+      @click='onCreateFeeTypeClick'
+    />
+    <q-btn
+      dense
+      flat
+      no-caps
+      :label='$t("MSG_CREATE_FEE")'
+      class='tool-btn'
+      @click='onCreateFeeClick'
+    />
+    <q-btn
+      dense
+      flat
+      no-caps
       :label='$t("MSG_CREATE_DEVICE")'
       class='tool-btn'
       @click='onCreateDeviceClick'
@@ -31,7 +47,12 @@
 <script setup lang='ts'>
 import { defineEmits } from 'vue'
 
-const emit = defineEmits<{(e: 'createDevice'): void, (e: 'createGood'): void, (e: 'createVendorLocation'): void}>()
+const emit = defineEmits<{(e: 'createDevice'): void,
+  (e: 'createGood'): void,
+  (e: 'createVendorLocation'): void
+  (e: 'createFeeType'): void
+  (e: 'createFee'): void
+}>()
 
 const onCreateDeviceClick = () => {
   emit('createDevice')
@@ -43,6 +64,14 @@ const onCreateGoodClick = () => {
 
 const onCreateVendorLocationClick = () => {
   emit('createVendorLocation')
+}
+
+const onCreateFeeTypeClick = () => {
+  emit('createFeeType')
+}
+
+const onCreateFeeClick = () => {
+  emit('createFee')
 }
 
 </script>

@@ -18,6 +18,8 @@ export default {
   MSG_CREATE_DEVICE: '创建设备',
   MSG_CREATE_GOOD: '创建商品',
   MSG_CREATE_VENDOR_LOCATION: '创建场地信息',
+  MSG_CREATE_FEE_TYPE: '创建费用类型',
+  MSG_CREATE_FEE: '创建费用',
   MSG_DEVICE_MANUFACTURER: '供应商',
   MSG_DEVICE_CONSUMPTION: '功耗',
   MSG_DEVICE_SHIPMENT_AT: '出厂日期',
@@ -46,5 +48,8 @@ export default {
   MSG_GOOD_TOTAL: '总量',
   MSG_GOOD_PRICE: '价格',
   MSG_GOOD_DURATION_DAYS: '服务天数',
-  MSG_GOOD_COIN_TYPE: '币种'
+  MSG_GOOD_COIN_TYPE: '币种',
+  MSG_FEE_TYPE_DESCRIPTION: '费用类别描述',
+  MSG_PAY_TYPE_AMOUNT: '固定金额',
+  MSG_PAY_TYPE_PERCENT: '收益百分比'
 }
