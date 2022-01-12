@@ -30,5 +30,15 @@ export default {
   MSG_PROVINCE: '省',
   MSG_CITY: '城市',
   MSG_ADDRESS: '地址',
-  MSG_GOOD_NAME: '商品名称'
+  MSG_GOOD_NAME: '商品名称',
+  MSG_ACTUALS: '现货',
+  MSG_SEPARATE_FEE: '电费与服务费单独核算',
+  MSG_MODE_CLASSIC: '经典模式',
+  MSG_MODE_COLLABORATION: '联合挖矿模式',
+  MSG_BENEFIT_TYPE_PLATFORM: '平台分币',
+  MSG_BENEFIT_TYPE_POOL: '直连矿池',
+  MSG_GOOD_TOTAL: '总量',
+  MSG_GOOD_PRICE: '价格',
+  MSG_GOOD_DURATION_DAYS: '服务天数',
+  MSG_GOOD_COIN_TYPE: '币种'
 }

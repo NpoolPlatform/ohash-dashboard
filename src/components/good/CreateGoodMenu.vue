@@ -64,6 +64,61 @@
       </div>
     </q-item-section>
     <q-item-section>
+      <q-toggle
+        v-model='myActuals' :label='$t("MSG_ACTUALS")' dense
+      />
+      <q-toggle
+        v-model='mySeparateFee' :label='$t("MSG_SEPARATE_FEE")' dense
+      />
+      <q-toggle
+        v-model='myClassic' :label='$t("MSG_MODE_CLASSIC")' dense
+      />
+      <div>
+        <q-btn-toggle
+          v-model='myBenefitType'
+          no-caps
+          rounded
+          unelevated
+          class='toggle-btn'
+          :options='benefitTypes'
+        />
+      </div>
+    </q-item-section>
+    <q-item-section>
+      <q-input
+        v-model='myTotal'
+        :label='$t("MSG_GOOD_TOTAL")'
+      >
+        <template #prepend>
+          <q-icon name='window' />
+        </template>
+      </q-input>
+      <q-input
+        v-model='myPrice'
+        :label='$t("MSG_GOOD_PRICE")'
+      >
+        <template #prepend>
+          <q-icon name='window' />
+        </template>
+      </q-input>
+      <q-input
+        v-model='myDurationDays'
+        :label='$t("MSG_GOOD_DURATION_DAYS")'
+      >
+        <template #prepend>
+          <q-icon name='window' />
+        </template>
+      </q-input>
+      <q-input
+        v-model='myCoinType'
+        :label='$t("MSG_GOOD_COIN_TYPE")'
+      >
+        <template #prepend>
+          <q-icon name='window' />
+        </template>
+      </q-input>
+    </q-item-section>
+    <q-item-section>
       <q-btn
         class='submit-btn'
         :label='$t("MSG_SUBMIT")'
@@ -76,6 +131,7 @@
 <script setup lang='ts'>
 import { DeviceInfo, VendorLocation } from 'src/store/goods/types'
 import { withDefaults, defineProps, toRef, computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   inputTitle: string
@@ -103,9 +159,17 @@ const props = withDefaults(defineProps<Props>(), {
   inputCoinType: ''
 })
 
-const myTitle = toRef(props, 'inputTitle')
+const inputTitle = toRef(props, 'inputTitle')
 const devices = toRef(props, 'devices')
 const vendorLocations = toRef(props, 'vendorLocations')
+const inputActuals = toRef(props, 'inputActuals')
+const inputSeparateFee = toRef(props, 'inputSeparateFee')
+const inputClassic = toRef(props, 'inputClassic')
+const inputBenefitType = toRef(props, 'inputBenefitType')
+const inputTotal = toRef(props, 'inputTotal')
+const inputPrice = toRef(props, 'inputPrice')
+const inputDurationDays = toRef(props, 'inputDurationDays')
+const inputCoinType = toRef(props, 'inputCoinType')
 
 const selectedDeviceIndex = ref(0)
 const deviceLabel = computed(() => devices.value[selectedDeviceIndex.value].Type)
@@ -114,6 +178,29 @@ const selectedVendorLocationIndex = ref(0)
 const vendorLocationLabel = computed(() =>
   vendorLocationToLabel(vendorLocations.value[selectedVendorLocationIndex.value])
 )
+
+const myTitle = ref(inputTitle.value)
+const myActuals = ref(inputActuals.value)
+const mySeparateFee = ref(inputSeparateFee.value)
+const myClassic = ref(inputClassic.value)
+const myBenefitType = ref(inputBenefitType.value)
+const myTotal = ref(inputTotal.value)
+const myPrice = ref(inputPrice.value)
+const myDurationDays = ref(inputDurationDays.value)
+const myCoinType = ref(inputCoinType.value)
+
+// eslint-disable-next-line @typescript-eslint/unbound-method
+const { t } = useI18n({ useScope: 'global' })
+
+const benefitTypes = [
+  {
+    label: t('MSG_BENEFIT_TYPE_PLATFORM'),
+    value: 'platform'
+  }, {
+    label: t('MSG_BENEFIT_TYPE_POOL'),
+    value: 'pool'
+  }
+]
 
 const vendorLocationToLabel = (vendorLocation: VendorLocation) => {
   return vendorLocation.Country + ' / ' +
@@ -145,4 +232,7 @@ const onVendorLocationItemClick = (index: number) => {
 .selector-icon
   padding: 10px 8px 10px 0px
   color: $grey-6
+
+.toggle-btn
+  border: 1px solid #027be3
 </style>
