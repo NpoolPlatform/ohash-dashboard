@@ -67,6 +67,54 @@ interface CreateVendorLocationResponse {
   Info: VendorLocation
 }
 
+interface FeeType {
+  ID: string
+  FeeType: string
+  FeeDescription: string
+  PayType: string
+}
+
+interface GetAllFeeTypesRequest {
+  Message: ReqMessage
+}
+
+interface GetAllFeeTypesResponse {
+  Infos: Array<FeeType>
+}
+
+interface CreateFeeTypeRequest {
+  Info: FeeType
+  Message: ReqMessage
+}
+
+interface CreateFeeTypeResponse {
+  Info: FeeType
+}
+
+interface Fee {
+  ID: string
+  AppID: string
+  FeeTypeID: string
+  Value: number
+}
+
+interface GetAllFeesRequest {
+  Message: ReqMessage
+}
+
+interface GetAllFeesResponse {
+  Infos: Array<Fee>
+}
+
+interface CreateFeeRequest {
+  Info: Fee
+  Message: ReqMessage
+}
+
+interface CreateFeeResponse {
+  Info: Fee
+}
+
 export {
   Good,
   GetAllGoodsRequest,
@@ -80,5 +128,15 @@ export {
   GetAllVendorLocationsRequest,
   GetAllVendorLocationsResponse,
   CreateVendorLocationRequest,
-  CreateVendorLocationResponse
+  CreateVendorLocationResponse,
+  FeeType,
+  GetAllFeeTypesRequest,
+  GetAllFeeTypesResponse,
+  CreateFeeTypeRequest,
+  CreateFeeTypeResponse,
+  Fee,
+  GetAllFeesRequest,
+  GetAllFeesResponse,
+  CreateFeeRequest,
+  CreateFeeResponse
 }
