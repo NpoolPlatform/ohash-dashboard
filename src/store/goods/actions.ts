@@ -235,7 +235,7 @@ const actions: ActionTree<GoodsState, RootState> = {
     api
       .post<GetAllFeeTypesRequest, AxiosResponse<GetAllFeeTypesResponse>>(API.GET_ALL_FEE_TYPES, req)
       .then((response: AxiosResponse<GetAllFeeTypesResponse>) => {
-        commit(MutationTypes.AppendVendorLocation, response.data.Infos)
+        commit(MutationTypes.SetAllFeeTypes, response.data.Infos)
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
         }
@@ -259,7 +259,7 @@ const actions: ActionTree<GoodsState, RootState> = {
     api
       .post<GetAllFeesRequest, AxiosResponse<GetAllFeesResponse>>(API.GET_ALL_FEES, req)
       .then((response: AxiosResponse<GetAllFeesResponse>) => {
-        commit(MutationTypes.AppendVendorLocation, response.data.Infos)
+        commit(MutationTypes.SetAllFees, response.data.Infos)
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
         }
@@ -283,7 +283,7 @@ const actions: ActionTree<GoodsState, RootState> = {
     api
       .post<CreateFeeTypeRequest, AxiosResponse<CreateFeeTypeResponse>>(API.CREATE_FEE_TYPE, req)
       .then((response: AxiosResponse<CreateFeeTypeResponse>) => {
-        commit(MutationTypes.AppendVendorLocation, response.data.Info)
+        commit(MutationTypes.AppendFeeType, response.data.Info)
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
         }
@@ -307,7 +307,7 @@ const actions: ActionTree<GoodsState, RootState> = {
     api
       .post<CreateFeeRequest, AxiosResponse<CreateFeeResponse>>(API.CREATE_FEE, req)
       .then((response: AxiosResponse<CreateFeeResponse>) => {
-        commit(MutationTypes.AppendVendorLocation, response.data.Info)
+        commit(MutationTypes.AppendFee, response.data.Info)
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
         }
