@@ -13,14 +13,6 @@
       dense
       flat
       no-caps
-      :label='$t("MSG_CREATE_FEE")'
-      class='tool-btn'
-      @click='onCreateFeeClick'
-    />
-    <q-btn
-      dense
-      flat
-      no-caps
       :label='$t("MSG_CREATE_DEVICE")'
       class='tool-btn'
       @click='onCreateDeviceClick'
@@ -51,7 +43,6 @@ const emit = defineEmits<{(e: 'createDevice'): void,
   (e: 'createGood'): void,
   (e: 'createVendorLocation'): void
   (e: 'createFeeType'): void
-  (e: 'createFee'): void
 }>()
 
 const onCreateDeviceClick = () => {
@@ -68,10 +59,6 @@ const onCreateVendorLocationClick = () => {
 
 const onCreateFeeTypeClick = () => {
   emit('createFeeType')
-}
-
-const onCreateFeeClick = () => {
-  emit('createFee')
 }
 
 </script>

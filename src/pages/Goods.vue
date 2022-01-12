@@ -6,14 +6,12 @@
       @create-good='onCreateGoodClick'
       @create-vendor-location='onCreateVendorLocationClick'
       @create-fee-type='onCreateFeeTypeClick'
-      @create-fee='onCreateFeeClick'
     />
   </div>
   <q-table :title='$t("MSG_DEVICE")' flat dense :rows='filterDevices' />
   <q-table :title='$t("MSG_VENDOR_LOCATION")' flat dense :rows='filterVendorLocations' />
   <q-table :title='$t("MSG_COIN")' flat dense :rows='allCoins' />
   <q-table :title='$t("MSG_FEE_TYPE")' flat dense :rows='filterFeeTypes' />
-  <q-table :title='$t("MSG_FEE")' flat dense :rows='filterFees' />
   <q-table :title='$t("MSG_GOOD")' flat dense :rows='filterGoods' />
   <q-dialog
     v-model='adding'
@@ -46,21 +44,11 @@
     />
     <CreateFeeTypeMenu
       v-if='addingType === AddingType.AddingFeeType'
-      v-model:input-country='inputCountry'
-      v-model:input-province='inputProvince'
-      v-model:input-city='inputCity'
-      v-model:input-address='inputAddress'
+      v-model:input-fee-type='inputFeeType'
+      v-model:input-fee-description='inputFeeDescription'
+      v-model:input-pay-type='inputPayType'
       class='add-menu'
       @submit='onCreateFeeTypeSubmit'
-    />
-    <CreateFeeMenu
-      v-if='addingType === AddingType.AddingFee'
-      v-model:input-country='inputCountry'
-      v-model:input-province='inputProvince'
-      v-model:input-city='inputCity'
-      v-model:input-address='inputAddress'
-      class='add-menu'
-      @submit='onCreateFeeSubmit'
     />
   </q-dialog>
 </template>
@@ -75,14 +63,13 @@ import { MutationTypes as NotificationMutationTypes } from 'src/store/notificati
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { notify, notificationPop } from 'src/store/notifications/helper'
 import { useI18n } from 'vue-i18n'
-import { DeviceInfo, Fee, FeeType, VendorLocation } from 'src/store/goods/types'
+import { DeviceInfo, FeeType, VendorLocation } from 'src/store/goods/types'
 import { FunctionVoid } from 'src/types/types'
 
 const CreateGoodMenu = defineAsyncComponent(() => import('src/components/good/CreateGoodMenu.vue'))
 const CreateDeviceMenu = defineAsyncComponent(() => import('src/components/good/CreateDeviceMenu.vue'))
 const CreateVendorLocationMenu = defineAsyncComponent(() => import('src/components/good/CreateVendorLocationMenu.vue'))
 const CreateFeeTypeMenu = defineAsyncComponent(() => import('src/components/good/CreateFeeTypeMenu.vue'))
-const CreateFeeMenu = defineAsyncComponent(() => import('src/components/good/CreateFeeMenu.vue'))
 const GoodTools = defineAsyncComponent(() => import('src/components/good/GoodTools.vue'))
 
 enum AddingType {
@@ -103,6 +90,10 @@ const inputCountry = ref('')
 const inputProvince = ref('')
 const inputCity = ref('')
 const inputAddress = ref('')
+
+const inputFeeType = ref('')
+const inputFeeDescription = ref('')
+const inputPayType = ref('')
 
 const store = useStore()
 
@@ -128,11 +119,12 @@ const filterDevices = computed(() => {
 
 const allCoins = computed(() => store.getters.getCoins)
 
-const allFeeTypes = computed(() => store.getters.getAllFeeTypes)
+const allFeeTypes = computed(() => {
+  return store.getters.getAllFeeTypes.filter((feeType) => {
+    return feeType.FeeType.toLowerCase().includes(inputFeeType.value.toLowerCase())
+  })
+})
 const filterFeeTypes = computed(() => allFeeTypes.value)
-
-const allFees = computed(() => store.getters.getAllFees)
-const filterFees = computed(() => allFees.value)
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
@@ -232,10 +224,6 @@ const onCreateFeeTypeClick = () => {
   addingType.value = AddingType.AddingFeeType
 }
 
-const onCreateFeeClick = () => {
-  addingType.value = AddingType.AddingFee
-}
-
 const onCreateDeviceSubmit = (device: DeviceInfo) => {
   addingType.value = AddingType.AddingNone
   store.dispatch(GoodActionTypes.CreateDevice, {
@@ -273,11 +261,22 @@ const onCreateVendorLocationSubmit = (vendorLication: VendorLocation) => {
 }
 
 const onCreateFeeTypeSubmit = (feeType: FeeType) => {
-  console.log(feeType)
-}
+  addingType.value = AddingType.AddingNone
+  store.dispatch(GoodActionTypes.CreateFeeType, {
+    Info: feeType,
+    Message: {
+      ModuleKey: ModuleKey.ModuleGoods,
+      Error: {
+        Title: t('MSG_CREATE_FEE_TYPE_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
 
-const onCreateFeeSubmit = (fee: Fee) => {
-  console.log(fee)
+  inputFeeType.value = ''
+  inputFeeDescription.value = ''
+  inputPayType.value = ''
 }
 
 const onMenuHide = () => {
