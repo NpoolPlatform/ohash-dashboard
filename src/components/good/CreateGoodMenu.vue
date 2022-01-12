@@ -62,6 +62,31 @@
           </q-list>
         </q-btn-dropdown>
       </div>
+      <div class='row'>
+        <q-icon name='window' class='selector-icon' size='24px' />
+        <q-btn-dropdown
+          flat
+          dense
+          split
+          no-caps
+          align='left'
+          :label='coinName'
+        >
+          <q-list>
+            <q-item
+              v-for='(coin, index) in coins'
+              :key='index'
+              v-close-popup
+              clickable
+              @click='onCoinItemClick(index)'
+            >
+              <q-item-section>
+                <q-item-label>{{ coin.Name }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+      </div>
     </q-item-section>
     <q-item-section>
       <q-toggle
@@ -129,6 +154,7 @@
 </template>
 
 <script setup lang='ts'>
+import { Coin } from 'src/store/coins/types'
 import { DeviceInfo, VendorLocation } from 'src/store/goods/types'
 import { withDefaults, defineProps, toRef, computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -145,6 +171,7 @@ interface Props {
   inputCoinType: string
   devices: Array<DeviceInfo>
   vendorLocations: Array<VendorLocation>
+  coins: Array<Coin>
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -160,8 +187,6 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const inputTitle = toRef(props, 'inputTitle')
-const devices = toRef(props, 'devices')
-const vendorLocations = toRef(props, 'vendorLocations')
 const inputActuals = toRef(props, 'inputActuals')
 const inputSeparateFee = toRef(props, 'inputSeparateFee')
 const inputClassic = toRef(props, 'inputClassic')
@@ -170,6 +195,12 @@ const inputTotal = toRef(props, 'inputTotal')
 const inputPrice = toRef(props, 'inputPrice')
 const inputDurationDays = toRef(props, 'inputDurationDays')
 const inputCoinType = toRef(props, 'inputCoinType')
+const devices = toRef(props, 'devices')
+const vendorLocations = toRef(props, 'vendorLocations')
+const coins = toRef(props, 'coins')
+
+const selectedCoinIndex = ref(0)
+const coinName = computed(() => coins.value[selectedCoinIndex.value].Name)
 
 const selectedDeviceIndex = ref(0)
 const deviceLabel = computed(() => devices.value[selectedDeviceIndex.value].Type)
@@ -219,6 +250,10 @@ const onDeviceItemClick = (index: number) => {
 
 const onVendorLocationItemClick = (index: number) => {
   selectedVendorLocationIndex.value = index
+}
+
+const onCoinItemClick = (index: number) => {
+  selectedCoinIndex.value = index
 }
 
 </script>

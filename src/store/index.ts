@@ -58,21 +58,30 @@ import {
   GoodActions
 } from './goods'
 
+import {
+  coins,
+  CoinsState,
+  CoinMutations,
+  CoinGetters,
+  CoinActions
+} from './coins'
+
 // 2 combine your store to root store
 export interface RootState {
   user: UserState,
   mainBreadcrumbs: MainBreadcrumbsState,
   notifications: NotificationState
   applications: ApplicationsState
-  KYCs: ReviewsState
+  reviews: ReviewsState
   goods: GoodsState
+  coins: CoinsState
 }
 
 // 3 combine your actions, mutations and getters to root, if have multi use & combin
 // for example a & b
-type Actions = UserActions & ApplicationActions & ReviewActions & GoodActions
-type Mutations = UserMutations & MainBreadcrumbsMutations & NotificationMutations & ApplicationMutations & ReviewMutations & GoodMutations
-type Getters = UserGetters & MainBreadcrumbsGetters & NotificationGetters & ApplicationGetters & ReviewGetters & GoodGetters
+type Actions = UserActions & ApplicationActions & ReviewActions & GoodActions & CoinActions
+type Mutations = UserMutations & MainBreadcrumbsMutations & NotificationMutations & ApplicationMutations & ReviewMutations & GoodMutations & CoinMutations
+type Getters = UserGetters & MainBreadcrumbsGetters & NotificationGetters & ApplicationGetters & ReviewGetters & GoodGetters & CoinGetters
 
 // 4 attach your module to root
 export default store(function (/* { ssrContext } */) {
@@ -83,7 +92,8 @@ export default store(function (/* { ssrContext } */) {
       notifications,
       applications,
       reviews,
-      goods
+      goods,
+      coins
     },
 
     // enable strict mode (adds overhead!)

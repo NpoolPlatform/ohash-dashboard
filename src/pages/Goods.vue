@@ -7,9 +7,10 @@
       @create-vendor-location='onCreateVendorLocationClick'
     />
   </div>
-  <q-table :title='$t("MSG_DEVICE_LIST")' flat dense :rows='filterDevices' />
-  <q-table :title='$t("MSG_VENDOR_LOCATION_LIST")' flat dense :rows='filterVendorLocations' />
-  <q-table :title='$t("MSG_GOOD_LIST")' flat dense :rows='filterGoods' />
+  <q-table :title='$t("MSG_DEVICE")' flat dense :rows='filterDevices' />
+  <q-table :title='$t("MSG_VENDOR_LOCATION")' flat dense :rows='filterVendorLocations' />
+  <q-table :title='$t("MSG_COIN")' flat dense :rows='allCoins' />
+  <q-table :title='$t("MSG_GOOD")' flat dense :rows='filterGoods' />
   <q-dialog
     v-model='adding'
     position='right'
@@ -21,6 +22,7 @@
       v-if='addingType === AddingType.AddingGood'
       v-model:devices='allDevices'
       v-model:vendor-locations='allVendorLocations'
+      v-model:coins='allCoins'
       class='add-menu'
     />
     <CreateDeviceMenu
@@ -46,6 +48,7 @@ import { onMounted, computed, defineAsyncComponent, ref, watch } from 'vue'
 import { useStore } from 'src/store'
 
 import { ActionTypes as GoodActionTypes } from 'src/store/goods/action-types'
+import { ActionTypes as CoinActionTypes } from 'src/store/coins/action-types'
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { notify, notificationPop } from 'src/store/notifications/helper'
@@ -97,6 +100,8 @@ const filterDevices = computed(() => {
   })
 })
 
+const allCoins = computed(() => store.getters.getCoins)
+
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
 
@@ -128,6 +133,16 @@ onMounted(() => {
       ModuleKey: ModuleKey.ModuleGoods,
       Error: {
         Title: t('MSG_GET_ALL_VENDOR_LOCATIONS_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+  store.dispatch(CoinActionTypes.GetCoins, {
+    Message: {
+      ModuleKey: ModuleKey.ModuleGoods,
+      Error: {
+        Title: t('MSG_GET_COINS_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
