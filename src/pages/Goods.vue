@@ -340,6 +340,17 @@ const onCreateGoodSubmit = (good: Good) => {
     }
   })
 
+  store.dispatch(GoodActionTypes.GetAllGoods, {
+    Message: {
+      ModuleKey: ModuleKey.ModuleGoods,
+      Error: {
+        Title: t('MSG_GET_ALL_GOODS_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+
   inputGoodTitle.value = ''
   inputGoodActuals.value = true
   inputGoodBenefitType.value = ''

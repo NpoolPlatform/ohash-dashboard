@@ -284,7 +284,7 @@ const myFeeTypes = computed(() => {
   })
   return localFeeTypes
 })
-const selectedFeeTypes = ref(feeTypes.value)
+const selectedFeeTypes = ref([])
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
