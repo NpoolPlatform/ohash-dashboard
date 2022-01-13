@@ -27,6 +27,7 @@
       v-model:vendor-locations='allVendorLocations'
       v-model:coins='allCoins'
       v-model:fee-types='selectedFeeTypes'
+      v-model:price-currencys='allPriceCurrencys'
       v-model:input-title='inputGoodTitle'
       v-model:input-actuals='inputGoodActuals'
       v-model:input-benefit-type='inputGoodBenefitType'

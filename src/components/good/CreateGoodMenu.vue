@@ -87,6 +87,31 @@
           </q-list>
         </q-btn-dropdown>
       </div>
+      <div class='row'>
+        <q-icon name='window' class='selector-icon' size='24px' />
+        <q-btn-dropdown
+          flat
+          dense
+          split
+          no-caps
+          align='left'
+          :label='priceCurrencyType'
+        >
+          <q-list>
+            <q-item
+              v-for='(priceCurrency, index) in priceCurrencys'
+              :key='index'
+              v-close-popup
+              clickable
+              @click='onPriceCurrencyItemClick(index)'
+            >
+              <q-item-section>
+                <q-item-label>{{ priceCurrency.Name }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+      </div>
       <div>
         <q-select
           v-model='selectedFeeTypes'
@@ -165,7 +190,7 @@
 <script setup lang='ts'>
 import { DefaultID } from 'src/const/const'
 import { Coin } from 'src/store/coins/types'
-import { DeviceInfo, FeeType, Good, VendorLocation } from 'src/store/goods/types'
+import { DeviceInfo, FeeType, Good, PriceCurrency, VendorLocation } from 'src/store/goods/types'
 import { withDefaults, defineProps, toRef, computed, ref, defineEmits } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -184,6 +209,7 @@ interface Props {
   vendorLocations: Array<VendorLocation>
   coins: Array<Coin>
   feeTypes: Array<FeeType>
+  priceCurrencys: Array<PriceCurrency>
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -235,12 +261,12 @@ const feeTypes = computed(() => {
   }
   return []
 })
-
-const inputPriceCurrenty = computed(() => {
-  const priceCoins = coins.value.filter((coin: Coin) => {
-    return coin.Unit === 'USDT'
-  })
-  return priceCoins ? priceCoins[0].ID : undefined as unknown as string
+const priceCurrencys = computed(() => {
+  const priceCurrencys = toRef(props, 'priceCurrencys')
+  if (priceCurrencys.value) {
+    return priceCurrencys.value
+  }
+  return []
 })
 
 const selectedCoinIndex = ref(0)
@@ -265,6 +291,10 @@ const myTotal = ref(inputTotal.value)
 const myPrice = ref(inputPrice.value)
 const myDurationDays = ref(inputDurationDays.value)
 const myUnitPower = ref(inputUnitPower.value)
+
+const selectedPriceCurrencyIndex = ref(0)
+const priceCurrencyType = computed(() => priceCurrencys.value[selectedPriceCurrencyIndex.value].Name)
+const priceCurrencyID = computed(() => priceCurrencys.value[selectedPriceCurrencyIndex.value].ID)
 
 const myDeliveryAt = ref(0)
 const myUnit = ref('TiB')
@@ -328,7 +358,7 @@ const onSubmit = () => {
     Total: myTotal.value,
     Unit: myUnit.value,
     FeeIDs: [] as Array<string>,
-    PriceCurrency: inputPriceCurrenty.value
+    PriceCurrency: priceCurrencyID.value as string
   })
 }
 
@@ -342,6 +372,10 @@ const onVendorLocationItemClick = (index: number) => {
 
 const onCoinItemClick = (index: number) => {
   selectedCoinIndex.value = index
+}
+
+const onPriceCurrencyItemClick = (index: number) => {
+  selectedPriceCurrencyIndex.value = index
 }
 
 </script>
