@@ -7,5 +7,5 @@ export enum MutationTypes {
   SetAllFeeTypes = 'SET_ALL_FEE_TYPES',
   SetAllFees = 'SET_ALL_FEES',
   AppendFeeType = 'APPEND_FEE_TYPE',
-  AppendFee = 'APPEND_FEE'
+  AppendGood = 'APPEND_GOOD'
 }

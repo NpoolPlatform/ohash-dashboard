@@ -70,7 +70,7 @@
           split
           no-caps
           align='left'
-          :label='coinName'
+          :label='myCoinType'
         >
           <q-list>
             <q-item
@@ -91,6 +91,7 @@
         <q-select
           v-model='selectedFeeTypes'
           multiple
+          emit-value
           :options='myFeeTypes'
           :label='t("MSG_FEE_TYPE")'
         />
@@ -127,6 +128,14 @@
         </template>
       </q-input>
       <q-input
+        v-model='myUnitPower'
+        :label='$t("MSG_GOOD_UNIT_POWER")'
+      >
+        <template #prepend>
+          <q-icon name='window' />
+        </template>
+      </q-input>
+      <q-input
         v-model='myPrice'
         :label='$t("MSG_GOOD_PRICE")'
       >
@@ -137,14 +146,6 @@
       <q-input
         v-model='myDurationDays'
         :label='$t("MSG_GOOD_DURATION_DAYS")'
-      >
-        <template #prepend>
-          <q-icon name='window' />
-        </template>
-      </q-input>
-      <q-input
-        v-model='myCoinType'
-        :label='$t("MSG_GOOD_COIN_TYPE")'
       >
         <template #prepend>
           <q-icon name='window' />
@@ -162,9 +163,10 @@
 </template>
 
 <script setup lang='ts'>
+import { DefaultID } from 'src/const/const'
 import { Coin } from 'src/store/coins/types'
-import { DeviceInfo, FeeType, VendorLocation } from 'src/store/goods/types'
-import { withDefaults, defineProps, toRef, computed, ref } from 'vue'
+import { DeviceInfo, FeeType, Good, VendorLocation } from 'src/store/goods/types'
+import { withDefaults, defineProps, toRef, computed, ref, defineEmits } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface Props {
@@ -176,6 +178,7 @@ interface Props {
   inputDurationDays: number
   inputSeparateFee: boolean
   inputPrice: number
+  inputUnitPower: number
   inputCoinType: string
   devices: Array<DeviceInfo>
   vendorLocations: Array<VendorLocation>
@@ -199,41 +202,78 @@ const inputTitle = toRef(props, 'inputTitle')
 const inputActuals = toRef(props, 'inputActuals')
 const inputSeparateFee = toRef(props, 'inputSeparateFee')
 const inputClassic = toRef(props, 'inputClassic')
-const inputBenefitType = toRef(props, 'inputBenefitType')
 const inputTotal = toRef(props, 'inputTotal')
 const inputPrice = toRef(props, 'inputPrice')
 const inputDurationDays = toRef(props, 'inputDurationDays')
-const inputCoinType = toRef(props, 'inputCoinType')
-const devices = toRef(props, 'devices')
-const vendorLocations = toRef(props, 'vendorLocations')
-const coins = toRef(props, 'coins')
-const feeTypes = toRef(props, 'feeTypes')
+const inputUnitPower = toRef(props, 'inputUnitPower')
+
+const devices = computed(() => {
+  const devices = toRef(props, 'devices')
+  if (devices.value) {
+    return devices.value
+  }
+  return []
+})
+const vendorLocations = computed(() => {
+  const vendorLocations = toRef(props, 'vendorLocations')
+  if (vendorLocations.value) {
+    return vendorLocations.value
+  }
+  return []
+})
+const coins = computed(() => {
+  const coins = toRef(props, 'coins')
+  if (coins.value) {
+    return coins.value
+  }
+  return [] as Array<Coin>
+})
+const feeTypes = computed(() => {
+  const feeTypes = toRef(props, 'feeTypes')
+  if (feeTypes.value) {
+    return feeTypes.value
+  }
+  return []
+})
+
+const inputPriceCurrenty = computed(() => {
+  const priceCoins = coins.value.filter((coin: Coin) => {
+    return coin.Unit === 'USDT'
+  })
+  return priceCoins ? priceCoins[0].ID : undefined as unknown as string
+})
 
 const selectedCoinIndex = ref(0)
-const coinName = computed(() => coins.value[selectedCoinIndex.value].Name)
+const myCoinType = computed(() => coins.value[selectedCoinIndex.value].Name)
+const coinID = computed(() => coins.value[selectedCoinIndex.value].ID)
 
 const selectedDeviceIndex = ref(0)
 const deviceLabel = computed(() => devices.value[selectedDeviceIndex.value].Type)
+const deviceID = computed(() => devices.value[selectedDeviceIndex.value].ID)
 
 const selectedVendorLocationIndex = ref(0)
 const vendorLocationLabel = computed(() =>
   vendorLocationToLabel(vendorLocations.value[selectedVendorLocationIndex.value])
 )
+const vendorLocationID = computed(() => vendorLocations.value[selectedVendorLocationIndex.value].ID)
 
 const myTitle = ref(inputTitle.value)
 const myActuals = ref(inputActuals.value)
 const mySeparateFee = ref(inputSeparateFee.value)
 const myClassic = ref(inputClassic.value)
-const myBenefitType = ref(inputBenefitType.value)
 const myTotal = ref(inputTotal.value)
 const myPrice = ref(inputPrice.value)
 const myDurationDays = ref(inputDurationDays.value)
-const myCoinType = ref(inputCoinType.value)
+const myUnitPower = ref(inputUnitPower.value)
+
+const myDeliveryAt = ref(0)
+const myUnit = ref('TiB')
 
 interface MyFeeType {
   label: string
   value: FeeType
 }
+
 const myFeeTypes = computed(() => {
   const localFeeTypes = [] as Array<MyFeeType>
   feeTypes.value.forEach((feeType) => {
@@ -244,7 +284,7 @@ const myFeeTypes = computed(() => {
   })
   return localFeeTypes
 })
-const selectedFeeTypes = ref([])
+const selectedFeeTypes = ref(feeTypes.value)
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
@@ -258,6 +298,7 @@ const benefitTypes = [
     value: 'pool'
   }
 ]
+const myBenefitType = ref('platform')
 
 const vendorLocationToLabel = (vendorLocation: VendorLocation) => {
   return vendorLocation.Country + ' / ' +
@@ -266,8 +307,29 @@ const vendorLocationToLabel = (vendorLocation: VendorLocation) => {
     vendorLocation.Address
 }
 
+const emit = defineEmits<{(e: 'submit', good: Good): void}>()
+
 const onSubmit = () => {
-  console.log('submit click')
+  emit('submit', {
+    DeviceInfoID: deviceID.value as string,
+    SeparateFee: mySeparateFee.value,
+    UnitPower: myUnitPower.value,
+    DurationDays: myDurationDays.value,
+    CoinInfoID: coinID.value,
+    Actuals: myActuals.value,
+    DeliveryAt: myDeliveryAt.value,
+    InheritFromGoodID: DefaultID,
+    VendorLocationID: vendorLocationID.value as string,
+    Price: myPrice.value,
+    BenefitType: myBenefitType.value,
+    Classic: myClassic.value,
+    SupportCoinTypeIDs: [] as Array<string>,
+    Title: myTitle.value,
+    Total: myTotal.value,
+    Unit: myUnit.value,
+    FeeIDs: [] as Array<string>,
+    PriceCurrency: inputPriceCurrenty.value
+  })
 }
 
 const onDeviceItemClick = (index: number) => {

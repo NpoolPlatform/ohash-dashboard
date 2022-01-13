@@ -1,7 +1,7 @@
-import { DeviceInfo, Fee, FeeType, Good, VendorLocation } from './types'
+import { DeviceInfo, Fee, FeeType, GoodDetail, VendorLocation } from './types'
 
 interface GoodsState {
-  AllGoods: Map<string, Good>
+  AllGoods: Array<GoodDetail>
   AllDevices: Array<DeviceInfo>
   AllVendorLocations: Array<VendorLocation>
   AllFeeTypes: Array<FeeType>
@@ -10,7 +10,7 @@ interface GoodsState {
 
 function state (): GoodsState {
   return {
-    AllGoods: new Map<string, Good>(),
+    AllGoods: [] as Array<GoodDetail>,
     AllDevices: [],
     AllVendorLocations: [],
     AllFeeTypes: [],

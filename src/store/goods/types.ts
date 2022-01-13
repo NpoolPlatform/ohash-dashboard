@@ -1,21 +1,5 @@
+import { Coin } from '../coins/types'
 import { ReqMessage } from '../notifications/types'
-
-interface Good {
-  ID: string
-  BenefitType: string
-  Title: string
-  Total: number
-  Price: number
-  MyInfo: unknown
-}
-
-interface GetAllGoodsRequest {
-  Message: ReqMessage
-}
-
-interface GetAllGoodsResponse {
-  Details: ReadonlyArray<Good>
-}
 
 interface DeviceInfo {
   ID?: string
@@ -115,8 +99,74 @@ interface CreateFeeResponse {
   Info: Fee
 }
 
+interface GoodExtra {
+  ID: string
+  GoodID: string
+  Labels: Array<string>
+  OutSale: boolean
+  Posters: Array<string>
+  PreSale: false
+  Rating: number
+  VoteCount: number
+}
+
+interface GoodBase {
+  ID?: string
+  SeparateFee: boolean
+  UnitPower: number
+  DurationDays: number
+  Actuals: boolean
+  DeliveryAt: number
+  Price: number
+  BenefitType: string
+  Classic: boolean
+  Title: string
+  Total: number
+  Unit: string
+}
+
+interface Good extends GoodBase {
+  PriceCurrency: string
+  CoinInfoID: string
+  DeviceInfoID: string,
+  InheritFromGoodID: string
+  VendorLocationID: string
+  SupportCoinTypeIDs: Array<string>
+  FeeIDs: Array<string>
+}
+
+interface CreateGoodRequest {
+  Info: Good
+  Message: ReqMessage
+}
+
+interface CreateGoodResponse {
+  Info: Good
+}
+
+interface GoodDetail extends GoodBase {
+  CoinInfo: Coin
+  DeviceInfo: DeviceInfo
+  VendorLocation: VendorLocation
+  Fees: Array<Fee>
+  PriceCurrency: Coin
+  Extra: GoodExtra
+}
+
+interface GetAllGoodsRequest {
+  Message: ReqMessage
+}
+
+interface GetAllGoodsResponse {
+  Details: ReadonlyArray<GoodDetail>
+}
+
 export {
   Good,
+  GoodDetail,
+  GoodBase,
+  CreateGoodRequest,
+  CreateGoodResponse,
   GetAllGoodsRequest,
   GetAllGoodsResponse,
   DeviceInfo,

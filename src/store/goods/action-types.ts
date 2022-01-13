@@ -7,5 +7,6 @@ export enum ActionTypes {
   GetAllFeeTypes = 'GET_ALL_FEE_TYPES',
   GetAllFees = 'GET_ALL_FEES',
   CreateFeeType = 'CREATE_FEE_TYPE',
-  CreateFee = 'CREATE_FEE'
+  CreateFee = 'CREATE_FEE',
+  CreateGood = 'CREATE_GOOD'
 }

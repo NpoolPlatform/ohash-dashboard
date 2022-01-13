@@ -25,8 +25,19 @@
       v-model:devices='allDevices'
       v-model:vendor-locations='allVendorLocations'
       v-model:coins='allCoins'
-      v-model:fee-types='allFeeTypes'
+      v-model:fee-types='selectedFeeTypes'
+      v-model:input-title='inputGoodTitle'
+      v-model:input-actuals='inputGoodActuals'
+      v-model:input-benefit-type='inputGoodBenefitType'
+      v-model:input-classic='inputGoodClassic'
+      v-model:input-total='inputGoodTotal'
+      v-model:input-duration-days='inputGoodDurationDays'
+      v-model:input-separate-fee='inputGoodSeparateFee'
+      v-model:input-price='inputGoodPrice'
+      v-model:input-coin-type='inputGoodCoinType'
+      v-model:input-unit-power='inputGoodUnitPower'
       class='add-menu'
+      @submit='onCreateGoodSubmit'
     />
     <CreateDeviceMenu
       v-if='addingType === AddingType.AddingDevice'
@@ -64,7 +75,7 @@ import { MutationTypes as NotificationMutationTypes } from 'src/store/notificati
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { notify, notificationPop } from 'src/store/notifications/helper'
 import { useI18n } from 'vue-i18n'
-import { DeviceInfo, FeeType, VendorLocation } from 'src/store/goods/types'
+import { DeviceInfo, FeeType, Good, GoodBase, VendorLocation } from 'src/store/goods/types'
 import { FunctionVoid } from 'src/types/types'
 
 const CreateGoodMenu = defineAsyncComponent(() => import('src/components/good/CreateGoodMenu.vue'))
@@ -96,10 +107,44 @@ const inputFeeType = ref('')
 const inputFeeDescription = ref('')
 const inputPayType = ref('')
 
+const inputGoodTitle = ref('')
+const inputGoodActuals = ref(true)
+const inputGoodBenefitType = ref('')
+const inputGoodClassic = ref(true)
+const inputGoodTotal = ref(0)
+const inputGoodDurationDays = ref(360)
+const inputGoodSeparateFee = ref(true)
+const inputGoodPrice = ref(0)
+const inputGoodCoinType = ref('')
+const inputGoodUnitPower = ref(1)
+
 const store = useStore()
 
-const allGoods = computed(() => store.getters.getAllGoods)
+const allGoods = computed(() => {
+  const goods = [] as Array<GoodBase>
+  store.getters.getAllGoods.forEach((good) => {
+    goods.push({
+      ID: good.ID,
+      SeparateFee: good.SeparateFee,
+      UnitPower: good.UnitPower,
+      DurationDays: good.DurationDays,
+      Actuals: good.Actuals,
+      DeliveryAt: good.DeliveryAt,
+      Price: good.Price,
+      BenefitType: good.BenefitType,
+      Classic: good.Classic,
+      Title: good.Title,
+      Total: good.Total,
+      Unit: good.Unit
+    })
+  })
+  return goods
+})
 const filterGoods = computed(() => allGoods.value)
+
+watch(allGoods, () => {
+  console.log(allGoods.value)
+})
 
 const allVendorLocations = computed(() => store.getters.getAllVendorLocations)
 const filterVendorLocations = computed(() => {
@@ -126,6 +171,7 @@ const filterFeeTypes = computed(() => {
     return feeType.FeeType.toLowerCase().includes(inputFeeType.value.toLowerCase())
   })
 })
+const selectedFeeTypes = ref(allFeeTypes.value)
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
@@ -278,6 +324,32 @@ const onCreateFeeTypeSubmit = (feeType: FeeType) => {
   inputFeeType.value = ''
   inputFeeDescription.value = ''
   inputPayType.value = ''
+}
+
+const onCreateGoodSubmit = (good: Good) => {
+  addingType.value = AddingType.AddingNone
+  store.dispatch(GoodActionTypes.CreateGood, {
+    Info: good,
+    Message: {
+      ModuleKey: ModuleKey.ModuleGoods,
+      Error: {
+        Title: t('MSG_CREATE_GOOD_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+
+  inputGoodTitle.value = ''
+  inputGoodActuals.value = true
+  inputGoodBenefitType.value = ''
+  inputGoodClassic.value = true
+  inputGoodTotal.value = 0
+  inputGoodDurationDays.value = 360
+  inputGoodSeparateFee.value = true
+  inputGoodPrice.value = 0
+  inputGoodCoinType.value = ''
+  inputGoodUnitPower.value = 1
 }
 
 const onMenuHide = () => {

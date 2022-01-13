@@ -34,6 +34,8 @@ export default {
   MSG_GET_ALL_DEVICES_FAIL: 'Cannot get devices',
   MSG_GET_ALL_VENDOR_LOCATIONS_FAIL: 'Cannot get vendor locations',
   MSG_CREATE_DEVICE_FAIL: 'Cannot create device',
+  MSG_CREATE_FEE_TYPE_FAIL: 'Cannot create fee type',
+  MSG_CREATE_GOOD_FAIL: 'Cannot create good',
   MSG_COUNTRY: '国家',
   MSG_PROVINCE: '省',
   MSG_CITY: '城市',
@@ -49,6 +51,7 @@ export default {
   MSG_GOOD_PRICE: '价格',
   MSG_GOOD_DURATION_DAYS: '服务天数',
   MSG_GOOD_COIN_TYPE: '币种',
+  MSG_GOOD_UNIT_POWER: '商品单位算力',
   MSG_FEE_TYPE_DESCRIPTION: '费用类别描述',
   MSG_PAY_TYPE_AMOUNT: '固定金额',
   MSG_PAY_TYPE_PERCENT: '收益百分比'

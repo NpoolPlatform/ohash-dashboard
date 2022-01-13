@@ -17,8 +17,8 @@ import {
   CreateFeeTypeResponse,
   GetAllFeesRequest,
   GetAllFeesResponse,
-  CreateFeeRequest,
-  CreateFeeResponse
+  CreateGoodRequest,
+  CreateGoodResponse
 } from './types'
 import { GoodsState } from './state'
 import { ActionTree } from 'vuex'
@@ -96,13 +96,13 @@ interface GoodActions {
     GoodMutations<GoodsState>>,
     req: GetAllFeesRequest): void
 
-  [ActionTypes.CreateFee]({
+  [ActionTypes.CreateGood]({
     commit
   }: AugmentedActionContext<
     GoodsState,
     RootState,
     GoodMutations<GoodsState>>,
-    req: CreateFeeRequest): void
+    req: CreateGoodRequest): void
 }
 
 const actions: ActionTree<GoodsState, RootState> = {
@@ -298,16 +298,16 @@ const actions: ActionTree<GoodsState, RootState> = {
       })
   },
 
-  [ActionTypes.CreateFee] ({ commit }, req: CreateFeeRequest) {
+  [ActionTypes.CreateGood] ({ commit }, req: CreateGoodRequest) {
     let waitingNotification: Notification
     if (req.Message.Waiting) {
       waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
       commit(NotificationMutationTypes.Push, waitingNotification)
     }
     api
-      .post<CreateFeeRequest, AxiosResponse<CreateFeeResponse>>(API.CREATE_FEE, req)
-      .then((response: AxiosResponse<CreateFeeResponse>) => {
-        commit(MutationTypes.AppendFee, response.data.Info)
+      .post<CreateGoodRequest, AxiosResponse<CreateGoodResponse>>(API.CREATE_GOOD, req)
+      .then((response: AxiosResponse<CreateGoodResponse>) => {
+        commit(MutationTypes.AppendGood, response.data.Info)
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
         }
