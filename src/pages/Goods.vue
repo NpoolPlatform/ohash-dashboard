@@ -119,12 +119,12 @@ const filterDevices = computed(() => {
 
 const allCoins = computed(() => store.getters.getCoins)
 
-const allFeeTypes = computed(() => {
-  return store.getters.getAllFeeTypes.filter((feeType) => {
+const allFeeTypes = computed(() => store.getters.getAllFeeTypes)
+const filterFeeTypes = computed(() => {
+  return allFeeTypes.value.filter((feeType) => {
     return feeType.FeeType.toLowerCase().includes(inputFeeType.value.toLowerCase())
   })
 })
-const filterFeeTypes = computed(() => allFeeTypes.value)
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
