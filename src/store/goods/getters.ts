@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex'
 import { RootState } from '../index'
 import { GoodsState } from './state'
-import { DeviceInfo, Fee, FeeType, GoodDetail, VendorLocation } from './types'
+import { DeviceInfo, Fee, FeeType, GoodDetail, PriceCurrency, VendorLocation } from './types'
 
 type GoodGetters = {
   getGoodByID (state: GoodsState): (id: string) => GoodDetail
@@ -10,6 +10,7 @@ type GoodGetters = {
   getAllVendorLocations (state: GoodsState): Array<VendorLocation>
   getAllFeeTypes (state: GoodsState): Array<FeeType>
   getAllFees (state: GoodsState): Array<Fee>
+  getAllPriceCurrencys (state: GoodsState): Array<PriceCurrency>
 }
 
 const getters: GetterTree<GoodsState, RootState> & GoodGetters = {
@@ -28,7 +29,8 @@ const getters: GetterTree<GoodsState, RootState> & GoodGetters = {
   getAllDevices: (state: GoodsState): Array<DeviceInfo> => state.AllDevices,
   getAllVendorLocations: (state: GoodsState): Array<VendorLocation> => state.AllVendorLocations,
   getAllFeeTypes: (state: GoodsState): Array<FeeType> => state.AllFeeTypes,
-  getAllFees: (state: GoodsState): Array<Fee> => state.AllFees
+  getAllFees: (state: GoodsState): Array<Fee> => state.AllFees,
+  getAllPriceCurrencys: (state: GoodsState): Array<PriceCurrency> => state.AllPriceCurrencys
 }
 
 export { GoodGetters, getters }

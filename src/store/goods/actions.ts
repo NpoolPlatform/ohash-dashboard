@@ -18,7 +18,11 @@ import {
   GetAllFeesRequest,
   GetAllFeesResponse,
   CreateGoodRequest,
-  CreateGoodResponse
+  CreateGoodResponse,
+  GetAllPriceCurrencysRequest,
+  CreatePriceCurrencyRequest,
+  GetAllPriceCurrencysResponse,
+  CreatePriceCurrencyResponse
 } from './types'
 import { GoodsState } from './state'
 import { ActionTree } from 'vuex'
@@ -103,6 +107,22 @@ interface GoodActions {
     RootState,
     GoodMutations<GoodsState>>,
     req: CreateGoodRequest): void
+
+  [ActionTypes.GetAllPriceCurrencys]({
+    commit
+  }: AugmentedActionContext<
+    GoodsState,
+    RootState,
+    GoodMutations<GoodsState>>,
+    req: GetAllPriceCurrencysRequest): void
+
+  [ActionTypes.CreatePriceCurrency]({
+    commit
+  }: AugmentedActionContext<
+    GoodsState,
+    RootState,
+    GoodMutations<GoodsState>>,
+    req: CreatePriceCurrencyRequest): void
 }
 
 const actions: ActionTree<GoodsState, RootState> = {
@@ -308,6 +328,54 @@ const actions: ActionTree<GoodsState, RootState> = {
       .post<CreateGoodRequest, AxiosResponse<CreateGoodResponse>>(API.CREATE_GOOD, req)
       .then((response: AxiosResponse<CreateGoodResponse>) => {
         commit(MutationTypes.AppendGood, response.data.Info)
+        if (waitingNotification) {
+          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
+        }
+      })
+      .catch((err: Error) => {
+        const error = req.Message.Error
+        if (error) {
+          error.Description = err.message
+          const errorNotification = notificationPush(req.Message.ModuleKey, error)
+          commit(NotificationMutationTypes.Push, errorNotification)
+        }
+      })
+  },
+
+  [ActionTypes.GetAllPriceCurrencys] ({ commit }, req: GetAllPriceCurrencysRequest) {
+    let waitingNotification: Notification
+    if (req.Message.Waiting) {
+      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
+      commit(NotificationMutationTypes.Push, waitingNotification)
+    }
+    api
+      .post<GetAllPriceCurrencysRequest, AxiosResponse<GetAllPriceCurrencysResponse>>(API.GET_ALL_PRICE_CURRENCYS, req)
+      .then((response: AxiosResponse<GetAllPriceCurrencysResponse>) => {
+        commit(MutationTypes.SetAllPriceCurrencys, response.data.Infos)
+        if (waitingNotification) {
+          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
+        }
+      })
+      .catch((err: Error) => {
+        const error = req.Message.Error
+        if (error) {
+          error.Description = err.message
+          const errorNotification = notificationPush(req.Message.ModuleKey, error)
+          commit(NotificationMutationTypes.Push, errorNotification)
+        }
+      })
+  },
+
+  [ActionTypes.CreatePriceCurrency] ({ commit }, req: CreatePriceCurrencyRequest) {
+    let waitingNotification: Notification
+    if (req.Message.Waiting) {
+      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
+      commit(NotificationMutationTypes.Push, waitingNotification)
+    }
+    api
+      .post<CreatePriceCurrencyRequest, AxiosResponse<CreatePriceCurrencyResponse>>(API.CREATE_PRICE_CURRENCY, req)
+      .then((response: AxiosResponse<CreatePriceCurrencyResponse>) => {
+        commit(MutationTypes.AppendPriceCurrency, response.data.Info)
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
         }

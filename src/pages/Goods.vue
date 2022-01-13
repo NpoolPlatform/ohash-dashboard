@@ -13,6 +13,7 @@
   <q-table :title='$t("MSG_COIN")' flat dense :rows='allCoins' />
   <q-table :title='$t("MSG_FEE_TYPE")' flat dense :rows='filterFeeTypes' />
   <q-table :title='$t("MSG_GOOD")' flat dense :rows='filterGoods' />
+  <q-table :title='$t("MSG_PRICE_CURRENCY")' flat dense :rows='filterPriceCurrencys' />
   <q-dialog
     v-model='adding'
     position='right'
@@ -97,6 +98,7 @@ const addingType = ref(AddingType.AddingNone)
 const adding = ref(false)
 
 const inputDeviceType = ref('')
+const inputPriceCurrencyName = ref('')
 
 const inputCountry = ref('')
 const inputProvince = ref('')
@@ -173,6 +175,13 @@ const filterFeeTypes = computed(() => {
 })
 const selectedFeeTypes = ref(allFeeTypes.value)
 
+const allPriceCurrencys = computed(() => store.getters.getAllPriceCurrencys)
+const filterPriceCurrencys = computed(() => {
+  return allPriceCurrencys.value.filter((priceCurrency) => {
+    return priceCurrency.Name.toLowerCase().includes(inputPriceCurrencyName.value.toLowerCase())
+  })
+})
+
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
 
@@ -234,6 +243,16 @@ onMounted(() => {
       ModuleKey: ModuleKey.ModuleGoods,
       Error: {
         Title: t('MSG_GET_ALL_FEES_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+  store.dispatch(GoodActionTypes.GetAllPriceCurrencys, {
+    Message: {
+      ModuleKey: ModuleKey.ModuleGoods,
+      Error: {
+        Title: t('MSG_GET_ALL_PRICE_CURRENCYS_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }

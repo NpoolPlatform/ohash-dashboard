@@ -99,6 +99,30 @@ interface CreateFeeResponse {
   Info: Fee
 }
 
+interface PriceCurrency {
+  ID?: string
+  Name: string
+  Unit: string
+  Symbol: string
+}
+
+interface GetAllPriceCurrencysRequest {
+  Message: ReqMessage
+}
+
+interface GetAllPriceCurrencysResponse {
+  Infos: Array<PriceCurrency>
+}
+
+interface CreatePriceCurrencyRequest {
+  Info: PriceCurrency
+  Message: ReqMessage
+}
+
+interface CreatePriceCurrencyResponse {
+  Info: Fee
+}
+
 interface GoodExtra {
   ID: string
   GoodID: string
@@ -188,5 +212,10 @@ export {
   GetAllFeesRequest,
   GetAllFeesResponse,
   CreateFeeRequest,
-  CreateFeeResponse
+  CreateFeeResponse,
+  PriceCurrency,
+  GetAllPriceCurrencysRequest,
+  GetAllPriceCurrencysResponse,
+  CreatePriceCurrencyRequest,
+  CreatePriceCurrencyResponse
 }
