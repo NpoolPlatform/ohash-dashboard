@@ -145,10 +145,6 @@ const allGoods = computed(() => {
 })
 const filterGoods = computed(() => allGoods.value)
 
-watch(allGoods, () => {
-  console.log(allGoods.value)
-})
-
 const allVendorLocations = computed(() => store.getters.getAllVendorLocations)
 const filterVendorLocations = computed(() => {
   return allVendorLocations.value.filter((vendorLocation) => {
