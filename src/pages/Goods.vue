@@ -25,6 +25,7 @@
       v-model:devices='allDevices'
       v-model:vendor-locations='allVendorLocations'
       v-model:coins='allCoins'
+      v-model:fee-types='allFeeTypes'
       class='add-menu'
     />
     <CreateDeviceMenu

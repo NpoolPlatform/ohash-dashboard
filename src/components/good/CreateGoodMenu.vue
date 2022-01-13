@@ -87,6 +87,14 @@
           </q-list>
         </q-btn-dropdown>
       </div>
+      <div>
+        <q-select
+          v-model='selectedFeeTypes'
+          multiple
+          :options='myFeeTypes'
+          :label='t("MSG_FEE_TYPE")'
+        />
+      </div>
     </q-item-section>
     <q-item-section>
       <q-toggle
@@ -155,7 +163,7 @@
 
 <script setup lang='ts'>
 import { Coin } from 'src/store/coins/types'
-import { DeviceInfo, VendorLocation } from 'src/store/goods/types'
+import { DeviceInfo, FeeType, VendorLocation } from 'src/store/goods/types'
 import { withDefaults, defineProps, toRef, computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -172,6 +180,7 @@ interface Props {
   devices: Array<DeviceInfo>
   vendorLocations: Array<VendorLocation>
   coins: Array<Coin>
+  feeTypes: Array<FeeType>
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -198,6 +207,7 @@ const inputCoinType = toRef(props, 'inputCoinType')
 const devices = toRef(props, 'devices')
 const vendorLocations = toRef(props, 'vendorLocations')
 const coins = toRef(props, 'coins')
+const feeTypes = toRef(props, 'feeTypes')
 
 const selectedCoinIndex = ref(0)
 const coinName = computed(() => coins.value[selectedCoinIndex.value].Name)
@@ -219,6 +229,22 @@ const myTotal = ref(inputTotal.value)
 const myPrice = ref(inputPrice.value)
 const myDurationDays = ref(inputDurationDays.value)
 const myCoinType = ref(inputCoinType.value)
+
+interface MyFeeType {
+  label: string
+  value: FeeType
+}
+const myFeeTypes = computed(() => {
+  const localFeeTypes = [] as Array<MyFeeType>
+  feeTypes.value.forEach((feeType) => {
+    localFeeTypes.push({
+      label: feeType.FeeType,
+      value: feeType
+    })
+  })
+  return localFeeTypes
+})
+const selectedFeeTypes = ref([])
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
