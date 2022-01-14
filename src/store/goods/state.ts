@@ -1,7 +1,7 @@
-import { DeviceInfo, Fee, FeeType, GoodDetail, PriceCurrency, VendorLocation } from './types'
+import { DeviceInfo, Fee, FeeType, ExpandGood, PriceCurrency, VendorLocation } from './types'
 
 interface GoodsState {
-  AllGoods: Array<GoodDetail>
+  AllGoods: Array<ExpandGood>
   AllDevices: Array<DeviceInfo>
   AllVendorLocations: Array<VendorLocation>
   AllFeeTypes: Array<FeeType>
@@ -11,7 +11,7 @@ interface GoodsState {
 
 function state (): GoodsState {
   return {
-    AllGoods: [] as Array<GoodDetail>,
+    AllGoods: [] as Array<ExpandGood>,
     AllDevices: [],
     AllVendorLocations: [],
     AllFeeTypes: [],

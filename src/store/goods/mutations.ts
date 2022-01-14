@@ -1,10 +1,10 @@
 import { MutationTree } from 'vuex'
 import { MutationTypes } from './mutation-types'
 import { GoodsState } from './state'
-import { DeviceInfo, Fee, FeeType, Good, GoodDetail, PriceCurrency, VendorLocation } from './types'
+import { DeviceInfo, ExpandGood, Fee, FeeType, Good, GoodDetail, PriceCurrency, VendorLocation } from './types'
 
 type GoodMutations<S = GoodsState> = {
-  [MutationTypes.SetAllGoods] (state: S, payload: Array<GoodDetail>): void
+  [MutationTypes.SetAllGoods] (state: S, payload: Array<ExpandGood>): void
   [MutationTypes.SetAllDevices] (state: S, payload: Array<DeviceInfo>): void
   [MutationTypes.SetAllVendorLocations] (state: S, payload: Array<VendorLocation>): void
   [MutationTypes.AppendDevice] (state: S, payload: DeviceInfo): void
@@ -18,7 +18,7 @@ type GoodMutations<S = GoodsState> = {
 }
 
 const mutations: MutationTree<GoodsState> & GoodMutations = {
-  [MutationTypes.SetAllGoods] (state: GoodsState, payload: Array<GoodDetail>) {
+  [MutationTypes.SetAllGoods] (state: GoodsState, payload: Array<ExpandGood>) {
     state.AllGoods = payload
   },
 
@@ -51,7 +51,9 @@ const mutations: MutationTree<GoodsState> & GoodMutations = {
   },
 
   [MutationTypes.AppendGood] (state: GoodsState, payload: Good): void {
-    state.AllGoods.splice(0, 0, payload as unknown as GoodDetail)
+    state.AllGoods.splice(0, 0, {
+      Good: payload as unknown as GoodDetail
+    })
   },
 
   [MutationTypes.SetAllPriceCurrencys] (state: GoodsState, payload: Array<PriceCurrency>): void {

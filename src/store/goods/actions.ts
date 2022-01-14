@@ -135,7 +135,7 @@ const actions: ActionTree<GoodsState, RootState> = {
     api
       .post<GetAllGoodsRequest, AxiosResponse<GetAllGoodsResponse>>(API.GET_ALL_GOODS, req)
       .then((response: AxiosResponse<GetAllGoodsResponse>) => {
-        commit(MutationTypes.SetAllGoods, response.data.Details)
+        commit(MutationTypes.SetAllGoods, response.data.Infos)
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
         }

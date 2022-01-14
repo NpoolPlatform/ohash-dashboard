@@ -169,12 +169,18 @@ interface CreateGoodResponse {
 }
 
 interface GoodDetail extends GoodBase {
-  CoinInfo: Coin
   DeviceInfo: DeviceInfo
   VendorLocation: VendorLocation
   Fees: Array<Fee>
-  PriceCurrency: Coin
+  PriceCurrency: PriceCurrency
   Extra: GoodExtra
+}
+
+interface ExpandGood {
+  Good: GoodDetail
+  Main?: Coin
+  SupportCoins?: Array<Coin>
+  // TODO: Review
 }
 
 interface GetAllGoodsRequest {
@@ -182,13 +188,14 @@ interface GetAllGoodsRequest {
 }
 
 interface GetAllGoodsResponse {
-  Details: ReadonlyArray<GoodDetail>
+  Infos: ReadonlyArray<ExpandGood>
 }
 
 export {
   Good,
   GoodDetail,
   GoodBase,
+  ExpandGood,
   CreateGoodRequest,
   CreateGoodResponse,
   GetAllGoodsRequest,

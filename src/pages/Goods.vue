@@ -127,18 +127,18 @@ const allGoods = computed(() => {
   const goods = [] as Array<GoodBase>
   store.getters.getAllGoods.forEach((good) => {
     goods.push({
-      ID: good.ID,
-      SeparateFee: good.SeparateFee,
-      UnitPower: good.UnitPower,
-      DurationDays: good.DurationDays,
-      Actuals: good.Actuals,
-      DeliveryAt: good.DeliveryAt,
-      Price: good.Price,
-      BenefitType: good.BenefitType,
-      Classic: good.Classic,
-      Title: good.Title,
-      Total: good.Total,
-      Unit: good.Unit
+      ID: good.Good.ID,
+      SeparateFee: good.Good.SeparateFee,
+      UnitPower: good.Good.UnitPower,
+      DurationDays: good.Good.DurationDays,
+      Actuals: good.Good.Actuals,
+      DeliveryAt: good.Good.DeliveryAt,
+      Price: good.Good.Price,
+      BenefitType: good.Good.BenefitType,
+      Classic: good.Good.Classic,
+      Title: good.Good.Title,
+      Total: good.Good.Total,
+      Unit: good.Good.Unit
     })
   })
   return goods
