@@ -13,6 +13,14 @@
       </div>
     </template>
   </q-table>
+  <q-dialog
+    v-model='reviewing'
+    position='right'
+    square
+    no-shake
+  >
+    HHHHHHHHHHHHHHHHHHHHHH
+  </q-dialog>
 </template>
 
 <script setup lang='ts'>
@@ -107,7 +115,10 @@ onUnmounted(() => {
   unsubscribe.value?.()
 })
 
+const reviewing = ref(false)
+
 const onRowClick = (evt: LooseDictionary, row: LooseDictionary, index: number) => {
+  reviewing.value = true
   console.log(evt, row, index)
 }
 
