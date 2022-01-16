@@ -12,7 +12,6 @@
       </div>
     </template>
   </q-table>
-  <div>{{ kycReviews }}</div>
 </template>
 
 <script setup lang='ts'>
