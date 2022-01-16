@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang='ts'>
-import { computed, withDefaults, defineProps, defineEmits, toRef } from 'vue'
+import { computed, withDefaults, defineProps, defineEmits, toRef, onMounted } from 'vue'
 
 import { useStore } from 'src/store'
 import { Application } from 'src/store/applications/types'
@@ -61,6 +61,10 @@ const selectedAppName = computed(() => {
 const onItemClick = (application: Application) => {
   emit('update:selectedAppId', application.ID)
 }
+
+onMounted(() => {
+  emit('update:selectedAppId', AppID)
+})
 
 </script>
 

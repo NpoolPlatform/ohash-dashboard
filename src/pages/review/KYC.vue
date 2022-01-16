@@ -87,6 +87,10 @@ onMounted(() => {
     if (mutation.type === ApplicationMutationTypes.SetApplications) {
       kycReviewsLoading.value = false
     }
+
+    if (mutation.type === ReviewMutationTypes.SetKYCReviews) {
+      kycReviewsLoading.value = false
+    }
   })
 })
 

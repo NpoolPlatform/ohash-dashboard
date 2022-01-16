@@ -44,7 +44,7 @@ const MainDrawerMenus = [
       }, {
         menuId: 1,
         label: '商品',
-        caption: '管理商品',
+        caption: '审核商品上下架',
         icon: 'format_list_numbered',
         target: '/review/good',
         level: 1,
