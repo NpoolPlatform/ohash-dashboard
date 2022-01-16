@@ -12,6 +12,7 @@
       </div>
     </template>
   </q-table>
+  <div>{{ kycReviews }}</div>
 </template>
 
 <script setup lang='ts'>
@@ -24,6 +25,7 @@ import { ModuleKey, Type as NotificationType } from '../../store/notifications/c
 import { MutationTypes as ReviewMutationTypes } from '../../store/reviews/mutation-types'
 import { MutationTypes as ApplicationMutationTypes } from '../../store/applications/mutation-types'
 import { ActionTypes as ReviewActionTypes } from '../../store/reviews/action-types'
+import { Review } from '../../store/reviews/types'
 import { FunctionVoid } from '../../types/types'
 import { MutationTypes as NotificationMutationTypes } from '../../store/notifications/mutation-types'
 import { notify, notificationPop } from '../../store/notifications/helper'
@@ -41,7 +43,13 @@ const selectedAppID = computed({
   }
 })
 
-const kycReviews = computed(() => store.getters.getKYCReviews)
+const kycReviews = computed(() => {
+  const reviews = [] as Array<Review>
+  store.getters.getKYCReviews.forEach((review) => {
+    reviews.push(review.Review)
+  })
+  return reviews
+})
 const kycReviewsLoading = ref(false)
 
 const unsubscribe = ref<FunctionVoid>()

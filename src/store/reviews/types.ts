@@ -1,7 +1,21 @@
 import { ReqMessage } from '../notifications/types'
+import { KYC } from '../kycs/types'
+import { Good } from '../goods/types'
+
+interface Review {
+  ID: string
+  AppID: string
+  ObjectType: string
+  ReviewerID: string
+  State: string
+  Message: string
+  ObjectID: string
+  Domain: string
+}
 
 interface KYCReview {
-  ID: string
+  KYC: KYC
+  Review: Review
 }
 
 interface GetKYCReviewsResponse {
@@ -14,7 +28,8 @@ interface GetKYCReviewsRequest {
 }
 
 interface GoodReview {
-  ID: string
+  Good: Good
+  Review: Review
 }
 
 interface GetGoodReviewsRequest {
@@ -26,6 +41,7 @@ interface GetGoodReviewsResponse {
 }
 
 export {
+  Review,
   KYCReview,
   GetKYCReviewsRequest,
   GetKYCReviewsResponse,
