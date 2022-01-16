@@ -4,6 +4,7 @@
     dense
     :loading='kycReviewsLoading'
     :rows='kycReviews'
+    @row-click='(evt, row, index) => onRowClick(evt, row, index)'
   >
     <template #top-right>
       <div class='row'>
@@ -17,6 +18,7 @@
 <script setup lang='ts'>
 import { onMounted, onUnmounted, defineAsyncComponent, computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { LooseDictionary } from 'quasar'
 
 import { useStore } from '../../store'
 import { ActionTypes as ApplicationActionTypes } from '../../store/applications/action-types'
@@ -104,5 +106,9 @@ onMounted(() => {
 onUnmounted(() => {
   unsubscribe.value?.()
 })
+
+const onRowClick = (evt: LooseDictionary, row: LooseDictionary, index: number) => {
+  console.log(evt, row, index)
+}
 
 </script>

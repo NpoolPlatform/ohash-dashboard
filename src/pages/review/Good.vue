@@ -4,6 +4,7 @@
     dense
     :loading='goodReviewsLoading'
     :rows='goodReviews'
+    @row-click='(evt, row, index) => onRowClick(evt, row, index)'
   />
 </template>
 
@@ -19,6 +20,7 @@ import { FunctionVoid } from '../../types/types'
 import { MutationTypes as NotificationMutationTypes } from '../../store/notifications/mutation-types'
 import { notify, notificationPop } from '../../store/notifications/helper'
 import { Review } from 'src/store/reviews/types'
+import { LooseDictionary } from 'quasar'
 
 const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -67,5 +69,9 @@ onMounted(() => {
 onUnmounted(() => {
   unsubscribe.value?.()
 })
+
+const onRowClick = (evt: LooseDictionary, row: LooseDictionary, index: number) => {
+  console.log(evt, row, index)
+}
 
 </script>
