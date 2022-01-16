@@ -18,12 +18,19 @@ import { ActionTypes as ReviewActionTypes } from '../../store/reviews/action-typ
 import { FunctionVoid } from '../../types/types'
 import { MutationTypes as NotificationMutationTypes } from '../../store/notifications/mutation-types'
 import { notify, notificationPop } from '../../store/notifications/helper'
+import { Review } from 'src/store/reviews/types'
 
 const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
 
-const goodReviews = computed(() => store.getters.getKYCReviews)
+const goodReviews = computed(() => {
+  const reviews = [] as Array<Review>
+  store.getters.getGoodReviews.forEach((review) => {
+    reviews.push(review.Review)
+  })
+  return reviews
+})
 const goodReviewsLoading = ref(false)
 
 const unsubscribe = ref<FunctionVoid>()
