@@ -19,7 +19,7 @@
     square
     no-shake
   >
-    HHHHHHHHHHHHHHHHHHHHHH
+    <KYC />
   </q-dialog>
 </template>
 
@@ -44,6 +44,7 @@ const store = useStore()
 const { t } = useI18n({ useScope: 'global' })
 
 const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
+const KYC = defineAsyncComponent(() => import('src/components/kyc/KYC.vue'))
 
 const selectedAppID = computed({
   get: () => store.getters.getKYCSelectedAppID,
