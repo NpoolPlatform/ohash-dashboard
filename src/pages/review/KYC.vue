@@ -4,7 +4,7 @@
     dense
     :loading='kycReviewsLoading'
     :rows='kycReviews'
-    @row-click='(evt, row, index) => onRowClick(evt, row, index)'
+    @row-click='(evt, row, index) => onRowClick(index)'
   >
     <template #top-right>
       <div class='row'>
@@ -16,17 +16,17 @@
   <q-dialog
     v-model='reviewing'
     position='right'
+    full-width
     square
     no-shake
   >
-    <KYC />
+    <KYC v-model:kyc-review='kycReview' @submit='onReviewSubmit' />
   </q-dialog>
 </template>
 
 <script setup lang='ts'>
 import { onMounted, onUnmounted, defineAsyncComponent, computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { LooseDictionary } from 'quasar'
 
 import { useStore } from '../../store'
 import { ActionTypes as ApplicationActionTypes } from '../../store/applications/action-types'
@@ -38,6 +38,7 @@ import { Review } from '../../store/reviews/types'
 import { FunctionVoid } from '../../types/types'
 import { MutationTypes as NotificationMutationTypes } from '../../store/notifications/mutation-types'
 import { notify, notificationPop } from '../../store/notifications/helper'
+import { State as ReviewState } from '../../store/reviews/const'
 
 const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -53,9 +54,10 @@ const selectedAppID = computed({
   }
 })
 
+const myReviews = computed(() => store.getters.getKYCReviews)
 const kycReviews = computed(() => {
   const reviews = [] as Array<Review>
-  store.getters.getKYCReviews.forEach((review) => {
+  myReviews.value.forEach((review) => {
     reviews.push(review.Review)
   })
   return reviews
@@ -117,10 +119,22 @@ onUnmounted(() => {
 })
 
 const reviewing = ref(false)
+const selectedIndex = ref(0)
+const kycReview = computed(() => {
+  if (myReviews.value) {
+    return myReviews.value[selectedIndex.value]
+  }
+  return undefined
+})
 
-const onRowClick = (evt: LooseDictionary, row: LooseDictionary, index: number) => {
+const onRowClick = (index: number) => {
   reviewing.value = true
-  console.log(evt, row, index)
+  selectedIndex.value = index
+}
+
+const onReviewSubmit = (state: ReviewState, message: string) => {
+  reviewing.value = false
+  console.log(state, message)
 }
 
 </script>

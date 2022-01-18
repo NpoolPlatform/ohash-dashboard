@@ -1,6 +1,7 @@
 import { ReqMessage } from '../notifications/types'
 import { KYC } from '../kycs/types'
 import { Good } from '../goods/types'
+import { UserInfo } from '../user-helper/types'
 
 interface Review {
   ID: string
@@ -11,11 +12,13 @@ interface Review {
   Message: string
   ObjectID: string
   Domain: string
+  CreateAt: number
 }
 
 interface KYCReview {
   KYC: KYC
   Review: Review
+  User: UserInfo
 }
 
 interface GetKYCReviewsResponse {

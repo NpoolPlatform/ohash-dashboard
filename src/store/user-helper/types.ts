@@ -13,8 +13,14 @@ interface LoginRequest {
 interface UserInfo {
   UserID: string
   Username: string
+  FirstName?: string
+  LastName?: string
+  DisplayName?: string
+  Gender?: string
+  CreateAt?: number
   EmailAddress: string
-  Avatar: string
+  Birthday?: number
+  Avatar?: string
   PhoneNO: string
   MyInfo: unknown
 }
