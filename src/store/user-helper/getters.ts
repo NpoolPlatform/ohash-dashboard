@@ -12,9 +12,7 @@ type UserGetters = {
 const getters: GetterTree<UserState, RootState> & UserGetters = {
   getLoginedUser: (state: UserState): UserInfo => state.LoginedUser,
   getLogined: (state: UserState): boolean => {
-    console.log(state)
-    return true
-    // return state.LoginedUser.UserID !== '' && state.LoginedUser.UserID !== undefined
+    return state.LoginedUser.UserID !== '' && state.LoginedUser.UserID !== undefined
   },
   getGoogleToken: (state: UserState): string => state.GoogleToken
 }

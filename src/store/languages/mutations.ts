@@ -1,3 +1,4 @@
+import { LocaleMessages, VueMessageType } from 'vue-i18n'
 import { MutationTree } from 'vuex'
 import { MutationTypes } from './mutation-types'
 import { LanguagesState } from './state'
@@ -16,7 +17,7 @@ const mutations: MutationTree<LanguagesState> & LanguageMutations = {
   [MutationTypes.SetLangShort] (state: LanguagesState, payload: string) {
     state.CurLang = payload
   },
-  [MutationTypes.SetMessages] (state: LanguagesState, payload: unknown) {
+  [MutationTypes.SetMessages] (state: LanguagesState, payload: LocaleMessages<VueMessageType>) {
     state.Message = payload
   }
 }

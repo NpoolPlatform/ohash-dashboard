@@ -1,9 +1,10 @@
+import { LocaleMessages, VueMessageType } from 'vue-i18n'
 import { Language } from './types'
 
 interface LanguagesState {
   Languages: Map<string, Language>
   CurLang: string
-  Message?: unknown
+  Message?: LocaleMessages<VueMessageType>
 }
 
 const DefaultLang = 'en-US'
