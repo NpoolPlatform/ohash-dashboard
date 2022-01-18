@@ -4,7 +4,9 @@ import {
   GetKYCReviewsRequest,
   GetKYCReviewsResponse,
   GetGoodReviewsRequest,
-  GetGoodReviewsResponse
+  GetGoodReviewsResponse,
+  UpdateReviewRequest,
+  UpdateReviewResponse
 } from './types'
 import { ReviewsState } from './state'
 import { ActionTree } from 'vuex'
@@ -33,6 +35,14 @@ interface ReviewActions {
     RootState,
     ReviewMutations<ReviewsState>>,
     req: GetGoodReviewsRequest): void
+
+  [ActionTypes.UpdateReview]({
+    commit
+  }: AugmentedActionContext<
+  ReviewsState,
+    RootState,
+    ReviewMutations<ReviewsState>>,
+    req: UpdateReviewRequest): void
 }
 
 const actions: ActionTree<ReviewsState, RootState> = {
@@ -70,6 +80,30 @@ const actions: ActionTree<ReviewsState, RootState> = {
       .post<GetGoodReviewsRequest, AxiosResponse<GetGoodReviewsResponse>>(API.GET_GOOD_REVIEWS, req)
       .then((response: AxiosResponse<GetGoodReviewsResponse>) => {
         commit(MutationTypes.SetGoodReviews, response.data.Infos)
+        if (waitingNotification) {
+          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
+        }
+      })
+      .catch((err: Error) => {
+        const error = req.Message.Error
+        if (error) {
+          error.Description = err.message
+          const errorNotification = notificationPush(req.Message.ModuleKey, error)
+          commit(NotificationMutationTypes.Push, errorNotification)
+        }
+      })
+  },
+
+  [ActionTypes.UpdateReview] ({ commit }, req: UpdateReviewRequest) {
+    let waitingNotification: Notification
+    if (req.Message.Waiting) {
+      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
+      commit(NotificationMutationTypes.Push, waitingNotification)
+    }
+    api
+      .post<UpdateReviewRequest, AxiosResponse<UpdateReviewResponse>>(API.UPDATE_REVIEW, req)
+      .then((response: AxiosResponse<UpdateReviewResponse>) => {
+        commit(MutationTypes.UpdateReview, response.data.Info)
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
         }

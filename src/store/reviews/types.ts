@@ -4,15 +4,15 @@ import { Good } from '../goods/types'
 import { UserInfo } from '../user-helper/types'
 
 interface Review {
-  ID: string
-  AppID: string
-  ObjectType: string
-  ReviewerID: string
-  State: string
-  Message: string
-  ObjectID: string
-  Domain: string
-  CreateAt: number
+  ID?: string
+  AppID?: string
+  ObjectType?: string
+  ReviewerID?: string
+  State?: string
+  Message?: string
+  ObjectID?: string
+  Domain?: string
+  CreateAt?: number
 }
 
 interface KYCReview {
@@ -43,6 +43,15 @@ interface GetGoodReviewsResponse {
   Infos: ReadonlyArray<GoodReview>
 }
 
+interface UpdateReviewRequest {
+  Info: Review
+  Message: ReqMessage
+}
+
+interface UpdateReviewResponse {
+  Info: Review
+}
+
 export {
   Review,
   KYCReview,
@@ -50,5 +59,7 @@ export {
   GetKYCReviewsResponse,
   GoodReview,
   GetGoodReviewsRequest,
-  GetGoodReviewsResponse
+  GetGoodReviewsResponse,
+  UpdateReviewRequest,
+  UpdateReviewResponse
 }

@@ -20,7 +20,11 @@
     square
     no-shake
   >
-    <KYC v-model:kyc-review='kycReview' @submit='onReviewSubmit' />
+    <KYC
+      v-model:kyc-review='kycReview'
+      @approve='onReviewApprove'
+      @reject='onReviewReject'
+    />
   </q-dialog>
 </template>
 
@@ -38,7 +42,7 @@ import { Review } from '../../store/reviews/types'
 import { FunctionVoid } from '../../types/types'
 import { MutationTypes as NotificationMutationTypes } from '../../store/notifications/mutation-types'
 import { notify, notificationPop } from '../../store/notifications/helper'
-import { State as ReviewState } from '../../store/reviews/const'
+import { State } from 'src/store/reviews/const'
 
 const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -132,9 +136,43 @@ const onRowClick = (index: number) => {
   selectedIndex.value = index
 }
 
-const onReviewSubmit = (state: ReviewState, message: string) => {
+const onReviewApprove = () => {
   reviewing.value = false
-  console.log(state, message)
+  store.dispatch(ReviewActionTypes.UpdateReview, {
+    Info: {
+      ID: kycReview.value?.Review.ID as string,
+      ReviewerID: store.getters.getLoginedUser.UserID,
+      State: State.Approved
+    },
+    Message: {
+      ModuleKey: ModuleKey.ModuleReviews,
+      Error: {
+        Title: t('MSG_UPDATE_REVIEW_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+}
+
+const onReviewReject = (message: string) => {
+  reviewing.value = false
+  store.dispatch(ReviewActionTypes.UpdateReview, {
+    Info: {
+      ID: kycReview.value?.Review.ID as string,
+      ReviewerID: store.getters.getLoginedUser.UserID,
+      State: State.Rejected,
+      Message: message
+    },
+    Message: {
+      ModuleKey: ModuleKey.ModuleReviews,
+      Error: {
+        Title: t('MSG_UPDATE_REVIEW_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
 }
 
 </script>

@@ -68,7 +68,6 @@
 import { withDefaults, defineProps, toRef, ref, defineEmits } from 'vue'
 
 import { KYCReview } from 'src/store/reviews/types'
-import { State } from 'src/store/reviews/const'
 
 interface Props {
   kycReview?: KYCReview
@@ -87,17 +86,16 @@ const handingImg = ref('icons/england.png')
 
 const comment = ref('')
 
-const emit = defineEmits<{(e: 'submit', state: State, message: string): void}>()
+const emit = defineEmits<{(e: 'approve'): void,
+  (e: 'reject', message: string): void
+}>()
 
 const onApprove = () => {
-  emit('submit', State.Approved, comment.value)
+  emit('approve')
 }
 
 const onReject = () => {
-  if (comment.value.length === 0) {
-    return
-  }
-  emit('submit', State.Rejected, comment.value)
+  emit('reject', comment.value)
 }
 
 </script>
