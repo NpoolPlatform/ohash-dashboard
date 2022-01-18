@@ -3,6 +3,7 @@ import { Language } from './types'
 interface LanguagesState {
   Languages: Map<string, Language>
   CurLang: string
+  Message?: unknown
 }
 
 const DefaultLang = 'en-US'

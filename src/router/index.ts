@@ -17,7 +17,7 @@ import routes from './routes'
  * with the Router instance.
  */
 
-export default route<RootState>(function ({ store /*, ssrContext */ }: { store: Store }) {
+export default route<RootState>(function ({ store /*, ssrContext */ }) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)
@@ -34,8 +34,10 @@ export default route<RootState>(function ({ store /*, ssrContext */ }: { store: 
     )
   })
 
+  const myStore = store as Store
+
   router.beforeEach((to, _, next) => {
-    if (!store.getters.getLogined && to.path !== '/login') {
+    if (!myStore.getters.getLogined && to.path !== '/login') {
       next({
         path: '/login',
         replace: true

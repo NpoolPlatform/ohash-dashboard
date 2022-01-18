@@ -34,6 +34,7 @@ const actions: ActionTree<LanguagesState, RootState> = {
       .then((response: AxiosResponse<GetLanguagesResponse>) => {
         response.data.Infos.forEach((lang) => {
           commit(MutationTypes.SetLanguage, lang)
+          commit(MutationTypes.SetLangShort, lang.Lang)
         })
         if (waitingNotification) {
           commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
