@@ -4,7 +4,7 @@ import { Language } from './types'
 interface LanguagesState {
   Languages: Map<string, Language>
   CurLang: string
-  Message?: LocaleMessages<VueMessageType>
+  Messages?: LocaleMessages<VueMessageType>
 }
 
 const DefaultLang = 'en-US'

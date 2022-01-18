@@ -18,7 +18,7 @@ const mutations: MutationTree<LanguagesState> & LanguageMutations = {
     state.CurLang = payload
   },
   [MutationTypes.SetMessages] (state: LanguagesState, payload: LocaleMessages<VueMessageType>) {
-    state.Message = payload
+    state.Messages = payload
   }
 }
 

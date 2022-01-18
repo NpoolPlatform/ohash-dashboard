@@ -13,7 +13,7 @@ type LanguageGetters = {
 const getters: GetterTree<LanguagesState, RootState> & LanguageGetters = {
   getLanguage: (state: LanguagesState): Language => state.Languages.get(state.CurLang) as Language,
   getLangShort: (state: LanguagesState): string => state.CurLang,
-  getMessages: (state: LanguagesState): LocaleMessages<VueMessageType> => state.Message as LocaleMessages<VueMessageType>
+  getMessages: (state: LanguagesState): LocaleMessages<VueMessageType> => state.Messages as LocaleMessages<VueMessageType>
 }
 
 export { LanguageGetters, getters }
