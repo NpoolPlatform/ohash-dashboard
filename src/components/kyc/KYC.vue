@@ -95,6 +95,9 @@ const onApprove = () => {
 }
 
 const onReject = () => {
+  if (comment.value === '') {
+    return
+  }
   emit('reject', comment.value)
 }
 
