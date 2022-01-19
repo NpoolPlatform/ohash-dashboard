@@ -1,5 +1,6 @@
 import { Coin } from '../coins/types'
 import { ReqMessage } from '../notifications/types'
+import { Review } from '../reviews/types'
 
 interface DeviceInfo {
   ID?: string
@@ -180,7 +181,7 @@ interface ExpandGood {
   Good: GoodDetail
   Main?: Coin
   SupportCoins?: Array<Coin>
-  // TODO: Review
+  Reviews?: Array<Review>
 }
 
 interface GetAllGoodsRequest {

@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: procyon-webui-ingress
+  namespace: kube-system
+  annotations:
+    k8s.kuboard.cn/displayName: procyon-webui
+    k8s.kuboard.cn/workload: procyon-webui
+    kubernetes.io/ingress.class: "traefik-internet"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure, web
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-redirect-https@kubernetescrd
+
+spec:
+  tls:
+    - hosts:
+        - dashboard.xpool.top
+      secretName: xpool-top-tls
+  rules:
+    - host: dashboard.xpool.top
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: church-dashbaord
+              servicePort: 80
