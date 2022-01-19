@@ -1,11 +1,11 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: church-dashboard-ingress
+  name: church-dashboard-treafik-ingress
   namespace: kube-system
   annotations:
-    k8s.kuboard.cn/displayName: church-dashboard
-    k8s.kuboard.cn/workload: church-dashboard
+    k8s.kuboard.cn/displayName: church-dashboard-treafik
+    k8s.kuboard.cn/workload: church-dashboard-treafik
     kubernetes.io/ingress.class: "traefik-internet"
     traefik.ingress.kubernetes.io/router.entrypoints: websecure, web
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-redirect-https@kubernetescrd
