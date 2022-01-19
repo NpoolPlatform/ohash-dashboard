@@ -74,6 +74,14 @@ import {
   LanguageActions
 } from './languages'
 
+import {
+  kyc,
+  KYCsState,
+  KYCMutations,
+  KYCGetters,
+  KYCActions
+} from './kycs'
+
 // 2 combine your store to root store
 export interface RootState {
   user: UserState,
@@ -84,13 +92,39 @@ export interface RootState {
   goods: GoodsState
   coins: CoinsState
   languages: LanguagesState
+  kyc: KYCsState
 }
 
 // 3 combine your actions, mutations and getters to root, if have multi use & combin
 // for example a & b
-type Actions = UserActions & ApplicationActions & ReviewActions & GoodActions & CoinActions & LanguageActions
-type Mutations = UserMutations & MainBreadcrumbsMutations & NotificationMutations & ApplicationMutations & ReviewMutations & GoodMutations & CoinMutations & LanguageMutations
-type Getters = UserGetters & MainBreadcrumbsGetters & NotificationGetters & ApplicationGetters & ReviewGetters & GoodGetters & CoinGetters & LanguageGetters
+type Actions =
+  UserActions &
+  ApplicationActions &
+  ReviewActions &
+  GoodActions &
+  CoinActions &
+  LanguageActions &
+  KYCActions
+type Mutations =
+  UserMutations &
+  MainBreadcrumbsMutations &
+  NotificationMutations &
+  ApplicationMutations &
+  ReviewMutations &
+  GoodMutations &
+  CoinMutations &
+  LanguageMutations &
+  KYCMutations
+type Getters =
+  UserGetters &
+  MainBreadcrumbsGetters &
+  NotificationGetters &
+  ApplicationGetters &
+  ReviewGetters &
+  GoodGetters &
+  CoinGetters &
+  LanguageGetters &
+  KYCGetters
 
 // 4 attach your module to root
 export default store(function (/* { ssrContext } */) {
@@ -103,7 +137,8 @@ export default store(function (/* { ssrContext } */) {
       reviews,
       goods,
       coins,
-      languages
+      languages,
+      kyc
     },
 
     // enable strict mode (adds overhead!)

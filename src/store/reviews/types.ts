@@ -16,7 +16,7 @@ interface Review {
 }
 
 interface KYCReview {
-  KYC: KYC
+  Kyc: KYC
   Review: Review
   User: UserInfo
 }

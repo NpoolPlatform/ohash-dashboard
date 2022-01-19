@@ -1,4 +1,5 @@
 import { ReqMessage } from '../notifications/types'
+import { ImageType } from './const'
 
 interface KYC {
   ID: string
@@ -11,7 +12,7 @@ interface KYC {
   CardID: string
   FrontCardImg: string
   BackCardImg: string
-  UserHandlingCardImg: string
+  UserHandingCardImg: string
   CreateAt: number
 }
 
@@ -24,8 +25,27 @@ interface GetKYCsRequest {
   Message: ReqMessage
 }
 
+interface KYCImage {
+  KYCID?: string
+  ImageType?: ImageType
+  URI?: string
+  Base64?: string
+}
+
+interface GetKYCImageRequest extends KYCImage {
+  ImageS3Key?: string
+  Message: ReqMessage
+}
+
+interface GetKYCImageResponse {
+  Info: string
+}
+
 export {
   KYC,
   GetKYCsRequest,
-  GetKYCsResponse
+  GetKYCsResponse,
+  KYCImage,
+  GetKYCImageRequest,
+  GetKYCImageResponse
 }

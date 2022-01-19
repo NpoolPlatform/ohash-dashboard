@@ -5,7 +5,7 @@ import { KYCGetters, getters } from './getters'
 import { KYCMutations, mutations } from './mutations'
 import { KYCActions, actions } from './actions'
 
-const KYCs: Module<KYCsState, RootState> = {
+const kyc: Module<KYCsState, RootState> = {
   // namespaced: true,
   actions,
   getters,
@@ -14,7 +14,7 @@ const KYCs: Module<KYCsState, RootState> = {
 }
 
 export {
-  KYCs, KYCsState,
+  kyc, KYCsState,
   mutations, KYCMutations,
   getters, KYCGetters,
   actions, KYCActions

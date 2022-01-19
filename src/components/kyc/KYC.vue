@@ -65,24 +65,41 @@
 </template>
 
 <script setup lang='ts'>
-import { withDefaults, defineProps, toRef, ref, defineEmits } from 'vue'
+import { withDefaults, defineProps, toRef, ref, defineEmits, onMounted, computed } from 'vue'
+import { useStore } from 'src/store'
+import { useI18n } from 'vue-i18n'
 
 import { KYCReview } from 'src/store/reviews/types'
+import { ActionTypes as KYCActionTypes } from 'src/store/kycs/action-types'
+import { ImageType } from 'src/store/kycs/const'
+import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 
 interface Props {
-  kycReview?: KYCReview
+  kycReview: KYCReview
   message: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  kycReview: undefined,
   message: ''
 })
 const kycReview = toRef(props, 'kycReview')
 
-const frontImg = ref('icons/england.png')
-const backImg = ref('icons/england.png')
-const handingImg = ref('icons/england.png')
+const store = useStore()
+// eslint-disable-next-line @typescript-eslint/unbound-method
+const { t } = useI18n({ useScope: 'global' })
+
+const frontImg = computed(() => {
+  const image = store.getters.getKYCImage(kycReview.value.Kyc.ID, ImageType.Front)
+  return image ? image.Base64 : ref('icons/england.png')
+})
+const backImg = computed(() => {
+  const image = store.getters.getKYCImage(kycReview.value.Kyc.ID, ImageType.Back)
+  return image ? image.Base64 : ref('icons/england.png')
+})
+const handingImg = computed(() => {
+  const image = store.getters.getKYCImage(kycReview.value.Kyc.ID, ImageType.Handing)
+  return image ? image.Base64 : ref('icons/england.png')
+})
 
 const comment = ref('')
 
@@ -100,6 +117,48 @@ const onReject = () => {
   }
   emit('reject', comment.value)
 }
+
+onMounted(() => {
+  store.dispatch(KYCActionTypes.GetKYCImage, {
+    KYCID: kycReview.value.Kyc.ID,
+    ImageType: ImageType.Front,
+    ImageS3Key: kycReview.value.Kyc.FrontCardImg,
+    Message: {
+      ModuleKey: ModuleKey.ModuleReviews,
+      Error: {
+        Title: t('MSG_UPDATE_KYC_IMAGE_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+  store.dispatch(KYCActionTypes.GetKYCImage, {
+    KYCID: kycReview.value.Kyc.ID,
+    ImageType: ImageType.Back,
+    ImageS3Key: kycReview.value.Kyc.BackCardImg,
+    Message: {
+      ModuleKey: ModuleKey.ModuleReviews,
+      Error: {
+        Title: t('MSG_UPDATE_KYC_IMAGE_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+  store.dispatch(KYCActionTypes.GetKYCImage, {
+    KYCID: kycReview.value.Kyc.ID,
+    ImageType: ImageType.Handing,
+    ImageS3Key: kycReview.value.Kyc.UserHandingCardImg,
+    Message: {
+      ModuleKey: ModuleKey.ModuleReviews,
+      Error: {
+        Title: t('MSG_UPDATE_KYC_IMAGE_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+})
 
 </script>
 
