@@ -9,7 +9,7 @@ enum LoginType {
   USERNAME = 'username'
 }
 
-const GoogleRecaptchaKey = '6LclwaIdAAAAAKVQTwz8FYinU0rP43_m6EedDv2S'
+const GoogleRecaptchaKey = '6Lcg4yIeAAAAANIyLz_mbENlYRSkK1C_aQkejb_4'
 
 export {
   API,
