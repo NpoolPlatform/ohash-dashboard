@@ -1,9 +1,8 @@
 import { ReqMessage } from '../notifications/types'
 
-interface API {
+interface APIBase {
   ID: string
   ServiceName: string
-  Domains: Array<string>
   Method: string
   Path: string
   Exported: boolean
@@ -11,6 +10,14 @@ interface API {
   Protocol: string
   CreateAt: number
   UpdateAt: number
+}
+
+interface API extends APIBase {
+  Domains: Array<string>
+}
+
+interface ExpandAPI extends APIBase {
+  Domains: string
 }
 
 interface GetAPIsResponse {
@@ -23,6 +30,7 @@ interface GetAPIsRequest {
 
 export {
   API,
+  ExpandAPI,
   GetAPIsRequest,
   GetAPIsResponse
 }
