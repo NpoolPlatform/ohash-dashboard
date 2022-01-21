@@ -82,6 +82,14 @@ import {
   KYCActions
 } from './kycs'
 
+import {
+  apis,
+  APIsState,
+  APIMutations,
+  APIGetters,
+  APIActions
+} from './apis'
+
 // 2 combine your store to root store
 export interface RootState {
   user: UserState,
@@ -93,6 +101,7 @@ export interface RootState {
   coins: CoinsState
   languages: LanguagesState
   kyc: KYCsState
+  apis: APIsState
 }
 
 // 3 combine your actions, mutations and getters to root, if have multi use & combin
@@ -104,7 +113,8 @@ type Actions =
   GoodActions &
   CoinActions &
   LanguageActions &
-  KYCActions
+  KYCActions &
+  APIActions
 type Mutations =
   UserMutations &
   MainBreadcrumbsMutations &
@@ -114,7 +124,8 @@ type Mutations =
   GoodMutations &
   CoinMutations &
   LanguageMutations &
-  KYCMutations
+  KYCMutations &
+  APIMutations
 type Getters =
   UserGetters &
   MainBreadcrumbsGetters &
@@ -124,7 +135,8 @@ type Getters =
   GoodGetters &
   CoinGetters &
   LanguageGetters &
-  KYCGetters
+  KYCGetters &
+  APIGetters
 
 // 4 attach your module to root
 export default store(function (/* { ssrContext } */) {
@@ -138,7 +150,8 @@ export default store(function (/* { ssrContext } */) {
       goods,
       coins,
       languages,
-      kyc
+      kyc,
+      apis
     },
 
     // enable strict mode (adds overhead!)

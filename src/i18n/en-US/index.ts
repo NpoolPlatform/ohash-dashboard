@@ -31,6 +31,7 @@ export default {
   MSG_GET_ALL_FEES_FAIL: 'Cannot get fees list',
   MSG_UPDATE_REVIEW_FAIL: 'Cannot update review',
   MSG_UPDATE_KYC_IMAGE_FAIL: 'Cannot get kyc image',
+  MSG_GET_APIS_FAIL: 'Cannot get apis',
   MSG_CREATE_DEVICE: '创建设备',
   MSG_CREATE_GOOD: '创建商品',
   MSG_CREATE_VENDOR_LOCATION: '创建场地信息',
