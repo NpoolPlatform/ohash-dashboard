@@ -40,6 +40,8 @@ const actions: ActionTree<UserState, RootState> = {
     api
       .post<LoginRequest, AxiosResponse<LoginResponse>>(API.LOGIN, req)
       .then((response: AxiosResponse<LoginResponse>) => {
+        const headers = api.defaults.headers as Record<string, string>
+        headers['X-User-ID'] = response.data.Info.UserBasicInfo.UserID
         commit(MutationTypes.SetLoginedUser, {
           UserID: response.data.Info.UserBasicInfo.UserID,
           Username: response.data.Info.UserBasicInfo.Username,
