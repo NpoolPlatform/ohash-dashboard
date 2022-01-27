@@ -42,7 +42,7 @@ import { Review } from '../../store/reviews/types'
 import { FunctionVoid } from '../../types/types'
 import { MutationTypes as NotificationMutationTypes } from '../../store/notifications/mutation-types'
 import { notify, notificationPop } from '../../store/notifications/helper'
-import { State } from 'src/store/reviews/const'
+import { State } from '../../store/reviews/const'
 
 const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
