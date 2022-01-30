@@ -16,7 +16,25 @@ const MainDrawerMenus = [
     icon: 'pending',
     target: '/applications',
     level: 0,
-    children: []
+    children: [
+      {
+        menuId: 1,
+        label: '应用管理',
+        caption: '管理应用',
+        icon: 'perm_identity',
+        target: '/applications/applications',
+        level: 1,
+        children: []
+      }, {
+        menuId: 1,
+        label: '应用邮件模板',
+        caption: '管理应用邮件模板',
+        icon: 'perm_identity',
+        target: '/applications/email/template',
+        level: 1,
+        children: []
+      }
+    ]
   }, {
     menuId: 0,
     label: '审核',

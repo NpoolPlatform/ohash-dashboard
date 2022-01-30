@@ -40,6 +40,7 @@ const actions: ActionTree<UserState, RootState> = {
       (resp: LoginResponse): void => {
         const headers = api.defaults.headers as Record<string, string>
         headers['X-User-ID'] = resp.Info.User?.ID as string
+        headers['X-App-Login-Token'] = resp.Token
         commit(MutationTypes.SetLoginedUser, resp.Info)
       })
   },

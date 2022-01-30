@@ -67,6 +67,7 @@ interface UserInfo {
 
 interface LoginResponse {
   Info: UserInfo
+  Token: string
 }
 
 interface GetGoogleTokenRequest {

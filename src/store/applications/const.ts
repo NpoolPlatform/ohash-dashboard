@@ -1,5 +1,5 @@
 enum API {
-  GET_APPLICATIONS = '/application-management/v1/get/apps'
+  GET_APPLICATIONS = '/appuser-manager/v1/get/apps'
 }
 
 export {
