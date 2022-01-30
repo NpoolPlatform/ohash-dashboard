@@ -10,7 +10,7 @@
     <q-list>
       <q-item
         v-for='application in applications'
-        :key='application.ID'
+        :key='application.App.ID'
         v-close-popup
         clickable
         @click='onItemClick(application)'
@@ -18,7 +18,7 @@
         <q-item-section avatar>
           <q-avatar :icon='applicationLogo(application)' />
         </q-item-section>
-        <q-item-label>{{ application.ApplicationName }}</q-item-label>
+        <q-item-label>{{ application.App.Name }}</q-item-label>
       </q-item>
     </q-list>
   </q-btn-dropdown>
@@ -47,19 +47,19 @@ const store = useStore()
 const defaultApplicationLogo = 'pending'
 const applications = computed(() => store.getters.getApplications)
 const applicationLogo = (application: Application) => {
-  return application.ApplicationLogo === '' ? defaultApplicationLogo : 'img:' + application.ApplicationLogo
+  return application.App.Logo === '' ? defaultApplicationLogo : 'img:' + application.App.Logo
 }
 
 const selectedAppName = computed(() => {
   const application = store.getters.getApplicationByID(selectedAppId.value)
   if (application) {
-    return store.getters.getApplicationByID(selectedAppId.value).ApplicationName
+    return store.getters.getApplicationByID(selectedAppId.value).App.Name
   }
   return selectedAppId.value
 })
 
 const onItemClick = (application: Application) => {
-  emit('update:selectedAppId', application.ID)
+  emit('update:selectedAppId', application.App.ID)
 }
 
 onMounted(() => {
