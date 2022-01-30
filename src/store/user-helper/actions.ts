@@ -10,7 +10,7 @@ import { API } from './const'
 import { MutationTypes as NotificationMutationTypes } from '../notifications/mutation-types'
 import { notificationPush, notificationPop } from '../notifications/helper'
 import { Notification } from '../notifications/types'
-import { AxiosResponse } from 'axios'
+import { doAction } from '../action'
 
 interface UserActions {
   [ActionTypes.Login]({
@@ -32,35 +32,15 @@ interface UserActions {
 
 const actions: ActionTree<UserState, RootState> = {
   [ActionTypes.Login] ({ commit }, req: LoginRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<LoginRequest, AxiosResponse<LoginResponse>>(API.LOGIN, req)
-      .then((response: AxiosResponse<LoginResponse>) => {
+    doAction<LoginRequest, LoginResponse>(
+      commit,
+      API.LOGIN,
+      req,
+      req.Message,
+      (resp: LoginResponse): void => {
         const headers = api.defaults.headers as Record<string, string>
-        headers['X-User-ID'] = response.data.Info.UserBasicInfo.UserID
-        commit(MutationTypes.SetLoginedUser, {
-          UserID: response.data.Info.UserBasicInfo.UserID,
-          Username: response.data.Info.UserBasicInfo.Username,
-          EmailAddress: response.data.Info.UserBasicInfo.EmailAddress,
-          Avatar: response.data.Info.UserBasicInfo.Avatar,
-          PhoneNO: response.data.Info.UserBasicInfo.PhoneNO,
-          MyInfo: response.data.Info
-        })
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+        headers['X-User-ID'] = resp.Info.User?.ID as string
+        commit(MutationTypes.SetLoginedUser, resp.Info)
       })
   },
 

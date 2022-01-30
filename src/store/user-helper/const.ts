@@ -1,6 +1,6 @@
 enum API {
-  LOGIN = '/login-door/v1/login',
-  LOGOUT = '/login-door/v1/logout'
+  LOGIN = '/login-gateway/v1/login',
+  LOGOUT = '/login-gateway/v1/logout'
 }
 
 enum LoginType {

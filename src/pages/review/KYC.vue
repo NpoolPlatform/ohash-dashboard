@@ -141,7 +141,7 @@ const onReviewApprove = () => {
   store.dispatch(ReviewActionTypes.UpdateReview, {
     Info: {
       ID: kycReview.value?.Review.ID as string,
-      ReviewerID: store.getters.getLoginedUser.UserID,
+      ReviewerID: store.getters.getLoginedUser.User?.ID,
       State: State.Approved
     },
     Message: {
@@ -160,7 +160,7 @@ const onReviewReject = (message: string) => {
   store.dispatch(ReviewActionTypes.UpdateReview, {
     Info: {
       ID: kycReview.value?.Review.ID as string,
-      ReviewerID: store.getters.getLoginedUser.UserID,
+      ReviewerID: store.getters.getLoginedUser.User?.ID,
       State: State.Rejected,
       Message: message
     },

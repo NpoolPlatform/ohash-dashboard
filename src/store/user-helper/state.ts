@@ -7,14 +7,7 @@ interface UserState {
 
 function state (): UserState {
   return {
-    LoginedUser: {
-      UserID: '',
-      Username: '',
-      EmailAddress: '',
-      Avatar: '',
-      PhoneNO: '',
-      MyInfo: {}
-    },
+    LoginedUser: {},
     GoogleToken: ''
   }
 }

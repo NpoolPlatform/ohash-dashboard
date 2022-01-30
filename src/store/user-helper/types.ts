@@ -3,32 +3,70 @@ import { IReCaptchaComposition } from 'vue-recaptcha-v3'
 import { ReqMessage } from '../notifications/types'
 
 interface LoginRequest {
-  Username: string
-  Password: string
+  Account: string
+  PasswordHash: string
+  ManMachineSpec: string
+  EnvironmentSpec?: string
   LoginType: LoginType
-  GoogleRecaptchaResponse: string
+  Token?: string
   Message: ReqMessage
 }
 
-interface UserInfo {
+interface AppUser {
+  ID?: string
+  AppID: string
+  EmailAddress?: string
+  PhoneNO?: string
+  ImportedFromApp?: string
+  CreateAt?: number
+}
+
+interface AppRole {
+  ID: string
+  AppID: string
+  CreatedBy: string
+  Role: string
+  Description: string
+  Default: boolean
+}
+
+interface AppUserExtra {
+  ID: string
+  AppID: string
   UserID: string
   Username: string
-  FirstName?: string
-  LastName?: string
-  DisplayName?: string
-  Gender?: string
-  CreateAt?: number
-  EmailAddress: string
-  Birthday?: number
-  Avatar?: string
-  PhoneNO: string
-  MyInfo: unknown
+  AddressFields: Array<string>
+  Gender: string
+  PostalCode: string
+  Age: number
+  Birthday: number
+  Avatar: string
+  Organization: string
+}
+
+interface AppUserControl {
+  ID: string
+  AppID: string
+  UserID: string
+}
+
+interface BanAppUser {
+  ID: string
+  AppID: string
+  UserID: string
+  Message: string
+}
+
+interface UserInfo {
+  User?: AppUser
+  Extra?: AppUserExtra
+  Ctrl?: AppUserControl
+  Ban?: BanAppUser
+  Roles?: Array<AppRole>
 }
 
 interface LoginResponse {
-  Info: {
-    UserBasicInfo: UserInfo
-  }
+  Info: UserInfo
 }
 
 interface GetGoogleTokenRequest {
