@@ -1,7 +1,7 @@
 import { ReqMessage } from '../notifications/types'
 
 interface AppEmailTemplate {
-  ID: string
+  ID?: string
   AppID: string
   LangID: string
   UsedFor: string

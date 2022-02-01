@@ -22,7 +22,9 @@
     full-width
     square
     no-shake
-  />
+  >
+    <CreateAppEmailTemplate v-model:selected-app='selectedApp' />
+  </q-dialog>
 </template>
 
 <script setup lang='ts'>
@@ -39,6 +41,7 @@ import { MutationTypes as AppEmailTemplateMutationTypes } from 'src/store/appema
 import { ActionTypes as AppEmailTemplateActionTypes } from 'src/store/appemailtemplates/action-types'
 
 const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
+const CreateAppEmailTemplate = defineAsyncComponent(() => import('src/components/appemailtemplate/CreateAppEmailTemplate.vue'))
 
 const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -53,6 +56,7 @@ const selectedAppID = computed({
     store.commit(AppEmailTemplateMutationTypes.SetAppEmailTemplateSelectedAppID, val)
   }
 })
+const selectedApp = computed(() => store.getters.getApplicationByID(selectedAppID.value))
 const templates = computed(() => store.getters.getAppEmailTemplatesByApp(selectedAppID.value))
 
 const onRowClick = (index: number) => {

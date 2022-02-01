@@ -1,3 +1,4 @@
+import { DefaultID } from 'src/const/const'
 import { LocaleMessages, VueMessageType } from 'vue-i18n'
 import { Language } from './types'
 
@@ -9,6 +10,7 @@ interface LanguagesState {
 
 const DefaultLang = 'en-US'
 const DefaultLanguage = {
+  ID: DefaultID,
   Lang: DefaultLang,
   Logo: 'icons/england.png',
   Name: 'English',

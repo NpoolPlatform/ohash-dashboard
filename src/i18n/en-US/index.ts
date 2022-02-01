@@ -76,5 +76,13 @@ export default {
   MSG_FEE_TYPE_DESCRIPTION: '费用类别描述',
   MSG_PAY_TYPE_AMOUNT: '固定金额',
   MSG_PAY_TYPE_PERCENT: '收益百分比',
-  MSG_CREATE_APP_EMAIL_TEMPLATE: '创建邮件模板'
+  MSG_CREATE_APP_EMAIL_TEMPLATE: '创建邮件模板',
+  MSG_APP_NAME: '应用名称',
+  MSG_LANGUAGE: '语种',
+  MSG_USED_FOR: '用途',
+  MSG_SENDER: '发送者',
+  MSG_REPLY_TO: '回复到',
+  MSG_CC_TO: '抄送到',
+  MSG_SUBJECT: '主题',
+  MSG_BODY: '内容'
 }

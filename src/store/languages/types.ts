@@ -1,6 +1,7 @@
 import { ReqMessage } from '../notifications/types'
 
 interface Language {
+  ID: string
   Lang: string
   Logo: string
   Name: string
