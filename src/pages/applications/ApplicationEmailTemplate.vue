@@ -9,7 +9,9 @@
     <template #top-right>
       <div class='row'>
         <q-space />
-        <q-btn dense @click='onCreateAppEmailTemplateClick'>{{ $t('MSG_CREATE_APP_EMAIL_TEMPLATE') }}</q-btn>
+        <q-btn dense @click='onCreateAppEmailTemplateClick'>
+          {{ $t('MSG_CREATE_APP_EMAIL_TEMPLATE') }}
+        </q-btn>
         <ApplicationSelector v-model:selected-app-id='selectedAppID' />
       </div>
     </template>
@@ -58,7 +60,7 @@ const onRowClick = (index: number) => {
 }
 
 const onCreateAppEmailTemplateClick = () => {
-  console.log('clock', 'create app email template')
+  modifying.value = true
 }
 
 const unsubscribe = ref<FunctionVoid>()
