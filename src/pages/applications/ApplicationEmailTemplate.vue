@@ -23,7 +23,7 @@
     square
     no-shake
   >
-    <CreateAppEmailTemplate v-model:selected-app='selectedApp' />
+    <CreateAppEmailTemplate v-model:selected-app='selectedApp' @update='onUpdate' @submit='onSubmit' />
   </q-dialog>
 </template>
 
@@ -39,6 +39,7 @@ import { notify, notificationPop } from 'src/store/notifications/helper'
 import { FunctionVoid } from 'src/types/types'
 import { MutationTypes as AppEmailTemplateMutationTypes } from 'src/store/appemailtemplates/mutation-types'
 import { ActionTypes as AppEmailTemplateActionTypes } from 'src/store/appemailtemplates/action-types'
+import { AppEmailTemplate } from 'src/store/appemailtemplates/types'
 
 const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
 const CreateAppEmailTemplate = defineAsyncComponent(() => import('src/components/appemailtemplate/CreateAppEmailTemplate.vue'))
@@ -65,6 +66,15 @@ const onRowClick = (index: number) => {
 
 const onCreateAppEmailTemplateClick = () => {
   modifying.value = true
+}
+
+const onUpdate = (template: AppEmailTemplate) => {
+  console.log('update', template)
+}
+
+const onSubmit = (template: AppEmailTemplate) => {
+  console.log('submit', template)
+  modifying.value = false
 }
 
 const unsubscribe = ref<FunctionVoid>()

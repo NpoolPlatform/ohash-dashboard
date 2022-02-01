@@ -12,8 +12,7 @@
         split
         icon='window'
         no-caps
-        flat
-        class='selector-border'
+        align='left'
         :label='selectedLangName'
       >
         <q-list>
@@ -58,6 +57,7 @@
       <q-input
         v-model='template.Body'
         :label='$t("MSG_BODY")'
+        type='textarea'
       >
         <template #prepend>
           <q-icon name='window' />
@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, defineProps, toRef, computed } from 'vue'
+import { ref, defineProps, toRef, computed, defineEmits, watch } from 'vue'
 import { Application } from 'src/store/applications/types'
 import { AppEmailTemplate } from 'src/store/appemailtemplates/types'
 import { useStore } from 'src/store'
@@ -116,8 +116,16 @@ const template = computed(() => {
   } as AppEmailTemplate
 })
 
+watch(template, () => {
+  emit('update', template.value)
+})
+
+const emit = defineEmits<{(e: 'submit', info: AppEmailTemplate): void,
+  (e: 'update', info: AppEmailTemplate): void
+}>()
+
 const onSubmit = () => {
-  console.log('click', template)
+  emit('submit', template.value)
 }
 
 const onLangItemClick = (lang: Language) => {
@@ -129,6 +137,7 @@ const onLangItemClick = (lang: Language) => {
 <style lang='sass' scoped>
 .container
   padding: 24px
+  min-width: 800px
 
 .submit-btn
   margin-top: 24px
