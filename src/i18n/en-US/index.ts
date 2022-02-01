@@ -55,6 +55,7 @@ export default {
   MSG_CREATE_FEE_TYPE_FAIL: 'Cannot create fee type',
   MSG_CREATE_GOOD_FAIL: 'Cannot create good',
   MSG_GET_ALL_PRICE_CURRENCYS_FAIL: 'Cannot get price currencys',
+  MSG_GET_APP_EMAIL_TEMPLATES_FAIL: 'Cannot get app email templates',
   MSG_COUNTRY: '国家',
   MSG_PROVINCE: '省',
   MSG_CITY: '城市',

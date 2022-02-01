@@ -9,7 +9,6 @@ type ApplicationMutations<S = ApplicationsState> = {
 
 const mutations: MutationTree<ApplicationsState> & ApplicationMutations = {
   [MutationTypes.SetApplications] (state: ApplicationsState, payload: Array<Application>) {
-    console.log(payload)
     payload.forEach((app) => {
       state.Applications.set(app.App.ID, app)
     })

@@ -28,11 +28,12 @@ import { useI18n } from 'vue-i18n'
 
 import { useStore } from 'src/store'
 import { ActionTypes as ApplicationActionTypes } from 'src/store/applications/action-types'
-import { MutationTypes as ApplicationMutationTypes } from 'src/store/applications/mutation-types'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { notify, notificationPop } from 'src/store/notifications/helper'
 import { FunctionVoid } from 'src/types/types'
+import { MutationTypes as AppEmailTemplateMutationTypes } from 'src/store/appemailtemplates/mutation-types'
+import { ActionTypes as AppEmailTemplateActionTypes } from 'src/store/appemailtemplates/action-types'
 
 const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
 
@@ -43,7 +44,12 @@ const { t } = useI18n({ useScope: 'global' })
 const applications = computed(() => store.getters.getApplications)
 const loading = ref(true)
 const modifying = ref(false)
-const selectedAppID = ref('')
+const selectedAppID = computed({
+  get: () => store.getters.getAppEmailTemplateSelectedAppID,
+  set: (val) => {
+    store.commit(AppEmailTemplateMutationTypes.SetAppEmailTemplateSelectedAppID, val)
+  }
+})
 
 const onRowClick = (index: number) => {
   console.log('click', index)
@@ -64,7 +70,21 @@ onMounted(() => {
   })
 
   unsubscribe.value = store.subscribe((mutation) => {
-    if (mutation.type === ApplicationMutationTypes.SetApplications) {
+    if (mutation.type === AppEmailTemplateMutationTypes.SetAppEmailTemplateSelectedAppID) {
+      store.dispatch(AppEmailTemplateActionTypes.GetAppEmailTemplatesByApp, {
+        AppID: selectedAppID.value,
+        Message: {
+          ModuleKey: ModuleKey.ModuleApplications,
+          Error: {
+            Title: t('MSG_GET_APP_EMAIL_TEMPLATES_FAIL'),
+            Popup: true,
+            Type: NotificationType.Error
+          }
+        }
+      })
+    }
+
+    if (mutation.type === AppEmailTemplateMutationTypes.SetAppEmailTemplatesByApp) {
       loading.value = false
     }
 

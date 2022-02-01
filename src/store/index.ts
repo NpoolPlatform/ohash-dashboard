@@ -90,6 +90,14 @@ import {
   APIActions
 } from './apis'
 
+import {
+  appEmailTemplates,
+  AppEmailTemplatesState,
+  AppEmailTemplateMutations,
+  AppEmailTemplateGetters,
+  AppEmailTemplateActions
+} from './appemailtemplates'
+
 // 2 combine your store to root store
 export interface RootState {
   user: UserState,
@@ -102,6 +110,7 @@ export interface RootState {
   languages: LanguagesState
   kyc: KYCsState
   apis: APIsState
+  appEmailTemplates: AppEmailTemplatesState
 }
 
 // 3 combine your actions, mutations and getters to root, if have multi use & combin
@@ -114,7 +123,8 @@ type Actions =
   CoinActions &
   LanguageActions &
   KYCActions &
-  APIActions
+  APIActions &
+  AppEmailTemplateActions
 type Mutations =
   UserMutations &
   MainBreadcrumbsMutations &
@@ -125,7 +135,8 @@ type Mutations =
   CoinMutations &
   LanguageMutations &
   KYCMutations &
-  APIMutations
+  APIMutations &
+  AppEmailTemplateMutations
 type Getters =
   UserGetters &
   MainBreadcrumbsGetters &
@@ -136,7 +147,8 @@ type Getters =
   CoinGetters &
   LanguageGetters &
   KYCGetters &
-  APIGetters
+  APIGetters &
+  AppEmailTemplateGetters
 
 // 4 attach your module to root
 export default store(function (/* { ssrContext } */) {
@@ -151,7 +163,8 @@ export default store(function (/* { ssrContext } */) {
       coins,
       languages,
       kyc,
-      apis
+      apis,
+      appEmailTemplates
     },
 
     // enable strict mode (adds overhead!)
