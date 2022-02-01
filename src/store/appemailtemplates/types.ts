@@ -21,8 +21,19 @@ interface GetAppEmailTemplatesByAppResponse {
   Infos: ReadonlyArray<AppEmailTemplate>
 }
 
+interface CreateAppEmailTemplateRequest {
+  Info: AppEmailTemplate
+  Message: ReqMessage
+}
+
+interface CreateAppEmailTemplateResponse {
+  Info: AppEmailTemplate
+}
+
 export {
   AppEmailTemplate,
   GetAppEmailTemplatesByAppRequest,
-  GetAppEmailTemplatesByAppResponse
+  GetAppEmailTemplatesByAppResponse,
+  CreateAppEmailTemplateRequest,
+  CreateAppEmailTemplateResponse
 }

@@ -73,8 +73,18 @@ const onUpdate = (template: AppEmailTemplate) => {
 }
 
 const onSubmit = (template: AppEmailTemplate) => {
-  console.log('submit', template)
   modifying.value = false
+  store.dispatch(AppEmailTemplateActionTypes.CreateAppEmailTemplate, {
+    Info: template,
+    Message: {
+      ModuleKey: ModuleKey.ModuleApplications,
+      Error: {
+        Title: t('MSG_CREATE_APP_EMAIL_TEMPLATE_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
 }
 
 const unsubscribe = ref<FunctionVoid>()
