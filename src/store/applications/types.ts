@@ -40,6 +40,7 @@ interface GetApplicationsRequest {
 }
 
 export {
+  App,
   Application,
   GetApplicationsRequest,
   GetApplicationsResponse

@@ -3,7 +3,7 @@
     flat
     dense
     :loading='loading'
-    :rows='applications'
+    :rows='myApps'
   />
 </template>
 
@@ -18,12 +18,21 @@ import { ModuleKey, Type as NotificationType } from 'src/store/notifications/con
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { notify, notificationPop } from 'src/store/notifications/helper'
 import { FunctionVoid } from 'src/types/types'
+import { App } from 'src/store/applications/types'
 
 const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
 
 const applications = computed(() => store.getters.getApplications)
+const myApps = computed(() => {
+  const apps = [] as Array<App>
+  applications.value.forEach((app) => {
+    apps.push(app.App)
+  })
+  return apps
+})
+
 const loading = ref(true)
 
 const unsubscribe = ref<FunctionVoid>()
