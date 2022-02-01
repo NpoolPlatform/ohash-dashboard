@@ -75,5 +75,6 @@ export default {
   MSG_GOOD_UNIT_POWER: '商品单位算力',
   MSG_FEE_TYPE_DESCRIPTION: '费用类别描述',
   MSG_PAY_TYPE_AMOUNT: '固定金额',
-  MSG_PAY_TYPE_PERCENT: '收益百分比'
+  MSG_PAY_TYPE_PERCENT: '收益百分比',
+  MSG_CREATE_APP_EMAIL_TEMPLATE: '创建邮件模板'
 }

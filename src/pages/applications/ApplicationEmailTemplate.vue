@@ -3,12 +3,13 @@
     flat
     dense
     :loading='loading'
-    :rows='applications'
+    :rows='templates'
     @row-click='(evt, row, index) => onRowClick(index)'
   >
     <template #top-right>
       <div class='row'>
         <q-space />
+        <q-btn dense @click='onCreateAppEmailTemplateClick'>{{ $t('MSG_CREATE_APP_EMAIL_TEMPLATE') }}</q-btn>
         <ApplicationSelector v-model:selected-app-id='selectedAppID' />
       </div>
     </template>
@@ -41,18 +42,23 @@ const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
 
-const applications = computed(() => store.getters.getApplications)
 const loading = ref(true)
 const modifying = ref(false)
+
 const selectedAppID = computed({
   get: () => store.getters.getAppEmailTemplateSelectedAppID,
   set: (val) => {
     store.commit(AppEmailTemplateMutationTypes.SetAppEmailTemplateSelectedAppID, val)
   }
 })
+const templates = computed(() => store.getters.getAppEmailTemplatesByApp(selectedAppID.value))
 
 const onRowClick = (index: number) => {
   console.log('click', index)
+}
+
+const onCreateAppEmailTemplateClick = () => {
+  console.log('clock', 'create app email template')
 }
 
 const unsubscribe = ref<FunctionVoid>()

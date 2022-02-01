@@ -1,5 +1,6 @@
 <template>
   <q-btn-dropdown
+    dense
     split
     icon='pending'
     no-caps
