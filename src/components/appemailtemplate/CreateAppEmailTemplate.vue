@@ -83,13 +83,19 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, defineProps, toRef, computed, defineEmits, watch } from 'vue'
+import { ref, defineProps, toRef, computed, defineEmits, watch, onMounted } from 'vue'
 import { Application } from 'src/store/applications/types'
 import { AppEmailTemplate } from 'src/store/appemailtemplates/types'
 import { useStore } from 'src/store'
 import { Language } from 'src/store/languages/types'
+import { ActionTypes } from 'src/store/languages/action-types'
+import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
+import { useI18n } from 'vue-i18n'
 
 const store = useStore()
+
+// eslint-disable-next-line @typescript-eslint/unbound-method
+const { t } = useI18n({ useScope: 'global' })
 
 interface Props {
   selectedApp?: Application
@@ -131,6 +137,20 @@ const onSubmit = () => {
 const onLangItemClick = (lang: Language) => {
   selectedLang.value = lang
 }
+
+onMounted(() => {
+  store.dispatch(ActionTypes.GetAppLangInfos, {
+    AppID: selectedApp.value?.App.ID as string,
+    Message: {
+      ModuleKey: ModuleKey.ModuleApplications,
+      Error: {
+        Title: t('MSG_GET_APP_LANG_INFOS_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+})
 
 </script>
 

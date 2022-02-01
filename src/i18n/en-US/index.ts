@@ -57,6 +57,7 @@ export default {
   MSG_GET_ALL_PRICE_CURRENCYS_FAIL: 'Cannot get price currencys',
   MSG_GET_APP_EMAIL_TEMPLATES_FAIL: 'Cannot get app email templates',
   MSG_CREATE_APP_EMAIL_TEMPLATE_FAIL: 'Cannot create app email template',
+  MSG_GET_APP_LANG_INFOS_FAIL: 'Cannot get app lang infos',
   MSG_COUNTRY: '国家',
   MSG_PROVINCE: '省',
   MSG_CITY: '城市',
