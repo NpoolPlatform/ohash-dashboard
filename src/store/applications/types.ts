@@ -39,9 +39,20 @@ interface GetApplicationsRequest {
   Message: ReqMessage
 }
 
+interface CreateApplicationRequest {
+  Info: App
+  Message: ReqMessage
+}
+
+interface CreateApplicationResponse {
+  Info: App
+}
+
 export {
   App,
   Application,
   GetApplicationsRequest,
-  GetApplicationsResponse
+  GetApplicationsResponse,
+  CreateApplicationRequest,
+  CreateApplicationResponse
 }

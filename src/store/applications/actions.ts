@@ -1,16 +1,12 @@
 import { ActionTypes } from './action-types'
 import { MutationTypes } from './mutation-types'
-import { GetApplicationsRequest, GetApplicationsResponse } from './types'
+import { CreateApplicationRequest, CreateApplicationResponse, GetApplicationsRequest, GetApplicationsResponse } from './types'
 import { ApplicationsState } from './state'
 import { ActionTree } from 'vuex'
 import { AugmentedActionContext, RootState } from '../index'
 import { ApplicationMutations } from './mutations'
-import { notificationPush, notificationPop } from '../notifications/helper'
-import { MutationTypes as NotificationMutationTypes } from '../notifications/mutation-types'
-import { Notification } from '../notifications/types'
-import { api } from 'src/boot/axios'
 import { API } from './const'
-import { AxiosResponse } from 'axios'
+import { doAction } from '../action'
 
 interface ApplicationActions {
   [ActionTypes.GetApplications]({
@@ -20,30 +16,36 @@ interface ApplicationActions {
     RootState,
     ApplicationMutations<ApplicationsState>>,
     req: GetApplicationsRequest): void
+
+  [ActionTypes.CreateApplication]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationsState,
+    RootState,
+    ApplicationMutations<ApplicationsState>>,
+    req: CreateApplicationRequest): void
 }
 
 const actions: ActionTree<ApplicationsState, RootState> = {
   [ActionTypes.GetApplications] ({ commit }, req: GetApplicationsRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<GetApplicationsRequest, AxiosResponse<GetApplicationsResponse>>(API.GET_APPLICATIONS, req)
-      .then((response: AxiosResponse<GetApplicationsResponse>) => {
-        commit(MutationTypes.SetApplications, response.data.Infos)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
+    doAction<GetApplicationsRequest, GetApplicationsResponse>(
+      commit,
+      API.GET_APPLICATIONS,
+      req,
+      req.Message,
+      (resp: GetApplicationsResponse): void => {
+        commit(MutationTypes.SetApplications, resp.Infos)
       })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+  },
+
+  [ActionTypes.CreateApplication] ({ commit }, req: CreateApplicationRequest) {
+    doAction<CreateApplicationRequest, CreateApplicationResponse>(
+      commit,
+      API.CREATE_APPLICATION,
+      req,
+      req.Message,
+      (resp: CreateApplicationResponse): void => {
+        commit(MutationTypes.SetApplication, resp.Info)
       })
   }
 }

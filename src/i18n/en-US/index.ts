@@ -61,6 +61,7 @@ export default {
   MSG_CREATE_APP_LANG_FAIL: 'Cannot create app lang',
   MSG_GET_LANGUAGES_FAIL: 'Cannot get languages',
   MSG_CREATE_LANGUAGE_FAIL: 'Create language fail',
+  MSG_CREATE_APPLICATION_FAIL: 'Cannot create application',
   MSG_COUNTRY: '国家',
   MSG_PROVINCE: '省',
   MSG_CITY: '城市',
@@ -94,5 +95,8 @@ export default {
   MSG_SPEC: '标识',
   MSG_FULLNAME: '长名称',
   MSG_SHORTNAME: '短名称',
-  MSG_LOGO: '图标'
+  MSG_LOGO: '图标',
+  MSG_CREATE_APPLICATION: '创建应用',
+  MSG_DISPLAY_NAME: '名称',
+  MSG_DESCRIPTION: '描述'
 }
