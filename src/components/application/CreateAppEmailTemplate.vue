@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, defineProps, toRef, computed, defineEmits, watch, onMounted } from 'vue'
+import { defineProps, toRef, computed, defineEmits, watch, onMounted, ref } from 'vue'
 import { Application } from 'src/store/applications/types'
 import { AppEmailTemplate } from 'src/store/appemailtemplates/types'
 import { useStore } from 'src/store'
@@ -117,15 +117,27 @@ const editTemplate = toRef(props, 'editTemplate')
 
 const languages = computed(() => store.getters.getAppLangInfosByApp(selectedApp.value?.App.ID as string))
 
-const selectedLang = ref({} as Language)
+const editTemplateLang = computed(() => {
+  if (!editTemplate.value) {
+    return {} as Language
+  }
+  for (let i = 0; i < languages.value.length; i++) {
+    if ((editTemplate.value as unknown as AppEmailTemplate).LangID === languages.value[i].ID) {
+      return languages.value[i]
+    }
+  }
+  return {} as Language
+})
+
+const selectedLang = ref(editTemplateLang.value)
 const selectedLangName = computed(() => selectedLang.value.Name)
 const selectedLangID = computed(() => selectedLang.value.ID)
 
 const replyTos = computed(() => {
-  return editTemplate.value ? editTemplate.value.ReplyTos.join(',') : ''
+  return editTemplate.value && editTemplate.value.ReplyTos ? editTemplate.value.ReplyTos.join(',') : ''
 })
 const ccTos = computed(() => {
-  return editTemplate.value ? editTemplate.value.CCTos.join(',') : ''
+  return editTemplate.value && editTemplate.value.CCTos ? editTemplate.value.CCTos.join(',') : ''
 })
 const sender = computed(() => {
   return editTemplate.value ? editTemplate.value.Sender : ''

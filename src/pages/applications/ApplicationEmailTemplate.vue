@@ -23,7 +23,12 @@
     square
     no-shake
   >
-    <CreateAppEmailTemplate v-model:selected-app='selectedApp' @update='onUpdate' @submit='onSubmit' />
+    <CreateAppEmailTemplate
+      v-model:edit-template='selectedTemplate'
+      v-model:selected-app='selectedApp'
+      @update='onUpdate'
+      @submit='onSubmit'
+    />
   </q-dialog>
 </template>
 
@@ -51,8 +56,7 @@ const { t } = useI18n({ useScope: 'global' })
 const loading = ref(true)
 const adding = ref(false)
 const updating = ref(false)
-
-const modifing = computed(() => adding.value || updating.value)
+const modifing = ref(false)
 
 const selectedAppID = computed({
   get: () => store.getters.getAppEmailTemplateSelectedAppID,
@@ -62,6 +66,8 @@ const selectedAppID = computed({
 })
 const selectedApp = computed(() => store.getters.getApplicationByID(selectedAppID.value))
 const templates = computed(() => store.getters.getAppEmailTemplatesByApp(selectedAppID.value))
+
+const selectedTemplate = ref()
 
 interface MyTemplate {
   ID?: string
@@ -92,12 +98,15 @@ const myTemplates = computed(() => {
 })
 
 const onRowClick = (row: AppEmailTemplate) => {
-  // TODO: popup with candidate update item
-  console.log('click', row)
+  selectedTemplate.value = row
+  updating.value = true
+  modifing.value = true
 }
 
 const onCreateAppEmailTemplateClick = () => {
+  selectedTemplate.value = undefined
   adding.value = true
+  modifing.value = true
 }
 
 const onUpdate = (template: AppEmailTemplate) => {
@@ -113,6 +122,7 @@ const onSubmit = (template: AppEmailTemplate) => {
 
   adding.value = false
   updating.value = false
+  modifing.value = false
 
   store.dispatch(action, {
     Info: template,
