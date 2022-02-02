@@ -8,8 +8,7 @@
     flat
     dense
     :loading='loading'
-    :rows='templates'
-    @row-click='(evt, row, index) => onRowClick(index)'
+    :rows='appLanguages'
   >
     <template #top-right>
       <div class='row'>
@@ -28,7 +27,7 @@
     square
     no-shake
   >
-    <CreateAppEmailTemplate v-model:selected-app='selectedApp' @update='onUpdate' @submit='onSubmit' />
+    <CreateAppLanguage v-model:selected-app='selectedApp' @update='onUpdate' @submit='onSubmit' />
   </q-dialog>
 </template>
 
@@ -42,13 +41,12 @@ import { ModuleKey, Type as NotificationType } from 'src/store/notifications/con
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { notify, notificationPop } from 'src/store/notifications/helper'
 import { FunctionVoid } from 'src/types/types'
-import { MutationTypes as AppEmailTemplateMutationTypes } from 'src/store/appemailtemplates/mutation-types'
-import { ActionTypes as AppEmailTemplateActionTypes } from 'src/store/appemailtemplates/action-types'
 import { ActionTypes as LangActionTypes } from 'src/store/languages/action-types'
-import { AppEmailTemplate } from 'src/store/appemailtemplates/types'
+import { MutationTypes as LangMutationTypes } from 'src/store/languages/mutation-types'
+import { AppLanguage } from 'src/store/languages/types'
 
 const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
-const CreateAppEmailTemplate = defineAsyncComponent(() => import('src/components/appemailtemplate/CreateAppEmailTemplate.vue'))
+const CreateAppLanguage = defineAsyncComponent(() => import('src/components/application/CreateAppLanguage.vue'))
 
 const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -60,34 +58,31 @@ const modifying = ref(false)
 const selectedAppID = computed({
   get: () => store.getters.getAppEmailTemplateSelectedAppID,
   set: (val) => {
-    store.commit(AppEmailTemplateMutationTypes.SetAppEmailTemplateSelectedAppID, val)
+    store.commit(LangMutationTypes.SetSelectedAppID, val)
   }
 })
 const selectedApp = computed(() => store.getters.getApplicationByID(selectedAppID.value))
 
 const languages = computed(() => store.getters.getLanguages)
-const templates = computed(() => store.getters.getAppEmailTemplatesByApp(selectedAppID.value))
-
-const onRowClick = (index: number) => {
-  console.log('click', index)
-}
+const appLanguages = computed(() => store.getters.getAppLangInfosByApp(selectedAppID.value))
 
 const onAddAppLanguage = () => {
   modifying.value = true
 }
 
-const onUpdate = (template: AppEmailTemplate) => {
-  console.log('update', template)
+const onUpdate = (appLanguage: AppLanguage) => {
+  // TODO: fileter the list
+  console.log('update', appLanguage)
 }
 
-const onSubmit = (template: AppEmailTemplate) => {
+const onSubmit = (appLanguage: AppLanguage) => {
   modifying.value = false
-  store.dispatch(AppEmailTemplateActionTypes.CreateAppEmailTemplate, {
-    Info: template,
+  store.dispatch(LangActionTypes.CreateAppLanguage, {
+    Info: appLanguage,
     Message: {
       ModuleKey: ModuleKey.ModuleApplications,
       Error: {
-        Title: t('MSG_CREATE_APP_EMAIL_TEMPLATE_FAIL'),
+        Title: t('MSG_CREATE_APP_LANG_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
@@ -121,13 +116,15 @@ onMounted(() => {
   })
 
   unsubscribe.value = store.subscribe((mutation) => {
-    if (mutation.type === AppEmailTemplateMutationTypes.SetAppEmailTemplateSelectedAppID) {
-      store.dispatch(AppEmailTemplateActionTypes.GetAppEmailTemplatesByApp, {
+    if (mutation.type === LangMutationTypes.SetSelectedAppID ||
+      mutation.type === LangMutationTypes.SetAppLanguage) {
+      loading.value = true
+      store.dispatch(LangActionTypes.GetAppLangInfos, {
         AppID: selectedAppID.value,
         Message: {
           ModuleKey: ModuleKey.ModuleApplications,
           Error: {
-            Title: t('MSG_GET_APP_EMAIL_TEMPLATES_FAIL'),
+            Title: t('MSG_GET_APP_LANG_INFOS_FAIL'),
             Popup: true,
             Type: NotificationType.Error
           }
@@ -135,7 +132,7 @@ onMounted(() => {
       })
     }
 
-    if (mutation.type === AppEmailTemplateMutationTypes.SetAppEmailTemplatesByApp) {
+    if (mutation.type === LangMutationTypes.SetAppLangInfos) {
       loading.value = false
     }
 

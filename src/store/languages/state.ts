@@ -1,12 +1,14 @@
 import { DefaultID } from 'src/const/const'
 import { LocaleMessages, VueMessageType } from 'vue-i18n'
-import { AppLangInfo, Language } from './types'
+import { AppLangInfo, AppLanguage, Language } from './types'
 
 interface LanguagesState {
   Languages: Map<string, Language>
   CurLang: string
   Messages?: LocaleMessages<VueMessageType>
   AppLangInfos: Map<string, Array<AppLangInfo>>
+  AppLanguages: Map<string, Array<AppLanguage>>
+  SelectedAppID?: string
 }
 
 const DefaultLang = 'en-US'
@@ -24,7 +26,8 @@ function state (): LanguagesState {
   return {
     Languages: defaultLanguage,
     CurLang: DefaultLang,
-    AppLangInfos: new Map<string, Array<AppLangInfo>>()
+    AppLangInfos: new Map<string, Array<AppLangInfo>>(),
+    AppLanguages: new Map<string, Array<AppLanguage>>()
   }
 }
 

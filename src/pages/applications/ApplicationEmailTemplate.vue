@@ -42,7 +42,7 @@ import { ActionTypes as AppEmailTemplateActionTypes } from 'src/store/appemailte
 import { AppEmailTemplate } from 'src/store/appemailtemplates/types'
 
 const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
-const CreateAppEmailTemplate = defineAsyncComponent(() => import('src/components/appemailtemplate/CreateAppEmailTemplate.vue'))
+const CreateAppEmailTemplate = defineAsyncComponent(() => import('src/components/application/CreateAppEmailTemplate.vue'))
 
 const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method

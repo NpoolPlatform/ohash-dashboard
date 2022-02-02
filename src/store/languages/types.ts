@@ -45,6 +45,15 @@ interface AddLanguageResponse {
   Info: Language
 }
 
+interface CreateAppLanguageRequest {
+  Info: AppLanguage
+  Message: ReqMessage
+}
+
+interface CreateAppLanguageResponse {
+  Info: AppLanguage
+}
+
 export {
   Language,
   GetLanguagesRequest,
@@ -53,5 +62,8 @@ export {
   GetAppLangInfosRequest,
   GetAppLangInfosResponse,
   AddLanguageRequest,
-  AddLanguageResponse
+  AddLanguageResponse,
+  AppLanguage,
+  CreateAppLanguageRequest,
+  CreateAppLanguageResponse
 }
