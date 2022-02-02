@@ -22,7 +22,7 @@ const mutations: MutationTree<AppEmailTemplatesState> & AppEmailTemplateMutation
     }
     let pos = -1
     for (let i = 0; i < templates.length; i++) {
-      if (templates[pos].ID === payload.ID) {
+      if (templates[i].ID === payload.ID) {
         pos = i
         break
       }

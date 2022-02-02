@@ -133,28 +133,40 @@ const selectedLang = ref(editTemplateLang.value)
 const selectedLangName = computed(() => selectedLang.value.Name)
 const selectedLangID = computed(() => selectedLang.value.ID)
 
-const replyTos = computed(() => {
+const editTemplateReplyTos = computed(() => {
   return editTemplate.value && editTemplate.value.ReplyTos ? editTemplate.value.ReplyTos.join(',') : ''
 })
-const ccTos = computed(() => {
+const replyTos = ref(editTemplateReplyTos.value)
+
+const editTemplateCCTos = computed(() => {
   return editTemplate.value && editTemplate.value.CCTos ? editTemplate.value.CCTos.join(',') : ''
 })
-const sender = computed(() => {
+const ccTos = ref(editTemplateCCTos.value)
+
+const editTemplateSender = computed(() => {
   return editTemplate.value ? editTemplate.value.Sender : ''
 })
-const subject = computed(() => {
+const sender = ref(editTemplateSender.value)
+
+const editTemplateSubject = computed(() => {
   return editTemplate.value ? editTemplate.value.Subject : ''
 })
-const body = computed(() => {
+const subject = ref(editTemplateSubject.value)
+
+const editTemplateBody = computed(() => {
   return editTemplate.value ? editTemplate.value.Body : ''
 })
-const usedFor = computed(() => {
+const body = ref(editTemplateBody.value)
+
+const editTemplateUsedFor = computed(() => {
   return editTemplate.value ? editTemplate.value.UsedFor : ''
 })
+const usedFor = ref(editTemplateUsedFor.value)
 
-const id = computed(() => {
+const editTemplateID = computed(() => {
   return editTemplate.value ? editTemplate.value.ID : undefined
 })
+const id = ref(editTemplateID.value)
 
 const template = computed(() => {
   return {
