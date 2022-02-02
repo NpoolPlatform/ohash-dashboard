@@ -62,6 +62,7 @@ export default {
   MSG_GET_LANGUAGES_FAIL: 'Cannot get languages',
   MSG_CREATE_LANGUAGE_FAIL: 'Create language fail',
   MSG_CREATE_APPLICATION_FAIL: 'Cannot create application',
+  MSG_CREATE_COIN_FAIL: 'Cannot create coin',
   MSG_COUNTRY: '国家',
   MSG_PROVINCE: '省',
   MSG_CITY: '城市',
@@ -99,5 +100,7 @@ export default {
   MSG_CREATE_APPLICATION: '创建应用',
   MSG_DISPLAY_NAME: '名称',
   MSG_DESCRIPTION: '描述',
-  MSG_NO_VALID_COININFO: '没有有效的币种信息'
+  MSG_NO_VALID_COININFO: '没有有效的币种信息',
+  MSG_UNIT: '单位',
+  MSG_CREATE_COININFO: '创建币种'
 }

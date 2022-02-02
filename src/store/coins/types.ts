@@ -1,7 +1,7 @@
 import { ReqMessage } from '../notifications/types'
 
 interface Coin {
-  ID: string
+  ID?: string
   Name: string
   PreSale: boolean
   Unit: string
@@ -16,8 +16,18 @@ interface GetCoinsRequest {
   Message: ReqMessage
 }
 
+interface CreateCoinRequest extends Coin {
+  Message: ReqMessage
+}
+
+interface CreateCoinResponse {
+  Info: Coin
+}
+
 export {
   Coin,
   GetCoinsRequest,
-  GetCoinsResponse
+  GetCoinsResponse,
+  CreateCoinRequest,
+  CreateCoinResponse
 }

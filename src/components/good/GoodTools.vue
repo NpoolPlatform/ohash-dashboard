@@ -5,6 +5,14 @@
       dense
       flat
       no-caps
+      :label='$t("MSG_CREATE_COININFO")'
+      class='tool-btn'
+      @click='onCreateCoinInfoClick'
+    />
+    <q-btn
+      dense
+      flat
+      no-caps
       :label='$t("MSG_CREATE_FEE_TYPE")'
       class='tool-btn'
       @click='onCreateFeeTypeClick'
@@ -41,8 +49,9 @@ import { defineEmits } from 'vue'
 
 const emit = defineEmits<{(e: 'createDevice'): void,
   (e: 'createGood'): void,
-  (e: 'createVendorLocation'): void
-  (e: 'createFeeType'): void
+  (e: 'createVendorLocation'): void,
+  (e: 'createFeeType'): void,
+  (e: 'createCoininfo'): void
 }>()
 
 const onCreateDeviceClick = () => {
@@ -59,6 +68,10 @@ const onCreateVendorLocationClick = () => {
 
 const onCreateFeeTypeClick = () => {
   emit('createFeeType')
+}
+
+const onCreateCoinInfoClick = () => {
+  emit('createCoininfo')
 }
 
 </script>

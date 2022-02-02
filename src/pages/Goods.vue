@@ -6,6 +6,7 @@
       @create-good='onCreateGoodClick'
       @create-vendor-location='onCreateVendorLocationClick'
       @create-fee-type='onCreateFeeTypeClick'
+      @create-coininfo='onCreateCoinInfoClick'
     />
   </div>
   <q-table :title='$t("MSG_DEVICE")' flat dense :rows='filterDevices' />
@@ -64,6 +65,12 @@
       class='add-menu'
       @submit='onCreateFeeTypeSubmit'
     />
+    <CreateCoinInfo
+      v-if='addingType === AddingType.AddingCoinInfo'
+      class='add-menu'
+      @update='onUpdateCoinInfo'
+      @submit='onCreateCoinInfoSubmit'
+    />
   </q-dialog>
 </template>
 
@@ -75,15 +82,17 @@ import { ActionTypes as GoodActionTypes } from 'src/store/goods/action-types'
 import { ActionTypes as CoinActionTypes } from 'src/store/coins/action-types'
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
-import { notify, notificationPop, notificationPush } from 'src/store/notifications/helper'
+import { notify, notificationPop } from 'src/store/notifications/helper'
 import { useI18n } from 'vue-i18n'
 import { DeviceInfo, FeeType, Good, GoodBase, VendorLocation } from 'src/store/goods/types'
 import { FunctionVoid } from 'src/types/types'
+import { Coin, CreateCoinRequest } from 'src/store/coins/types'
 
 const CreateGoodMenu = defineAsyncComponent(() => import('src/components/good/CreateGoodMenu.vue'))
 const CreateDeviceMenu = defineAsyncComponent(() => import('src/components/good/CreateDeviceMenu.vue'))
 const CreateVendorLocationMenu = defineAsyncComponent(() => import('src/components/good/CreateVendorLocationMenu.vue'))
 const CreateFeeTypeMenu = defineAsyncComponent(() => import('src/components/good/CreateFeeTypeMenu.vue'))
+const CreateCoinInfo = defineAsyncComponent(() => import('src/components/good/CreateCoinInfo.vue'))
 const GoodTools = defineAsyncComponent(() => import('src/components/good/GoodTools.vue'))
 
 enum AddingType {
@@ -92,7 +101,8 @@ enum AddingType {
   AddingVendorLocation = 'vendor-location',
   AddingGood = 'good',
   AddingFeeType = 'fee-type',
-  AddingFee = 'fee'
+  AddingFee = 'fee',
+  AddingCoinInfo = 'coininfo'
 }
 
 const addingType = ref(AddingType.AddingNone)
@@ -268,14 +278,6 @@ onMounted(() => {
 })
 
 watch(addingType, (val) => {
-  if (!allCoins.value || allCoins.value.length === 0) {
-    store.commit(NotificationMutationTypes.Push, notificationPush(ModuleKey.ModuleGoods, {
-      Title: t('MSG_NO_VALID_COININFO'),
-      Popup: true,
-      Type: NotificationType.Error
-    }))
-    return
-  }
   adding.value = val !== AddingType.AddingNone
 })
 
@@ -293,6 +295,10 @@ const onCreateVendorLocationClick = () => {
 
 const onCreateFeeTypeClick = () => {
   addingType.value = AddingType.AddingFeeType
+}
+
+const onCreateCoinInfoClick = () => {
+  addingType.value = AddingType.AddingCoinInfo
 }
 
 const onCreateDeviceSubmit = (device: DeviceInfo) => {
@@ -348,6 +354,25 @@ const onCreateFeeTypeSubmit = (feeType: FeeType) => {
   inputFeeType.value = ''
   inputFeeDescription.value = ''
   inputPayType.value = ''
+}
+
+const onUpdateCoinInfo = (coin: Coin) => {
+  console.log('update', coin)
+}
+
+const onCreateCoinInfoSubmit = (coin: Coin) => {
+  addingType.value = AddingType.AddingNone
+
+  const req = coin as CreateCoinRequest
+  req.Message = {
+    ModuleKey: ModuleKey.ModuleGoods,
+    Error: {
+      Title: t('MSG_CREATE_COIN_FAIL'),
+      Popup: true,
+      Type: NotificationType.Error
+    }
+  }
+  store.dispatch(CoinActionTypes.CreateCoin, req)
 }
 
 const onCreateGoodSubmit = (good: Good) => {

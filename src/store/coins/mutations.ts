@@ -10,7 +10,7 @@ type CoinMutations<S = CoinsState> = {
 const mutations: MutationTree<CoinsState> & CoinMutations = {
   [MutationTypes.SetCoins] (state: CoinsState, payload: Array<Coin>) {
     payload.forEach((coin) => {
-      state.Coins.set(coin.ID, coin)
+      state.Coins.set(coin.ID as string, coin)
     })
   }
 }
