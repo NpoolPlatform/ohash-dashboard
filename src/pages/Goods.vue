@@ -75,7 +75,7 @@ import { ActionTypes as GoodActionTypes } from 'src/store/goods/action-types'
 import { ActionTypes as CoinActionTypes } from 'src/store/coins/action-types'
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
-import { notify, notificationPop } from 'src/store/notifications/helper'
+import { notify, notificationPop, notificationPush } from 'src/store/notifications/helper'
 import { useI18n } from 'vue-i18n'
 import { DeviceInfo, FeeType, Good, GoodBase, VendorLocation } from 'src/store/goods/types'
 import { FunctionVoid } from 'src/types/types'
@@ -268,6 +268,14 @@ onMounted(() => {
 })
 
 watch(addingType, (val) => {
+  if (!allCoins.value || allCoins.value.length === 0) {
+    store.commit(NotificationMutationTypes.Push, notificationPush(ModuleKey.ModuleGoods, {
+      Title: t('MSG_NO_VALID_COININFO'),
+      Popup: true,
+      Type: NotificationType.Error
+    }))
+    return
+  }
   adding.value = val !== AddingType.AddingNone
 })
 

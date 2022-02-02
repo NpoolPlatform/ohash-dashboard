@@ -98,5 +98,6 @@ export default {
   MSG_LOGO: '图标',
   MSG_CREATE_APPLICATION: '创建应用',
   MSG_DISPLAY_NAME: '名称',
-  MSG_DESCRIPTION: '描述'
+  MSG_DESCRIPTION: '描述',
+  MSG_NO_VALID_COININFO: '没有有效的币种信息'
 }
