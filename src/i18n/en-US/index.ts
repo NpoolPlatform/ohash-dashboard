@@ -58,6 +58,7 @@ export default {
   MSG_GET_APP_EMAIL_TEMPLATES_FAIL: 'Cannot get app email templates',
   MSG_CREATE_APP_EMAIL_TEMPLATE_FAIL: 'Cannot create app email template',
   MSG_GET_APP_LANG_INFOS_FAIL: 'Cannot get app lang infos',
+  MSG_GET_LANGUAGES_FAIL: 'Cannot get languages',
   MSG_COUNTRY: '国家',
   MSG_PROVINCE: '省',
   MSG_CITY: '城市',
@@ -86,5 +87,10 @@ export default {
   MSG_REPLY_TO: '回复到',
   MSG_CC_TO: '抄送到',
   MSG_SUBJECT: '主题',
-  MSG_BODY: '内容'
+  MSG_BODY: '内容',
+  MSG_ADD_LANGUAGE: '添加语言',
+  MSG_SPEC: '标识',
+  MSG_FULLNAME: '长名称',
+  MSG_SHORTNAME: '短名称',
+  MSG_LOGO: '图标'
 }

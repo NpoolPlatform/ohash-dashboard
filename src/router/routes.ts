@@ -17,7 +17,8 @@ const routes: RouteRecordRaw[] = [
 
       // Applications page
       { path: 'applications/applications', component: () => import('pages/applications/Applications.vue') },
-      { path: 'applications/email/template', component: () => import('pages/applications/ApplicationEmailTemplate.vue') }
+      { path: 'applications/email/template', component: () => import('pages/applications/ApplicationEmailTemplate.vue') },
+      { path: 'applications/languages', component: () => import('pages/applications/ApplicationLanguages.vue') }
     ]
   },
 

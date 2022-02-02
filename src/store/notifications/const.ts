@@ -2,7 +2,8 @@ enum ModuleKey {
   ModuleLogin = 'login',
   ModuleApplications = 'applications',
   ModuleReviews = 'reviews',
-  ModuleGoods = 'goods'
+  ModuleGoods = 'goods',
+  ModuleInternationalization = 'internationalization'
 }
 
 enum Type {

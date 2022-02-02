@@ -33,6 +33,14 @@ const MainDrawerMenus = [
         target: '/applications/email/template',
         level: 1,
         children: []
+      }, {
+        menuId: 1,
+        label: '国际化',
+        caption: '管理应用支持语言',
+        icon: 'perm_identity',
+        target: '/applications/languages',
+        level: 1,
+        children: []
       }
     ]
   }, {
@@ -79,8 +87,8 @@ const MainDrawerMenus = [
     children: []
   }, {
     menuId: 0,
-    label: '语言包',
-    caption: '管理国际化语言包',
+    label: '国际化',
+    caption: '管理国际化语言支持',
     icon: 'language',
     target: '/internationalization',
     level: 0,
