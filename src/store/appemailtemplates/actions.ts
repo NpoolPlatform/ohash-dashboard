@@ -1,6 +1,13 @@
 import { ActionTypes } from './action-types'
 import { MutationTypes } from './mutation-types'
-import { CreateAppEmailTemplateRequest, CreateAppEmailTemplateResponse, GetAppEmailTemplatesByAppRequest, GetAppEmailTemplatesByAppResponse } from './types'
+import {
+  CreateAppEmailTemplateRequest,
+  CreateAppEmailTemplateResponse,
+  GetAppEmailTemplatesByAppRequest,
+  GetAppEmailTemplatesByAppResponse,
+  GetAppEmailTemplatesByOtherAppRequest,
+  GetAppEmailTemplatesByOtherAppResponse
+} from './types'
 import { AppEmailTemplatesState } from './state'
 import { ActionTree } from 'vuex'
 import { AugmentedActionContext, RootState } from '../index'
@@ -16,6 +23,14 @@ interface AppEmailTemplateActions {
     RootState,
     AppEmailTemplateMutations<AppEmailTemplatesState>>,
     req: GetAppEmailTemplatesByAppRequest): void
+
+    [ActionTypes.GetAppEmailTemplatesByOtherApp]({
+      commit
+    }: AugmentedActionContext<
+    AppEmailTemplatesState,
+      RootState,
+      AppEmailTemplateMutations<AppEmailTemplatesState>>,
+      req: GetAppEmailTemplatesByOtherAppRequest): void
 
   [ActionTypes.CreateAppEmailTemplate]({
     commit
@@ -34,6 +49,17 @@ const actions: ActionTree<AppEmailTemplatesState, RootState> = {
       req,
       req.Message,
       (resp: GetAppEmailTemplatesByAppResponse): void => {
+        commit(MutationTypes.SetAppEmailTemplatesByApp, resp.Infos)
+      })
+  },
+
+  [ActionTypes.GetAppEmailTemplatesByOtherApp] ({ commit }, req: GetAppEmailTemplatesByOtherAppRequest) {
+    doAction<GetAppEmailTemplatesByOtherAppRequest, GetAppEmailTemplatesByOtherAppResponse>(
+      commit,
+      API.GET_APP_EMAIL_TEMPALTES_BY_OTHER_APP,
+      req,
+      req.Message,
+      (resp: GetAppEmailTemplatesByOtherAppResponse): void => {
         commit(MutationTypes.SetAppEmailTemplatesByApp, resp.Infos)
       })
   },

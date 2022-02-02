@@ -112,7 +112,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const selectedApp = toRef(props, 'selectedApp')
-const languages = computed(() => store.getters.getAppLangInfosByApp(selectedApp.value?.App.ID))
+const languages = computed(() => store.getters.getAppLangInfosByApp(selectedApp.value?.App.ID as string))
 
 const selectedLang = ref({} as Language)
 const selectedLangName = computed(() => selectedLang.value.Name)
@@ -155,8 +155,8 @@ const onLangItemClick = (lang: Language) => {
 }
 
 onMounted(() => {
-  store.dispatch(ActionTypes.GetAppLangInfos, {
-    AppID: selectedApp.value?.App.ID as string,
+  store.dispatch(ActionTypes.GetAppLangInfosByOtherApp, {
+    TargetAppID: selectedApp.value?.App.ID as string,
     Message: {
       ModuleKey: ModuleKey.ModuleApplications,
       Error: {

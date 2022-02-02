@@ -27,12 +27,20 @@ interface AppLangInfo {
   Lang: Language
 }
 
-interface GetAppLangInfosRequest {
-  AppID: string
+interface GetAppLangInfosByAppRequest {
   Message: ReqMessage
 }
 
-interface GetAppLangInfosResponse {
+interface GetAppLangInfosByAppResponse {
+  Infos: Array<AppLangInfo>
+}
+
+interface GetAppLangInfosByOtherAppRequest {
+  TargetAppID: string
+  Message: ReqMessage
+}
+
+interface GetAppLangInfosByOtherAppResponse {
   Infos: Array<AppLangInfo>
 }
 
@@ -59,8 +67,10 @@ export {
   GetLanguagesRequest,
   GetLanguagesResponse,
   AppLangInfo,
-  GetAppLangInfosRequest,
-  GetAppLangInfosResponse,
+  GetAppLangInfosByAppRequest,
+  GetAppLangInfosByAppResponse,
+  GetAppLangInfosByOtherAppRequest,
+  GetAppLangInfosByOtherAppResponse,
   AddLanguageRequest,
   AddLanguageResponse,
   AppLanguage,

@@ -1,6 +1,17 @@
 import { ActionTypes } from './action-types'
 import { MutationTypes } from './mutation-types'
-import { AddLanguageRequest, AddLanguageResponse, CreateAppLanguageRequest, CreateAppLanguageResponse, GetAppLangInfosRequest, GetAppLangInfosResponse, GetLanguagesRequest, GetLanguagesResponse } from './types'
+import {
+  AddLanguageRequest,
+  AddLanguageResponse,
+  CreateAppLanguageRequest,
+  CreateAppLanguageResponse,
+  GetAppLangInfosByAppRequest,
+  GetAppLangInfosByAppResponse,
+  GetAppLangInfosByOtherAppRequest,
+  GetAppLangInfosByOtherAppResponse,
+  GetLanguagesRequest,
+  GetLanguagesResponse
+} from './types'
 import { LanguagesState } from './state'
 import { ActionTree } from 'vuex'
 import { AugmentedActionContext, RootState } from '../index'
@@ -17,13 +28,21 @@ interface LanguageActions {
     LanguageMutations<LanguagesState>>,
     req: GetLanguagesRequest): void
 
-  [ActionTypes.GetAppLangInfos]({
+  [ActionTypes.GetAppLangInfosByApp]({
     commit
   }: AugmentedActionContext<
     LanguagesState,
     RootState,
     LanguageMutations<LanguagesState>>,
-    req: GetAppLangInfosRequest): void
+    req: GetAppLangInfosByAppRequest): void
+
+  [ActionTypes.GetAppLangInfosByOtherApp]({
+    commit
+  }: AugmentedActionContext<
+    LanguagesState,
+    RootState,
+    LanguageMutations<LanguagesState>>,
+    req: GetAppLangInfosByOtherAppRequest): void
 
   [ActionTypes.AddLanguage]({
     commit
@@ -57,13 +76,24 @@ const actions: ActionTree<LanguagesState, RootState> = {
       })
   },
 
-  [ActionTypes.GetAppLangInfos] ({ commit }, req: GetAppLangInfosRequest) {
-    doAction<GetAppLangInfosRequest, GetAppLangInfosResponse>(
+  [ActionTypes.GetAppLangInfosByApp] ({ commit }, req: GetAppLangInfosByAppRequest) {
+    doAction<GetAppLangInfosByAppRequest, GetAppLangInfosByAppResponse>(
       commit,
       API.GET_APP_LANG_INFOS_BY_APP,
       req,
       req.Message,
-      (resp: GetAppLangInfosResponse): void => {
+      (resp: GetAppLangInfosByAppResponse): void => {
+        commit(MutationTypes.SetAppLangInfos, resp.Infos)
+      })
+  },
+
+  [ActionTypes.GetAppLangInfosByOtherApp] ({ commit }, req: GetAppLangInfosByOtherAppRequest) {
+    doAction<GetAppLangInfosByOtherAppRequest, GetAppLangInfosByOtherAppResponse>(
+      commit,
+      API.GET_APP_LANG_INFOS_BY_OTHER_APP,
+      req,
+      req.Message,
+      (resp: GetAppLangInfosByOtherAppResponse): void => {
         commit(MutationTypes.SetAppLangInfos, resp.Infos)
       })
   },

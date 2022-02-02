@@ -119,8 +119,9 @@ onMounted(() => {
     if (mutation.type === LangMutationTypes.SetSelectedAppID ||
       mutation.type === LangMutationTypes.SetAppLanguage) {
       loading.value = true
-      store.dispatch(LangActionTypes.GetAppLangInfos, {
-        AppID: selectedAppID.value,
+      // TODO: here AppID will be override, should be fixed
+      store.dispatch(LangActionTypes.GetAppLangInfosByOtherApp, {
+        TargetAppID: selectedAppID.value,
         Message: {
           ModuleKey: ModuleKey.ModuleApplications,
           Error: {

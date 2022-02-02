@@ -29,9 +29,12 @@ const mutations: MutationTree<LanguagesState> & LanguageMutations = {
     }
   },
   [MutationTypes.SetAppLanguage] (state: LanguagesState, payload: AppLanguage) {
-    const appLanguages = state.AppLanguages.get(payload.AppID)
+    let appLanguages = state.AppLanguages.get(payload.AppID)
+    if (!appLanguages) {
+      appLanguages = [] as Array<AppLanguage>
+    }
     appLanguages?.push(payload)
-    state.AppLanguages.set(payload.AppID, appLanguages as Array<AppLanguage>)
+    state.AppLanguages.set(payload.AppID, appLanguages)
   },
   [MutationTypes.SetSelectedAppID] (state: LanguagesState, payload: string) {
     state.SelectedAppID = payload
