@@ -22,7 +22,7 @@
       </q-input>
       <q-input
         v-model='language.Short'
-        :label='$t("MSG_SHORT")'
+        :label='$t("MSG_SHORTNAME")'
       >
         <template #prepend>
           <q-icon name='window' />
@@ -31,7 +31,6 @@
       <q-input
         v-model='language.Logo'
         :label='$t("MSG_LOGO")'
-        type='textarea'
       >
         <template #prepend>
           <q-icon name='window' />
@@ -68,6 +67,7 @@ const emit = defineEmits<{(e: 'submit', info: Language): void,
 }>()
 
 watch(language, () => {
+  // TODO: fileter the list
   emit('update', language.value)
 })
 
@@ -80,7 +80,7 @@ onMounted(() => {
     Message: {
       ModuleKey: ModuleKey.ModuleInternationalization,
       Error: {
-        Title: t('MSG_GET_LANGUAGES_FAIL'),
+        Title: t('MSG_CREATE_LANGUAGE_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }

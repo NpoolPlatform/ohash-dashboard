@@ -25,12 +25,15 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, computed, ref, defineAsyncComponent } from 'vue'
+import { onMounted, computed, ref, defineAsyncComponent, onUnmounted } from 'vue'
 import { useStore } from 'src/store'
 import { ActionTypes as LangActionTypes } from 'src/store/languages/action-types'
 import { Language } from 'src/store/languages/types'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { useI18n } from 'vue-i18n'
+import { FunctionVoid } from 'src/types/types'
+import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
+import { notify, notificationPop } from 'src/store/notifications/helper'
 
 const CreateLang = defineAsyncComponent(() => import('src/components/lang/CreateLang.vue'))
 
@@ -42,7 +45,19 @@ const { t } = useI18n({ useScope: 'global' })
 const adding = ref(false)
 const languages = computed(() => store.getters.getLanguages)
 
+const unsubscribe = ref<FunctionVoid>()
+
 onMounted(() => {
+  unsubscribe.value = store.subscribe((mutation) => {
+    if (mutation.type === NotificationMutationTypes.Push) {
+      const notification = store.getters.peekNotification(ModuleKey.ModuleInternationalization)
+      if (notification) {
+        notify(notification)
+        store.commit(NotificationMutationTypes.Pop, notificationPop(notification))
+      }
+    }
+  })
+
   store.dispatch(LangActionTypes.GetLanguages, {
     Message: {
       ModuleKey: ModuleKey.ModuleInternationalization,
@@ -55,6 +70,10 @@ onMounted(() => {
   })
 })
 
+onUnmounted(() => {
+  unsubscribe.value?.()
+})
+
 const onCreateLanguageClick = () => {
   adding.value = true
 }
@@ -64,8 +83,18 @@ const onUpdate = (lang: Language) => {
 }
 
 const onSubmit = (lang: Language) => {
-  console.log('submit', lang)
   adding.value = false
+  store.dispatch(LangActionTypes.AddLanguage, {
+    Info: lang,
+    Message: {
+      ModuleKey: ModuleKey.ModuleInternationalization,
+      Error: {
+        Title: t('MSG_CREATE_LANGUAGE_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
 }
 
 </script>

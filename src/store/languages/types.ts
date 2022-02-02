@@ -36,11 +36,22 @@ interface GetAppLangInfosResponse {
   Infos: Array<AppLangInfo>
 }
 
+interface AddLanguageRequest {
+  Info: Language
+  Message: ReqMessage
+}
+
+interface AddLanguageResponse {
+  Info: Language
+}
+
 export {
   Language,
   GetLanguagesRequest,
   GetLanguagesResponse,
   AppLangInfo,
   GetAppLangInfosRequest,
-  GetAppLangInfosResponse
+  GetAppLangInfosResponse,
+  AddLanguageRequest,
+  AddLanguageResponse
 }

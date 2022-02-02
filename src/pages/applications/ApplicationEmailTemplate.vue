@@ -61,6 +61,7 @@ const selectedApp = computed(() => store.getters.getApplicationByID(selectedAppI
 const templates = computed(() => store.getters.getAppEmailTemplatesByApp(selectedAppID.value))
 
 const onRowClick = (index: number) => {
+  // TODO: popup with candidate update item
   console.log('click', index)
 }
 
@@ -69,6 +70,7 @@ const onCreateAppEmailTemplateClick = () => {
 }
 
 const onUpdate = (template: AppEmailTemplate) => {
+  // TODO: fileter the list
   console.log('update', template)
 }
 

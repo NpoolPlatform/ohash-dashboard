@@ -59,6 +59,7 @@ export default {
   MSG_CREATE_APP_EMAIL_TEMPLATE_FAIL: 'Cannot create app email template',
   MSG_GET_APP_LANG_INFOS_FAIL: 'Cannot get app lang infos',
   MSG_GET_LANGUAGES_FAIL: 'Cannot get languages',
+  MSG_CREATE_LANGUAGE_FAIL: 'Create language fail',
   MSG_COUNTRY: '国家',
   MSG_PROVINCE: '省',
   MSG_CITY: '城市',

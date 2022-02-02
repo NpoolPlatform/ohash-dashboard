@@ -1,6 +1,6 @@
 import { ActionTypes } from './action-types'
 import { MutationTypes } from './mutation-types'
-import { GetAppLangInfosRequest, GetAppLangInfosResponse, GetLanguagesRequest, GetLanguagesResponse } from './types'
+import { AddLanguageRequest, AddLanguageResponse, GetAppLangInfosRequest, GetAppLangInfosResponse, GetLanguagesRequest, GetLanguagesResponse } from './types'
 import { LanguagesState } from './state'
 import { ActionTree } from 'vuex'
 import { AugmentedActionContext, RootState } from '../index'
@@ -24,6 +24,14 @@ interface LanguageActions {
     RootState,
     LanguageMutations<LanguagesState>>,
     req: GetAppLangInfosRequest): void
+
+  [ActionTypes.AddLanguage]({
+    commit
+  }: AugmentedActionContext<
+    LanguagesState,
+    RootState,
+    LanguageMutations<LanguagesState>>,
+    req: AddLanguageRequest): void
 }
 
 const actions: ActionTree<LanguagesState, RootState> = {
@@ -49,6 +57,17 @@ const actions: ActionTree<LanguagesState, RootState> = {
       req.Message,
       (resp: GetAppLangInfosResponse): void => {
         commit(MutationTypes.SetAppLangInfos, resp.Infos)
+      })
+  },
+
+  [ActionTypes.AddLanguage] ({ commit }, req: AddLanguageRequest) {
+    doAction<AddLanguageRequest, AddLanguageResponse>(
+      commit,
+      API.ADD_LANGUAGE,
+      req,
+      req.Message,
+      (resp: AddLanguageResponse): void => {
+        commit(MutationTypes.SetLanguage, resp.Info)
       })
   }
 }
