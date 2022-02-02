@@ -104,7 +104,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const selectedApp = toRef(props, 'selectedApp')
-const languages = computed(() => store.getters.getLanguages)
+const languages = computed(() => store.getters.getAppLangInfosByApp(selectedApp.value?.App.ID))
 
 const selectedLang = ref({} as Language)
 const selectedLangName = computed(() => selectedLang.value.Name)
