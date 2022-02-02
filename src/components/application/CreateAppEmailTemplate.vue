@@ -107,26 +107,46 @@ const { t } = useI18n({ useScope: 'global' })
 
 interface Props {
   selectedApp?: Application
+  editTemplate?: AppEmailTemplate
 }
 
 const props = defineProps<Props>()
 
 const selectedApp = toRef(props, 'selectedApp')
+const editTemplate = toRef(props, 'editTemplate')
+
 const languages = computed(() => store.getters.getAppLangInfosByApp(selectedApp.value?.App.ID as string))
 
 const selectedLang = ref({} as Language)
 const selectedLangName = computed(() => selectedLang.value.Name)
 const selectedLangID = computed(() => selectedLang.value.ID)
 
-const replyTos = ref('')
-const ccTos = ref('')
-const sender = ref('')
-const subject = ref('')
-const body = ref('')
-const usedFor = ref('')
+const replyTos = computed(() => {
+  return editTemplate.value ? editTemplate.value.ReplyTos.join(',') : ''
+})
+const ccTos = computed(() => {
+  return editTemplate.value ? editTemplate.value.CCTos.join(',') : ''
+})
+const sender = computed(() => {
+  return editTemplate.value ? editTemplate.value.Sender : ''
+})
+const subject = computed(() => {
+  return editTemplate.value ? editTemplate.value.Subject : ''
+})
+const body = computed(() => {
+  return editTemplate.value ? editTemplate.value.Body : ''
+})
+const usedFor = computed(() => {
+  return editTemplate.value ? editTemplate.value.UsedFor : ''
+})
+
+const id = computed(() => {
+  return editTemplate.value ? editTemplate.value.ID : undefined
+})
 
 const template = computed(() => {
   return {
+    ID: id.value as string,
     AppID: selectedApp.value?.App.ID,
     LangID: selectedLangID.value,
     ReplyTos: replyTos.value.split(','),

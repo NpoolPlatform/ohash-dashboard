@@ -4,7 +4,7 @@
     dense
     :loading='loading'
     :rows='myTemplates'
-    @row-click='(evt, row, index) => onRowClick(index)'
+    @row-click='(evt, row, index) => onRowClick(row as AppEmailTemplate)'
   >
     <template #top-right>
       <div class='row'>
@@ -17,7 +17,7 @@
     </template>
   </q-table>
   <q-dialog
-    v-model='modifying'
+    v-model='modifing'
     position='right'
     full-width
     square
@@ -49,7 +49,10 @@ const store = useStore()
 const { t } = useI18n({ useScope: 'global' })
 
 const loading = ref(true)
-const modifying = ref(false)
+const adding = ref(false)
+const updating = ref(false)
+
+const modifing = computed(() => adding.value || updating.value)
 
 const selectedAppID = computed({
   get: () => store.getters.getAppEmailTemplateSelectedAppID,
@@ -88,13 +91,13 @@ const myTemplates = computed(() => {
   return tmps
 })
 
-const onRowClick = (index: number) => {
+const onRowClick = (row: AppEmailTemplate) => {
   // TODO: popup with candidate update item
-  console.log('click', index)
+  console.log('click', row)
 }
 
 const onCreateAppEmailTemplateClick = () => {
-  modifying.value = true
+  adding.value = true
 }
 
 const onUpdate = (template: AppEmailTemplate) => {
@@ -103,8 +106,15 @@ const onUpdate = (template: AppEmailTemplate) => {
 }
 
 const onSubmit = (template: AppEmailTemplate) => {
-  modifying.value = false
-  store.dispatch(AppEmailTemplateActionTypes.CreateAppEmailTemplate, {
+  let action = AppEmailTemplateActionTypes.CreateAppEmailTemplate
+  if (updating.value) {
+    action = AppEmailTemplateActionTypes.UpdateAppEmailTemplate
+  }
+
+  adding.value = false
+  updating.value = false
+
+  store.dispatch(action, {
     Info: template,
     Message: {
       ModuleKey: ModuleKey.ModuleApplications,
@@ -133,8 +143,8 @@ onMounted(() => {
 
   unsubscribe.value = store.subscribe((mutation) => {
     if (mutation.type === AppEmailTemplateMutationTypes.SetAppEmailTemplateSelectedAppID) {
-      store.dispatch(AppEmailTemplateActionTypes.GetAppEmailTemplatesByApp, {
-        AppID: selectedAppID.value,
+      store.dispatch(AppEmailTemplateActionTypes.GetAppEmailTemplatesByOtherApp, {
+        TargetAppID: selectedAppID.value,
         Message: {
           ModuleKey: ModuleKey.ModuleApplications,
           Error: {

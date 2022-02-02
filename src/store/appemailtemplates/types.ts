@@ -39,6 +39,15 @@ interface CreateAppEmailTemplateResponse {
   Info: AppEmailTemplate
 }
 
+interface UpdateAppEmailTemplateRequest {
+  Info: AppEmailTemplate
+  Message: ReqMessage
+}
+
+interface UpdateAppEmailTemplateResponse {
+  Info: AppEmailTemplate
+}
+
 export {
   AppEmailTemplate,
   GetAppEmailTemplatesByAppRequest,
@@ -46,5 +55,7 @@ export {
   GetAppEmailTemplatesByOtherAppRequest,
   GetAppEmailTemplatesByOtherAppResponse,
   CreateAppEmailTemplateRequest,
-  CreateAppEmailTemplateResponse
+  CreateAppEmailTemplateResponse,
+  UpdateAppEmailTemplateRequest,
+  UpdateAppEmailTemplateResponse
 }

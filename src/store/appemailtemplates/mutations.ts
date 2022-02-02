@@ -20,7 +20,19 @@ const mutations: MutationTree<AppEmailTemplatesState> & AppEmailTemplateMutation
     if (!templates) {
       templates = [] as Array<AppEmailTemplate>
     }
-    templates.push(payload)
+    let pos = -1
+    for (let i = 0; i < templates.length; i++) {
+      if (templates[pos].ID === payload.ID) {
+        pos = i
+        break
+      }
+    }
+
+    if (pos >= 0) {
+      templates.splice(pos, 1, payload)
+    } else {
+      templates.push(payload)
+    }
     state.AppEmailTemplates.set(payload.AppID, templates)
   },
   [MutationTypes.SetAppEmailTemplateSelectedAppID] (state: AppEmailTemplatesState, payload: string): void {
