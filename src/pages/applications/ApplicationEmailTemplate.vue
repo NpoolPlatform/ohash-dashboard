@@ -3,7 +3,7 @@
     flat
     dense
     :loading='loading'
-    :rows='templates'
+    :rows='myTemplates'
     @row-click='(evt, row, index) => onRowClick(index)'
   >
     <template #top-right>
@@ -59,6 +59,34 @@ const selectedAppID = computed({
 })
 const selectedApp = computed(() => store.getters.getApplicationByID(selectedAppID.value))
 const templates = computed(() => store.getters.getAppEmailTemplatesByApp(selectedAppID.value))
+
+interface MyTemplate {
+  ID?: string
+  AppID: string
+  LangID: string
+  UsedFor: string
+  Sender: string
+  Subject: string
+  Body: string
+}
+const myTemplates = computed(() => {
+  if (!templates.value) {
+    return [] as Array<MyTemplate>
+  }
+  const tmps = [] as Array<MyTemplate>
+  templates.value.forEach(elem => {
+    tmps.push({
+      ID: elem.ID,
+      AppID: elem.AppID,
+      LangID: elem.LangID,
+      UsedFor: elem.UsedFor,
+      Sender: elem.Sender,
+      Subject: elem.Subject,
+      Body: elem.Body
+    } as MyTemplate)
+  })
+  return tmps
+})
 
 const onRowClick = (index: number) => {
   // TODO: popup with candidate update item

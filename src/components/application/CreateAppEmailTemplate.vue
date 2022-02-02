@@ -31,6 +31,14 @@
         </q-list>
       </q-btn-dropdown>
       <q-input
+        v-model='sender'
+        :label='$t("MSG_SENDER")'
+      >
+        <template #prepend>
+          <q-icon name='window' />
+        </template>
+      </q-input>
+      <q-input
         v-model='replyTos'
         :label='$t("MSG_REPLY_TO")'
       >
@@ -47,7 +55,7 @@
         </template>
       </q-input>
       <q-input
-        v-model='template.Subject'
+        v-model='subject'
         :label='$t("MSG_SUBJECT")'
       >
         <template #prepend>
@@ -55,7 +63,7 @@
         </template>
       </q-input>
       <q-input
-        v-model='template.Body'
+        v-model='body'
         :label='$t("MSG_BODY")'
         type='textarea'
       >
@@ -64,7 +72,7 @@
         </template>
       </q-input>
       <q-input
-        v-model='template.UsedFor'
+        v-model='usedFor'
         :label='$t("MSG_USED_FOR")'
       >
         <template #prepend>
@@ -112,13 +120,21 @@ const selectedLangID = computed(() => selectedLang.value.ID)
 
 const replyTos = ref('')
 const ccTos = ref('')
+const sender = ref('')
+const subject = ref('')
+const body = ref('')
+const usedFor = ref('')
 
 const template = computed(() => {
   return {
     AppID: selectedApp.value?.App.ID,
     LangID: selectedLangID.value,
     ReplyTos: replyTos.value.split(','),
-    CCTos: ccTos.value.split(',')
+    CCTos: ccTos.value.split(','),
+    Sender: sender.value,
+    Subject: subject.value,
+    Body: body.value,
+    UsedFor: usedFor.value
   } as AppEmailTemplate
 })
 
