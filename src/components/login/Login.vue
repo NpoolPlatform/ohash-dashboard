@@ -47,6 +47,7 @@ import { MutationTypes as NotificationMutationTypes } from 'src/store/notificati
 import { notificationPop, notify } from 'src/store/notifications/helper'
 import { useI18n } from 'vue-i18n'
 import { encryptPassword } from 'src/utils/utils'
+import { GoogleToken } from 'src/store/user-helper/types'
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
@@ -95,7 +96,8 @@ onMounted(() => {
     }
 
     if (mutation.type === UserMutationTypes.SetGoogleToken) {
-      if (mutation.payload === '') {
+      const token = mutation.payload as GoogleToken
+      if (token.Token === '') {
         return
       }
 
@@ -103,7 +105,7 @@ onMounted(() => {
       store.dispatch(UserActionTypes.Login, {
         Account: account.value,
         PasswordHash: encryptPassword(password.value),
-        ManMachineSpec: mutation.payload as string,
+        ManMachineSpec: token.Token,
         LoginType: LoginType.USERNAME,
         Message: {
           ModuleKey: ModuleKey.ModuleLogin,
