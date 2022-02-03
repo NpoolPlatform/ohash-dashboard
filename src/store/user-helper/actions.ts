@@ -59,7 +59,10 @@ const actions: ActionTree<UserState, RootState> = {
           if (loaded) {
             void executeRecaptcha(req.Req)
               .then((token) => {
-                commit(MutationTypes.SetGoogleToken, token)
+                commit(MutationTypes.SetGoogleToken, {
+                  Req: req.Req,
+                  Token: token
+                })
                 if (waitingNotification) {
                   commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
                 }

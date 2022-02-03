@@ -9,10 +9,15 @@ enum LoginType {
   USERNAME = 'username'
 }
 
+enum GoogleTokenReq {
+  Login = 'login'
+}
+
 const GoogleRecaptchaKey = '6Lcg4yIeAAAAANIyLz_mbENlYRSkK1C_aQkejb_4'
 
 export {
   API,
   LoginType,
-  GoogleRecaptchaKey
+  GoogleRecaptchaKey,
+  GoogleTokenReq
 }

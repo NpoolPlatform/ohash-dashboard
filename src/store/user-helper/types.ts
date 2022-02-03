@@ -76,9 +76,15 @@ interface GetGoogleTokenRequest {
   Message: ReqMessage
 }
 
+interface GoogleToken {
+  Req: string
+  Token: string
+}
+
 export {
   LoginRequest,
   LoginResponse,
   UserInfo,
-  GetGoogleTokenRequest
+  GetGoogleTokenRequest,
+  GoogleToken
 }

@@ -40,7 +40,7 @@ import { useReCaptcha } from 'vue-recaptcha-v3'
 import { useStore } from '../../store'
 import { ActionTypes as UserActionTypes } from '../../store/user-helper/action-types'
 import { MutationTypes as UserMutationTypes } from '../../store/user-helper/mutation-types'
-import { LoginType } from '../../store/user-helper/const'
+import { GoogleTokenReq, LoginType } from '../../store/user-helper/const'
 import { FunctionVoid } from '../../types/types'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
@@ -59,9 +59,12 @@ const router = useRouter()
 const recaptcha = useReCaptcha()
 
 const googleToken = computed({
-  get: () => store.getters.getGoogleToken,
+  get: () => store.getters.getGoogleToken(GoogleTokenReq.Login),
   set: (val) => {
-    store.commit(UserMutationTypes.SetGoogleToken, val)
+    store.commit(UserMutationTypes.SetGoogleToken, {
+      Req: GoogleTokenReq.Login,
+      Token: val
+    })
   }
 })
 
@@ -72,7 +75,7 @@ const onLoginClick = () => {
   store.dispatch(UserActionTypes.GetGoogleToken,
     {
       Recaptcha: recaptcha,
-      Req: 'login',
+      Req: GoogleTokenReq.Login,
       Message: {
         ModuleKey: ModuleKey.ModuleLogin,
         Error: {

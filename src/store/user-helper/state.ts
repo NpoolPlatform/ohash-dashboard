@@ -2,13 +2,13 @@ import { UserInfo } from './types'
 
 interface UserState {
   LoginedUser: UserInfo
-  GoogleToken: string
+  GoogleToken: Map<string, string>
 }
 
 function state (): UserState {
   return {
     LoginedUser: {},
-    GoogleToken: ''
+    GoogleToken: new Map<string, string>()
   }
 }
 

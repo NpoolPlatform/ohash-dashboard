@@ -6,13 +6,17 @@ import { UserInfo } from './types'
 type UserGetters = {
   getLoginedUser (state: UserState): UserInfo
   getLogined (state: UserState): boolean
-  getGoogleToken (state: UserState): string
+  getGoogleToken (state: UserState): (req: string) => string
 }
 
 const getters: GetterTree<UserState, RootState> & UserGetters = {
   getLoginedUser: (state: UserState): UserInfo => state.LoginedUser,
   getLogined: (state: UserState): boolean => state.LoginedUser.User !== undefined,
-  getGoogleToken: (state: UserState): string => state.GoogleToken
+  getGoogleToken: (state: UserState): (req: string) => string => {
+    return (req: string) => {
+      return state.GoogleToken.get(req) as string
+    }
+  }
 }
 
 export { UserGetters, getters }
