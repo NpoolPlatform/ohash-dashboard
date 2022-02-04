@@ -4,6 +4,7 @@
     dense
     :loading='loading'
     :rows='myApps'
+    @row-click='(evt, row, index) => onRowClick(row as App)'
   >
     <template #top-right>
       <div class='row'>
@@ -15,13 +16,13 @@
     </template>
   </q-table>
   <q-dialog
-    v-model='creating'
+    v-model='modifying'
     position='right'
     full-width
     square
     no-shake
   >
-    <CreateApplication @update='onUpdate' @submit='onSubmit' />
+    <CreateApplication :selected-app='selectedApp' @update='onUpdate' @submit='onSubmit' />
   </q-dialog>
 </template>
 
@@ -36,7 +37,7 @@ import { ModuleKey, Type as NotificationType } from 'src/store/notifications/con
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { notify, notificationPop } from 'src/store/notifications/helper'
 import { FunctionVoid } from 'src/types/types'
-import { App } from 'src/store/applications/types'
+import { App, Application } from 'src/store/applications/types'
 
 const CreateApplication = defineAsyncComponent(() => import('src/components/application/CreateApplication.vue'))
 
@@ -55,20 +56,48 @@ const myApps = computed(() => {
 
 const loading = ref(true)
 const creating = ref(false)
+const updating = ref(false)
+const modifying = ref(false)
+const selectedApp = ref({} as Application)
 
-const onUpdate = (appLanguage: App) => {
+const onUpdate = (app: Application) => {
   // TODO: fileter the list
-  console.log('update', appLanguage)
+  console.log('update', app)
 }
 
-const onSubmit = (appLanguage: App) => {
+const onSubmit = (app: Application) => {
+  let appAction = ApplicationActionTypes.CreateApplication
+  let appCtrlAction = ApplicationActionTypes.CreateAppControl
+
+  if (updating.value) {
+    appAction = ApplicationActionTypes.UpdateApplication
+    if (selectedApp.value.Ctrl) {
+      appCtrlAction = ApplicationActionTypes.UpdateAppControl
+    }
+  }
+
   creating.value = false
-  store.dispatch(ApplicationActionTypes.CreateApplication, {
-    Info: appLanguage,
+  updating.value = false
+  modifying.value = false
+
+  store.dispatch(appAction, {
+    Info: app.App,
     Message: {
       ModuleKey: ModuleKey.ModuleApplications,
       Error: {
         Title: t('MSG_CREATE_APPLICATION_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+
+  store.dispatch(appCtrlAction, {
+    Info: app.Ctrl,
+    Message: {
+      ModuleKey: ModuleKey.ModuleApplications,
+      Error: {
+        Title: t('MSG_CREATE_APPLICATION_CONTROL_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
@@ -124,7 +153,18 @@ onUnmounted(() => {
 })
 
 const onCreateApplication = () => {
+  modifying.value = true
   creating.value = true
+}
+
+const onRowClick = (app: App) => {
+  applications.value.forEach((application) => {
+    if (application.App.ID === app.ID) {
+      selectedApp.value = application
+    }
+  })
+  modifying.value = true
+  updating.value = true
 }
 
 </script>

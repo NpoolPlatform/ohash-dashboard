@@ -1,11 +1,12 @@
 import { MutationTree } from 'vuex'
 import { MutationTypes } from './mutation-types'
 import { ApplicationsState } from './state'
-import { App, Application } from './types'
+import { App, AppControl, Application, BanApp } from './types'
 
 type ApplicationMutations<S = ApplicationsState> = {
   [MutationTypes.SetApplications] (state: S, payload: Array<Application>): void
   [MutationTypes.SetApplication] (state: S, payload: App): void
+  [MutationTypes.SetAppControl] (state: S, payload: AppControl): void
 }
 
 const mutations: MutationTree<ApplicationsState> & ApplicationMutations = {
@@ -17,6 +18,21 @@ const mutations: MutationTree<ApplicationsState> & ApplicationMutations = {
 
   [MutationTypes.SetApplication] (state: ApplicationsState, payload: App) {
     state.Apps.set(payload.ID, payload)
+    const app = state.Applications.get(payload.ID)
+    state.Applications.set(payload.ID, {
+      App: payload,
+      Ctrl: app?.Ctrl as AppControl,
+      Ban: app?.Ban as BanApp
+    })
+  },
+
+  [MutationTypes.SetAppControl] (state: ApplicationsState, payload: AppControl): void {
+    const app = state.Applications.get(payload.AppID)
+    state.Applications.set(payload.ID, {
+      App: app?.App as App,
+      Ctrl: payload,
+      Ban: app?.Ban as BanApp
+    })
   }
 }
 

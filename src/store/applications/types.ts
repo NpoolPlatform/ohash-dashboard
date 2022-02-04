@@ -17,6 +17,7 @@ interface AppControl {
   RecaptchaMethod: string
   KycEnable: boolean
   SigninVerifyEnable: boolean
+  InvitationCodeMust: boolean
 }
 
 interface BanApp {
@@ -48,11 +49,46 @@ interface CreateApplicationResponse {
   Info: App
 }
 
+interface UpdateApplicationRequest {
+  Info: App
+  Message: ReqMessage
+}
+
+interface UpdateApplicationResponse {
+  Info: App
+}
+
+interface UpdateAppControlRequest {
+  Info: AppControl
+  Message: ReqMessage
+}
+
+interface UpdateAppControlResponse {
+  Info: AppControl
+}
+
+interface CreateAppControlRequest {
+  Info: AppControl
+  Message: ReqMessage
+}
+
+interface CreateAppControlResponse {
+  Info: AppControl
+}
+
 export {
   App,
+  AppControl,
+  BanApp,
   Application,
   GetApplicationsRequest,
   GetApplicationsResponse,
   CreateApplicationRequest,
-  CreateApplicationResponse
+  CreateApplicationResponse,
+  UpdateApplicationRequest,
+  UpdateApplicationResponse,
+  UpdateAppControlRequest,
+  UpdateAppControlResponse,
+  CreateAppControlRequest,
+  CreateAppControlResponse
 }

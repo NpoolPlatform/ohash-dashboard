@@ -62,6 +62,7 @@ export default {
   MSG_GET_LANGUAGES_FAIL: 'Cannot get languages',
   MSG_CREATE_LANGUAGE_FAIL: 'Create language fail',
   MSG_CREATE_APPLICATION_FAIL: 'Cannot create application',
+  MSG_CREATE_APPLICATION_CONTROL_FAIL: 'Cannot create application control',
   MSG_CREATE_COIN_FAIL: 'Cannot create coin',
   MSG_COUNTRY: '国家',
   MSG_PROVINCE: '省',
@@ -102,5 +103,11 @@ export default {
   MSG_DESCRIPTION: '描述',
   MSG_NO_VALID_COININFO: '没有有效的币种信息',
   MSG_UNIT: '单位',
-  MSG_CREATE_COININFO: '创建币种'
+  MSG_CREATE_COININFO: '创建币种',
+  MSG_KYC_ENABLE: '启用身份认证',
+  MSG_SIGNIN_VERIFY_ENABLE: '启用登录二次验证',
+  MSG_INVITATION_CODE_MUST: '注册邀请码必填',
+  MSG_SIGNUP_METHODS: '注册方法',
+  MSG_EXTERN_SIGNIN_METHODS: '登录方法',
+  MSG_RECAPTCHA_METHOD: '人机验证方法'
 }
