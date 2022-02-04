@@ -103,6 +103,7 @@ export default {
   MSG_DESCRIPTION: '描述',
   MSG_NO_VALID_COININFO: '没有有效的币种信息',
   MSG_UNIT: '单位',
+  MSG_DEFAULT_TO_USERNAME: '默认抬头称呼',
   MSG_CREATE_COININFO: '创建币种',
   MSG_KYC_ENABLE: '启用身份认证',
   MSG_SIGNIN_VERIFY_ENABLE: '启用登录二次验证',

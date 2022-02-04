@@ -4,6 +4,7 @@ interface AppEmailTemplate {
   ID?: string
   AppID: string
   LangID: string
+  DefaultToUsername: string
   UsedFor: string
   Sender: string
   ReplyTos: Array<string>

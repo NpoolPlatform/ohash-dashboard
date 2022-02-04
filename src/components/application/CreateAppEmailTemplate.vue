@@ -39,6 +39,14 @@
         </template>
       </q-input>
       <q-input
+        v-model='defaultToUsername'
+        :label='$t("MSG_DEFAULT_TO_USERNAME")'
+      >
+        <template #prepend>
+          <q-icon name='window' />
+        </template>
+      </q-input>
+      <q-input
         v-model='replyTos'
         :label='$t("MSG_REPLY_TO")'
       >
@@ -162,6 +170,11 @@ const editTemplateUsedFor = computed(() => {
   return editTemplate.value ? editTemplate.value.UsedFor : ''
 })
 const usedFor = ref(editTemplateUsedFor.value)
+
+const editTemplateDefaultToUsername = computed(() => {
+  return editTemplate.value ? editTemplate.value.DefaultToUsername : ''
+})
+const defaultToUsername = ref(editTemplateDefaultToUsername.value)
 
 const editTemplateID = computed(() => {
   return editTemplate.value ? editTemplate.value.ID : undefined

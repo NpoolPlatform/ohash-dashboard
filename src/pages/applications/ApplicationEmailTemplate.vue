@@ -77,6 +77,7 @@ interface MyTemplate {
   Sender: string
   Subject: string
   Body: string
+  DefaultToUsername: string
 }
 const myTemplates = computed(() => {
   if (!templates.value) {
@@ -91,7 +92,8 @@ const myTemplates = computed(() => {
       UsedFor: elem.UsedFor,
       Sender: elem.Sender,
       Subject: elem.Subject,
-      Body: elem.Body
+      Body: elem.Body,
+      DefaultToUsername: elem.DefaultToUsername
     } as MyTemplate)
   })
   return tmps
