@@ -191,7 +191,8 @@ const template = computed(() => {
     Sender: sender.value,
     Subject: subject.value,
     Body: body.value,
-    UsedFor: usedFor.value
+    UsedFor: usedFor.value,
+    DefaultToUsername: defaultToUsername.value
   } as AppEmailTemplate
 })
 

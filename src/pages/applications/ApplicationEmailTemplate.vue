@@ -4,7 +4,7 @@
     dense
     :loading='loading'
     :rows='myTemplates'
-    @row-click='(evt, row, index) => onRowClick(row as AppEmailTemplate)'
+    @row-click='(evt, row, index) => onRowClick(row as MyTemplate)'
   >
     <template #top-right>
       <div class='row'>
@@ -100,8 +100,16 @@ const myTemplates = computed(() => {
   return tmps
 })
 
-const onRowClick = (row: AppEmailTemplate) => {
-  selectedTemplate.value = row
+const onRowClick = (row: MyTemplate) => {
+  let template = {} as AppEmailTemplate
+
+  templates.value.forEach((tmp) => {
+    if (tmp.ID === row.ID) {
+      template = tmp
+    }
+  })
+
+  selectedTemplate.value = template
   updating.value = true
   modifying.value = true
 }
