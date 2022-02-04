@@ -21,6 +21,7 @@
     full-width
     square
     no-shake
+    @hide='onMenuHide'
   >
     <CreateApplication :selected-app='selectedApp' @update='onUpdate' @submit='onSubmit' />
   </q-dialog>
@@ -165,6 +166,12 @@ const onRowClick = (app: App) => {
   })
   modifying.value = true
   updating.value = true
+}
+
+const onMenuHide = () => {
+  creating.value = false
+  updating.value = false
+  modifying.value = false
 }
 
 </script>

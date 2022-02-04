@@ -17,11 +17,12 @@
     </template>
   </q-table>
   <q-dialog
-    v-model='modifing'
+    v-model='modifying'
     position='right'
     full-width
     square
     no-shake
+    @hide='onMenuHide'
   >
     <CreateAppSMSTemplate
       v-model:edit-template='selectedTemplate'
@@ -56,7 +57,7 @@ const { t } = useI18n({ useScope: 'global' })
 const loading = ref(true)
 const adding = ref(false)
 const updating = ref(false)
-const modifing = ref(false)
+const modifying = ref(false)
 
 const selectedAppID = computed({
   get: () => store.getters.getAppSMSTemplateSelectedAppID,
@@ -99,13 +100,13 @@ const myTemplates = computed(() => {
 const onRowClick = (row: AppSMSTemplate) => {
   selectedTemplate.value = row
   updating.value = true
-  modifing.value = true
+  modifying.value = true
 }
 
 const onCreateAppSMSTemplateClick = () => {
   selectedTemplate.value = undefined
   adding.value = true
-  modifing.value = true
+  modifying.value = true
 }
 
 const onUpdate = (template: AppSMSTemplate) => {
@@ -121,7 +122,7 @@ const onSubmit = (template: AppSMSTemplate) => {
 
   adding.value = false
   updating.value = false
-  modifing.value = false
+  modifying.value = false
 
   store.dispatch(action, {
     Info: template,
@@ -178,5 +179,11 @@ onMounted(() => {
     }
   })
 })
+
+const onMenuHide = () => {
+  adding.value = false
+  updating.value = false
+  modifying.value = false
+}
 
 </script>
