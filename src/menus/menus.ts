@@ -27,6 +27,14 @@ const MainDrawerMenus = [
         children: []
       }, {
         menuId: 1,
+        label: '应用短信模板',
+        caption: '管理应用短信模板',
+        icon: 'perm_identity',
+        target: '/applications/sms/template',
+        level: 1,
+        children: []
+      }, {
+        menuId: 1,
         label: '应用邮件模板',
         caption: '管理应用邮件模板',
         icon: 'perm_identity',

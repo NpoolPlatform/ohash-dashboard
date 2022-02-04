@@ -109,5 +109,6 @@ export default {
   MSG_INVITATION_CODE_MUST: '注册邀请码必填',
   MSG_SIGNUP_METHODS: '注册方法',
   MSG_EXTERN_SIGNIN_METHODS: '登录方法',
-  MSG_RECAPTCHA_METHOD: '人机验证方法'
+  MSG_RECAPTCHA_METHOD: '人机验证方法',
+  MSG_CREATE_APP_SMS_TEMPLATE: '创建短信模板'
 }

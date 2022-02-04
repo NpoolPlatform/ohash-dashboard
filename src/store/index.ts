@@ -98,6 +98,14 @@ import {
   AppEmailTemplateActions
 } from './appemailtemplates'
 
+import {
+  appSMSTemplates,
+  AppSMSTemplatesState,
+  AppSMSTemplateMutations,
+  AppSMSTemplateGetters,
+  AppSMSTemplateActions
+} from './appsmstemplates'
+
 // 2 combine your store to root store
 export interface RootState {
   user: UserState,
@@ -111,6 +119,7 @@ export interface RootState {
   kyc: KYCsState
   apis: APIsState
   appEmailTemplates: AppEmailTemplatesState
+  appSMSTemplates: AppSMSTemplatesState
 }
 
 // 3 combine your actions, mutations and getters to root, if have multi use & combin
@@ -124,7 +133,8 @@ type Actions =
   LanguageActions &
   KYCActions &
   APIActions &
-  AppEmailTemplateActions
+  AppEmailTemplateActions &
+  AppSMSTemplateActions
 type Mutations =
   UserMutations &
   MainBreadcrumbsMutations &
@@ -136,7 +146,8 @@ type Mutations =
   LanguageMutations &
   KYCMutations &
   APIMutations &
-  AppEmailTemplateMutations
+  AppEmailTemplateMutations &
+  AppSMSTemplateMutations
 type Getters =
   UserGetters &
   MainBreadcrumbsGetters &
@@ -148,7 +159,8 @@ type Getters =
   LanguageGetters &
   KYCGetters &
   APIGetters &
-  AppEmailTemplateGetters
+  AppEmailTemplateGetters &
+  AppSMSTemplateGetters
 
 // 4 attach your module to root
 export default store(function (/* { ssrContext } */) {
@@ -164,7 +176,8 @@ export default store(function (/* { ssrContext } */) {
       languages,
       kyc,
       apis,
-      appEmailTemplates
+      appEmailTemplates,
+      appSMSTemplates
     },
 
     // enable strict mode (adds overhead!)

@@ -345,7 +345,7 @@ const onSubmit = () => {
     SeparateFee: mySeparateFee.value,
     UnitPower: myUnitPower.value,
     DurationDays: myDurationDays.value,
-    CoinInfoID: coinID.value,
+    CoinInfoID: coinID.value as string,
     Actuals: myActuals.value,
     DeliveryAt: myDeliveryAt.value,
     InheritFromGoodID: DefaultID,
