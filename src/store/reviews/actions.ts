@@ -67,7 +67,7 @@ const actions: ActionTree<ReviewsState, RootState> = {
   [ActionTypes.UpdateReview] ({ commit }, req: UpdateReviewRequest) {
     doAction<UpdateReviewRequest, UpdateReviewResponse>(
       commit,
-      API.GET_GOOD_REVIEWS,
+      API.UPDATE_REVIEW,
       req,
       req.Message,
       (resp: UpdateReviewResponse): void => {

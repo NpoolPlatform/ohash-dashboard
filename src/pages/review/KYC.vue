@@ -159,8 +159,8 @@ const onReviewReject = (message: string) => {
   reviewing.value = false
   store.dispatch(ReviewActionTypes.UpdateReview, {
     Info: {
-      ID: kycReview.value?.Review.ID as string,
-      ReviewerID: store.getters.getLoginedUser.User?.ID,
+      ID: kycReview.value.Review.ID as string,
+      ReviewerID: store.getters.getLoginedUser.User.ID,
       State: State.Rejected,
       Message: message
     },
