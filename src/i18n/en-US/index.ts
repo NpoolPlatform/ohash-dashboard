@@ -4,6 +4,7 @@
 export default {
   MSG_USERNAME: 'Username',
   MSG_ACCOUNT: 'Account',
+  MSG_ACCOUNT_TYPE: 'Account Type',
   MSG_FIRSTNAME: 'First Name',
   MSG_LASTNAME: 'Last Name',
   MSG_DISPLAYNAME: 'Display Name',

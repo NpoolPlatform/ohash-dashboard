@@ -10,7 +10,7 @@
       <div class='row'>
         <q-space />
         <q-btn dense @click='onCreateAppContactClick'>
-          {{ $t('MSG_CREATE_APP_SMS_TEMPLATE') }}
+          {{ $t('MSG_CREATE_APP_CONTACT') }}
         </q-btn>
         <ApplicationSelector v-model:selected-app-id='selectedAppID' />
       </div>
@@ -25,7 +25,7 @@
     @hide='onMenuHide'
   >
     <CreateAppContact
-      v-model:edit-template='selectedContact'
+      v-model:edit-contact='selectedContact'
       v-model:selected-app='selectedApp'
       @update='onUpdate'
       @submit='onSubmit'

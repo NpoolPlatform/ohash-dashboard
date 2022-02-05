@@ -18,7 +18,6 @@
       <q-input
         v-model='accountType'
         :label='$t("MSG_ACCOUNT_TYPE")'
-        type='textarea'
       >
         <template #prepend>
           <q-icon name='window' />
