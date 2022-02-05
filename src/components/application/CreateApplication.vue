@@ -38,9 +38,8 @@
         {{ externSigninMethods }}
       </q-item-label>
       <q-input
-        v-model='recaptchaMethod'
+        v-model='myRecaptchaMethod'
         :label='$t("MSG_RECAPTCHA_METHOD")'
-        type='textarea'
       >
         <template #prepend>
           <q-icon name='window' />
@@ -99,6 +98,7 @@ const invitationCodeMust = computed(() => appControl.value.InvitationCodeMust ? 
 const myKycEnable = ref(kycEnable.value)
 const mySigninVerifyEnable = ref(signinVerifyEnable.value)
 const myInvitationCodeMust = ref(invitationCodeMust.value)
+const myRecaptchaMethod = ref(recaptchaMethod.value)
 
 const store = useStore()
 
@@ -122,7 +122,7 @@ const application = computed(() => {
       AppID: selectedApp.value && selectedApp.value.App ? selectedApp.value.App.ID : undefined,
       SignupMethods: signupMethods.value.split(','),
       ExternSigninMethods: externSigninMethods.value.split(','),
-      RecaptchaMethod: recaptchaMethod.value,
+      RecaptchaMethod: myRecaptchaMethod.value,
       KycEnable: myKycEnable.value,
       SigninVerifyEnable: mySigninVerifyEnable.value,
       InvitationCodeMust: myInvitationCodeMust.value
