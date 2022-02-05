@@ -53,7 +53,7 @@
 <script setup lang='ts'>
 import { defineProps, toRef, computed, defineEmits, watch, ref } from 'vue'
 import { Application } from 'src/store/applications/types'
-import { AppContact } from 'src/store/AppContacts/types'
+import { AppContact } from 'src/store/appcontacts/types'
 
 interface Props {
   selectedApp?: Application
