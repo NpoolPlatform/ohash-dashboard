@@ -24,6 +24,14 @@
         </template>
       </q-input>
       <q-input
+        v-model='sender'
+        :label='$t("MSG_SENDER")'
+      >
+        <template #prepend>
+          <q-icon name='window' />
+        </template>
+      </q-input>
+      <q-input
         v-model='usedFor'
         :label='$t("MSG_USED_FOR")'
       >
@@ -62,6 +70,11 @@ const editContactAccount = computed(() => {
 })
 const account = ref(editContactAccount.value)
 
+const editContactSender = computed(() => {
+  return editContact.value ? editContact.value.Sender : ''
+})
+const sender = ref(editContactSender.value)
+
 const editContactAccountType = computed(() => {
   return editContact.value ? editContact.value.AccountType : ''
 })
@@ -83,7 +96,8 @@ const template = computed(() => {
     AppID: selectedApp.value?.App.ID,
     Account: account.value,
     AccountType: accountType.value,
-    UsedFor: usedFor.value
+    UsedFor: usedFor.value,
+    Sender: sender.value
   } as AppContact
 })
 

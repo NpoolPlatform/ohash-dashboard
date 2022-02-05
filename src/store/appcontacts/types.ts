@@ -6,6 +6,7 @@ interface AppContact {
   UsedFor: string
   Account: string
   AccountType: string
+  Sender: string
 }
 
 interface GetAppContactsByAppRequest {
