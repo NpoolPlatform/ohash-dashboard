@@ -42,6 +42,8 @@ interface AppUserExtra {
   Birthday: number
   Avatar: string
   Organization: string
+  FirstName: string
+  LastName: string
 }
 
 interface AppUserControl {

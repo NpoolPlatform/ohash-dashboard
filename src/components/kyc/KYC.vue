@@ -2,41 +2,38 @@
   <q-card class='container'>
     <q-list>
       <q-item>
-        {{ $t('MSG_USERNAME') }}: {{ kycReview.User.Username }}
+        {{ $t('MSG_USERNAME') }}: {{ kycReview.User.Extra?.Username }}
       </q-item>
       <q-item>
-        {{ $t('MSG_FIRSTNAME') }}: {{ kycReview.User.FirstName }}
+        {{ $t('MSG_FIRSTNAME') }}: {{ kycReview.User.Extra?.FirstName }}
       </q-item>
       <q-item>
-        {{ $t('MSG_LASTNAME') }}: {{ kycReview.User.LastName }}
+        {{ $t('MSG_LASTNAME') }}: {{ kycReview.User.Extra?.LastName }}
       </q-item>
       <q-item>
-        {{ $t('MSG_DISPLAYNAME') }}: {{ kycReview.User.DisplayName }}
+        {{ $t('MSG_PHONENO') }}: {{ kycReview.User.User?.PhoneNO }}
       </q-item>
       <q-item>
-        {{ $t('MSG_PHONENO') }}: {{ kycReview.User.PhoneNO }}
+        {{ $t('MSG_EMAIL_ADDRESS') }}: {{ kycReview.User.User?.EmailAddress }}
       </q-item>
       <q-item>
-        {{ $t('MSG_EMAIL_ADDRESS') }}: {{ kycReview.User.EmailAddress }}
-      </q-item>
-      <q-item>
-        {{ $t('MSG_REGISTER_AT') }}: {{ kycReview.User.CreateAt }}
+        {{ $t('MSG_REGISTER_AT') }}: {{ kycReview.User.User?.CreateAt }}
       </q-item>
       <q-item>
         {{ $t('MSG_SUBMIT_AT') }}: {{ kycReview.Review.CreateAt }}
       </q-item>
       <q-item>
-        <q-img class='kyc-image rounded-borders' :src='frontImg' :ratio='1'>
+        <q-img class='kyc-image rounded-borders' :src='(frontImg as string | undefined)' :ratio='1'>
           <div class='absolute-bottom text-subtitle1 text-center'>
             {{ $t('MSG_FRONT') }}
           </div>
         </q-img>
-        <q-img class='kyc-image rounded-borders' :src='backImg' :ratio='1'>
+        <q-img class='kyc-image rounded-borders' :src='(backImg as string | undefined)' :ratio='1'>
           <div class='absolute-bottom text-subtitle1 text-center'>
             {{ $t('MSG_BACK') }}
           </div>
         </q-img>
-        <q-img class='kyc-image rounded-borders' :src='handingImg' :ratio='1'>
+        <q-img class='kyc-image rounded-borders' :src='(handingImg as string | undefined)' :ratio='1'>
           <div class='absolute-bottom text-subtitle1 text-center'>
             {{ $t('MSG_HANDING') }}
           </div>
