@@ -37,9 +37,15 @@
       <q-item-label :label='$t("MSG_EXTERN_SIGNIN_METHODS")'>
         {{ externSigninMethods }}
       </q-item-label>
-      <q-item-label :label='$t("MSG_RECAPTCHA_METHOD")'>
-        {{ recaptchaMethod }}
-      </q-item-label>
+      <q-input
+        v-model='recaptchaMethod'
+        :label='$t("MSG_RECAPTCHA_METHOD")'
+        type='textarea'
+      >
+        <template #prepend>
+          <q-icon name='window' />
+        </template>
+      </q-input>
       <q-toggle
         v-model='myKycEnable' :label='$t("MSG_KYC_ENABLE")' dense
       />
