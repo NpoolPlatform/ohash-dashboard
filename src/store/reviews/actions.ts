@@ -1,8 +1,8 @@
 import { ActionTypes } from './action-types'
 import { MutationTypes } from './mutation-types'
 import {
-  GetKYCReviewsRequest,
-  GetKYCReviewsResponse,
+  GetKYCReviewsByOtherAppRequest,
+  GetKYCReviewsByOtherAppResponse,
   GetGoodReviewsRequest,
   GetGoodReviewsResponse,
   UpdateReviewRequest,
@@ -12,21 +12,17 @@ import { ReviewsState } from './state'
 import { ActionTree } from 'vuex'
 import { AugmentedActionContext, RootState } from '../index'
 import { ReviewMutations } from './mutations'
-import { notificationPush, notificationPop } from '../notifications/helper'
-import { MutationTypes as NotificationMutationTypes } from '../notifications/mutation-types'
-import { Notification } from '../notifications/types'
-import { api } from 'src/boot/axios'
 import { API } from './const'
-import { AxiosResponse } from 'axios'
+import { doAction } from '../action'
 
 interface ReviewActions {
-  [ActionTypes.GetKYCReviews]({
+  [ActionTypes.GetKYCReviewsByOtherApp]({
     commit
   }: AugmentedActionContext<
   ReviewsState,
     RootState,
     ReviewMutations<ReviewsState>>,
-    req: GetKYCReviewsRequest): void
+    req: GetKYCReviewsByOtherAppRequest): void
 
   [ActionTypes.GetGoodReviews]({
     commit
@@ -46,75 +42,36 @@ interface ReviewActions {
 }
 
 const actions: ActionTree<ReviewsState, RootState> = {
-  [ActionTypes.GetKYCReviews] ({ commit }, req: GetKYCReviewsRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<GetKYCReviewsRequest, AxiosResponse<GetKYCReviewsResponse>>(API.GET_KYC_REVIEWS, req)
-      .then((response: AxiosResponse<GetKYCReviewsResponse>) => {
-        commit(MutationTypes.SetKYCReviews, response.data.Infos)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+  [ActionTypes.GetKYCReviewsByOtherApp] ({ commit }, req: GetKYCReviewsByOtherAppRequest) {
+    doAction<GetKYCReviewsByOtherAppRequest, GetKYCReviewsByOtherAppResponse>(
+      commit,
+      API.GET_KYC_REVIEWS_BY_OTHER_APP,
+      req,
+      req.Message,
+      (resp: GetKYCReviewsByOtherAppResponse): void => {
+        commit(MutationTypes.SetKYCReviews, resp.Infos)
       })
   },
 
   [ActionTypes.GetGoodReviews] ({ commit }, req: GetGoodReviewsRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<GetGoodReviewsRequest, AxiosResponse<GetGoodReviewsResponse>>(API.GET_GOOD_REVIEWS, req)
-      .then((response: AxiosResponse<GetGoodReviewsResponse>) => {
-        commit(MutationTypes.SetGoodReviews, response.data.Infos)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+    doAction<GetGoodReviewsRequest, GetGoodReviewsResponse>(
+      commit,
+      API.GET_GOOD_REVIEWS,
+      req,
+      req.Message,
+      (resp: GetGoodReviewsResponse): void => {
+        commit(MutationTypes.SetGoodReviews, resp.Infos)
       })
   },
 
   [ActionTypes.UpdateReview] ({ commit }, req: UpdateReviewRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<UpdateReviewRequest, AxiosResponse<UpdateReviewResponse>>(API.UPDATE_REVIEW, req)
-      .then((response: AxiosResponse<UpdateReviewResponse>) => {
-        commit(MutationTypes.UpdateReview, response.data.Info)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+    doAction<UpdateReviewRequest, UpdateReviewResponse>(
+      commit,
+      API.GET_GOOD_REVIEWS,
+      req,
+      req.Message,
+      (resp: UpdateReviewResponse): void => {
+        commit(MutationTypes.UpdateReview, resp.Info)
       })
   }
 }

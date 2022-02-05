@@ -21,12 +21,12 @@ interface KYCReview {
   User: UserInfo
 }
 
-interface GetKYCReviewsResponse {
+interface GetKYCReviewsByOtherAppResponse {
   Infos: ReadonlyArray<KYCReview>
 }
 
-interface GetKYCReviewsRequest {
-  AppID: string
+interface GetKYCReviewsByOtherAppRequest {
+  TargetAppID: string
   Message: ReqMessage
 }
 
@@ -55,8 +55,8 @@ interface UpdateReviewResponse {
 export {
   Review,
   KYCReview,
-  GetKYCReviewsRequest,
-  GetKYCReviewsResponse,
+  GetKYCReviewsByOtherAppRequest,
+  GetKYCReviewsByOtherAppResponse,
   GoodReview,
   GetGoodReviewsRequest,
   GetGoodReviewsResponse,

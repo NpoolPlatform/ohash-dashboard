@@ -86,8 +86,8 @@ onMounted(() => {
   unsubscribe.value = store.subscribe((mutation) => {
     if (mutation.type === ReviewMutationTypes.SetKYCSelectedAppID) {
       kycReviewsLoading.value = true
-      store.dispatch(ReviewActionTypes.GetKYCReviews, {
-        AppID: selectedAppID.value,
+      store.dispatch(ReviewActionTypes.GetKYCReviewsByOtherApp, {
+        TargetAppID: selectedAppID.value,
         Message: {
           ModuleKey: ModuleKey.ModuleReviews,
           Error: {
