@@ -43,6 +43,14 @@ const MainDrawerMenus = [
         children: []
       }, {
         menuId: 1,
+        label: '应用内联系',
+        caption: '管理应用内联系地址',
+        icon: 'perm_identity',
+        target: '/applications/contacts',
+        level: 1,
+        children: []
+      }, {
+        menuId: 1,
         label: '国际化',
         caption: '管理应用支持语言',
         icon: 'perm_identity',

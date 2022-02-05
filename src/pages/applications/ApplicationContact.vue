@@ -3,13 +3,13 @@
     flat
     dense
     :loading='loading'
-    :rows='templates'
-    @row-click='(evt, row, index) => onRowClick(row as AppSMSTemplate)'
+    :rows='contacts'
+    @row-click='(evt, row, index) => onRowClick(row as AppContact)'
   >
     <template #top-right>
       <div class='row'>
         <q-space />
-        <q-btn dense @click='onCreateAppSMSTemplateClick'>
+        <q-btn dense @click='onCreateAppContactClick'>
           {{ $t('MSG_CREATE_APP_SMS_TEMPLATE') }}
         </q-btn>
         <ApplicationSelector v-model:selected-app-id='selectedAppID' />
@@ -24,8 +24,8 @@
     no-shake
     @hide='onMenuHide'
   >
-    <CreateAppSMSTemplate
-      v-model:edit-template='selectedTemplate'
+    <CreateAppContact
+      v-model:edit-template='selectedContact'
       v-model:selected-app='selectedApp'
       @update='onUpdate'
       @submit='onSubmit'
@@ -43,12 +43,12 @@ import { ModuleKey, Type as NotificationType } from 'src/store/notifications/con
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { notify, notificationPop } from 'src/store/notifications/helper'
 import { FunctionVoid } from 'src/types/types'
-import { MutationTypes as AppSMSTemplateMutationTypes } from 'src/store/appsmstemplates/mutation-types'
-import { ActionTypes as AppSMSTemplateActionTypes } from 'src/store/appsmstemplates/action-types'
-import { AppSMSTemplate } from 'src/store/appsmstemplates/types'
+import { MutationTypes as AppContactMutationTypes } from 'src/store/appcontacts/mutation-types'
+import { ActionTypes as AppContactActionTypes } from 'src/store/appcontacts/action-types'
+import { AppContact } from 'src/store/appcontacts/types'
 
 const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
-const CreateAppSMSTemplate = defineAsyncComponent(() => import('src/components/application/CreateAppSMSTemplate.vue'))
+const CreateAppContact = defineAsyncComponent(() => import('src/components/application/CreateAppContact.vue'))
 
 const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -60,37 +60,37 @@ const updating = ref(false)
 const modifying = ref(false)
 
 const selectedAppID = computed({
-  get: () => store.getters.getAppSMSTemplateSelectedAppID,
+  get: () => store.getters.getAppContactSelectedAppID,
   set: (val) => {
-    store.commit(AppSMSTemplateMutationTypes.SetAppSMSTemplateSelectedAppID, val)
+    store.commit(AppContactMutationTypes.SetAppContactSelectedAppID, val)
   }
 })
 const selectedApp = computed(() => store.getters.getApplicationByID(selectedAppID.value))
-const templates = computed(() => store.getters.getAppSMSTemplatesByApp(selectedAppID.value))
+const contacts = computed(() => store.getters.getAppContactsByApp(selectedAppID.value))
 
-const selectedTemplate = ref()
+const selectedContact = ref()
 
-const onRowClick = (row: AppSMSTemplate) => {
-  selectedTemplate.value = row
+const onRowClick = (row: AppContact) => {
+  selectedContact.value = row
   updating.value = true
   modifying.value = true
 }
 
-const onCreateAppSMSTemplateClick = () => {
-  selectedTemplate.value = undefined
+const onCreateAppContactClick = () => {
+  selectedContact.value = undefined
   adding.value = true
   modifying.value = true
 }
 
-const onUpdate = (template: AppSMSTemplate) => {
+const onUpdate = (contact: AppContact) => {
   // TODO: fileter the list
-  console.log('update', template)
+  console.log('update', contact)
 }
 
-const onSubmit = (template: AppSMSTemplate) => {
-  let action = AppSMSTemplateActionTypes.CreateAppSMSTemplate
+const onSubmit = (contact: AppContact) => {
+  let action = AppContactActionTypes.CreateAppContact
   if (updating.value) {
-    action = AppSMSTemplateActionTypes.UpdateAppSMSTemplate
+    action = AppContactActionTypes.UpdateAppContact
   }
 
   adding.value = false
@@ -98,11 +98,11 @@ const onSubmit = (template: AppSMSTemplate) => {
   modifying.value = false
 
   store.dispatch(action, {
-    Info: template,
+    Info: contact,
     Message: {
       ModuleKey: ModuleKey.ModuleApplications,
       Error: {
-        Title: t('MSG_CREATE_APP_SMS_TEMPLATE_FAIL'),
+        Title: t('MSG_CREATE_APP_CONTACT_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
@@ -125,13 +125,13 @@ onMounted(() => {
   })
 
   unsubscribe.value = store.subscribe((mutation) => {
-    if (mutation.type === AppSMSTemplateMutationTypes.SetAppSMSTemplateSelectedAppID) {
-      store.dispatch(AppSMSTemplateActionTypes.GetAppSMSTemplatesByOtherApp, {
+    if (mutation.type === AppContactMutationTypes.SetAppContactSelectedAppID) {
+      store.dispatch(AppContactActionTypes.GetAppContactsByOtherApp, {
         TargetAppID: selectedAppID.value,
         Message: {
           ModuleKey: ModuleKey.ModuleApplications,
           Error: {
-            Title: t('MSG_GET_APP_SMS_TEMPLATES_FAIL'),
+            Title: t('MSG_GET_APP_CONTACTS_FAIL'),
             Popup: true,
             Type: NotificationType.Error
           }
@@ -139,7 +139,7 @@ onMounted(() => {
       })
     }
 
-    if (mutation.type === AppSMSTemplateMutationTypes.SetAppSMSTemplatesByApp) {
+    if (mutation.type === AppContactMutationTypes.SetAppContactsByApp) {
       loading.value = false
     }
 

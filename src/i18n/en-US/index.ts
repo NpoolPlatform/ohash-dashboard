@@ -64,6 +64,8 @@ export default {
   MSG_CREATE_APPLICATION_FAIL: 'Cannot create application',
   MSG_CREATE_APPLICATION_CONTROL_FAIL: 'Cannot create application control',
   MSG_CREATE_COIN_FAIL: 'Cannot create coin',
+  MSG_CREATE_APP_CONTACT_FAIL: 'Cannot create app contact',
+  MSG_GET_APP_CONTACTS_FAIL: 'Cannot get app contacts',
   MSG_COUNTRY: '国家',
   MSG_PROVINCE: '省',
   MSG_CITY: '城市',
@@ -111,5 +113,6 @@ export default {
   MSG_SIGNUP_METHODS: '注册方法',
   MSG_EXTERN_SIGNIN_METHODS: '登录方法',
   MSG_RECAPTCHA_METHOD: '人机验证方法',
-  MSG_CREATE_APP_SMS_TEMPLATE: '创建短信模板'
+  MSG_CREATE_APP_SMS_TEMPLATE: '创建短信模板',
+  MSG_CREATE_APP_CONTACT: '创建应用内联系地址'
 }
