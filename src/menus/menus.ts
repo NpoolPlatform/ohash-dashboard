@@ -120,6 +120,22 @@ const MainDrawerMenus = [
         children: []
       }, {
         menuId: uid(),
+        label: '角色用户',
+        caption: '管理角色用户',
+        icon: 'format_list_numbered',
+        target: '/users/roleusers',
+        level: 1,
+        children: []
+      }, {
+        menuId: uid(),
+        label: '角色授权',
+        caption: '管理角色访问权限',
+        icon: 'format_list_numbered',
+        target: '/users/roleauths',
+        level: 1,
+        children: []
+      }, {
+        menuId: uid(),
         label: '鉴权历史',
         caption: '查看鉴权历史',
         icon: 'format_list_numbered',

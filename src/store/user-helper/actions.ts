@@ -5,7 +5,15 @@ import { MutationTypes } from './mutation-types'
 import { UserMutations } from './mutations'
 import { UserState } from './state'
 import { api } from 'src/boot/axios'
-import { LoginRequest, LoginResponse, GetGoogleTokenRequest, GetAppUserInfosByOtherAppRequest, GetAppUserInfosByOtherAppResponse } from './types'
+import {
+  LoginRequest,
+  LoginResponse,
+  GetGoogleTokenRequest,
+  GetAppUserInfosByOtherAppRequest,
+  GetAppUserInfosByOtherAppResponse,
+  GetAppRoleUsersByOtherAppRequest,
+  GetAppRoleUsersByOtherAppResponse
+} from './types'
 import { API } from './const'
 import { MutationTypes as NotificationMutationTypes } from '../notifications/mutation-types'
 import { notificationPush, notificationPop } from '../notifications/helper'
@@ -28,6 +36,14 @@ interface UserActions {
     RootState,
     UserMutations<UserState>>,
     req: GetAppUserInfosByOtherAppRequest): void
+
+  [ActionTypes.GetAppRoleUsersByOtherApp]({
+    commit
+  }: AugmentedActionContext<
+    UserState,
+    RootState,
+    UserMutations<UserState>>,
+    req: GetAppRoleUsersByOtherAppRequest): void
 
   [ActionTypes.GetGoogleToken]({
     commit
@@ -61,6 +77,17 @@ const actions: ActionTree<UserState, RootState> = {
       req.Message,
       (resp: GetAppUserInfosByOtherAppResponse): void => {
         commit(MutationTypes.SetAppUserInfos, resp.Infos)
+      })
+  },
+
+  [ActionTypes.GetAppRoleUsersByOtherApp] ({ commit }, req: GetAppRoleUsersByOtherAppRequest) {
+    doAction<GetAppRoleUsersByOtherAppRequest, GetAppRoleUsersByOtherAppResponse>(
+      commit,
+      API.GET_APP_ROLE_USERS_BY_OTHER_APP,
+      req,
+      req.Message,
+      (resp: GetAppRoleUsersByOtherAppResponse): void => {
+        commit(MutationTypes.SetAppRoleUsers, resp.Infos)
       })
   },
 

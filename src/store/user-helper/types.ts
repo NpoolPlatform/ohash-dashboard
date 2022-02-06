@@ -92,14 +92,33 @@ interface GetAppUserInfosByOtherAppResponse {
   Infos: Array<UserInfo>
 }
 
+interface AppRoleUser {
+  ID: string
+  AppID: string
+  RoleID: string
+  UserID: string
+}
+
+interface GetAppRoleUsersByOtherAppRequest {
+  TargetAppID: string
+  Message: ReqMessage
+}
+
+interface GetAppRoleUsersByOtherAppResponse {
+  Infos: Array<AppRoleUser>
+}
+
 export {
   LoginRequest,
   LoginResponse,
   AppUser,
   AppRole,
+  AppRoleUser,
   UserInfo,
   GetGoogleTokenRequest,
   GoogleToken,
   GetAppUserInfosByOtherAppRequest,
-  GetAppUserInfosByOtherAppResponse
+  GetAppUserInfosByOtherAppResponse,
+  GetAppRoleUsersByOtherAppRequest,
+  GetAppRoleUsersByOtherAppResponse
 }
