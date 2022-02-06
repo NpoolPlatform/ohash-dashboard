@@ -26,7 +26,8 @@ const routes: RouteRecordRaw[] = [
 
       // User list
       { path: 'users/users', component: () => import('pages/users/Users.vue') },
-      { path: 'users/roles', component: () => import('pages/users/Roles.vue') }
+      { path: 'users/roles', component: () => import('pages/users/Roles.vue') },
+      { path: 'users/auth/histories', component: () => import('pages/users/AuthHistories.vue') }
     ]
   },
 

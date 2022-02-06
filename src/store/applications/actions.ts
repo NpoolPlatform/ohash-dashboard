@@ -1,6 +1,6 @@
 import { ActionTypes } from './action-types'
 import { MutationTypes } from './mutation-types'
-import { CreateAppControlRequest, CreateAppControlResponse, CreateApplicationRequest, CreateApplicationResponse, GetApplicationsRequest, GetApplicationsResponse, UpdateAppControlRequest, UpdateAppControlResponse, UpdateApplicationRequest, UpdateApplicationResponse } from './types'
+import { CreateAppControlRequest, CreateAppControlResponse, CreateApplicationRequest, CreateApplicationResponse, GetApplicationsRequest, GetApplicationsResponse, GetAuthHistoriesByOtherAppRequest, GetAuthHistoriesByOtherAppResponse, UpdateAppControlRequest, UpdateAppControlResponse, UpdateApplicationRequest, UpdateApplicationResponse } from './types'
 import { ApplicationsState } from './state'
 import { ActionTree } from 'vuex'
 import { AugmentedActionContext, RootState } from '../index'
@@ -41,13 +41,21 @@ interface ApplicationActions {
     ApplicationMutations<ApplicationsState>>,
     req: CreateAppControlRequest): void
 
-    [ActionTypes.UpdateAppControl]({
-      commit
-    }: AugmentedActionContext<
-      ApplicationsState,
-      RootState,
-      ApplicationMutations<ApplicationsState>>,
-      req: UpdateAppControlRequest): void
+  [ActionTypes.UpdateAppControl]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationsState,
+    RootState,
+    ApplicationMutations<ApplicationsState>>,
+    req: UpdateAppControlRequest): void
+
+  [ActionTypes.GetAuthHistoriesByOtherApp]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationsState,
+    RootState,
+    ApplicationMutations<ApplicationsState>>,
+    req: GetAuthHistoriesByOtherAppRequest): void
 }
 
 const actions: ActionTree<ApplicationsState, RootState> = {
@@ -103,6 +111,17 @@ const actions: ActionTree<ApplicationsState, RootState> = {
       req.Message,
       (resp: CreateAppControlResponse): void => {
         commit(MutationTypes.SetAppControl, resp.Info)
+      })
+  },
+
+  [ActionTypes.GetAuthHistoriesByOtherApp] ({ commit }, req: GetAuthHistoriesByOtherAppRequest) {
+    doAction<GetAuthHistoriesByOtherAppRequest, GetAuthHistoriesByOtherAppResponse>(
+      commit,
+      API.GET_AUTH_HISTORIES_BY_OTHER_APP,
+      req,
+      req.Message,
+      (resp: GetAuthHistoriesByOtherAppResponse): void => {
+        commit(MutationTypes.SetAuthHistories, resp.Infos)
       })
   }
 }

@@ -118,6 +118,14 @@ const MainDrawerMenus = [
         target: '/users/roles',
         level: 1,
         children: []
+      }, {
+        menuId: uid(),
+        label: '鉴权历史',
+        caption: '查看鉴权历史',
+        icon: 'format_list_numbered',
+        target: '/users/auth/histories',
+        level: 1,
+        children: []
       }
     ]
   }, {

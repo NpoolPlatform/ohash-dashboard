@@ -3,7 +3,7 @@
     flat
     dense
     :loading='loading'
-    :rows='myUsers'
+    :rows='histories'
   >
     <template #top-right>
       <div class='row'>
@@ -18,11 +18,9 @@
 import { onMounted, computed, ref, defineAsyncComponent, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'src/store'
-import { ActionTypes as UserActionTypes } from 'src/store/user-helper/action-types'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { FunctionVoid } from 'src/types/types'
-import { MutationTypes as UserMutationTypes } from 'src/store/user-helper/mutation-types'
-import { AppUser } from 'src/store/user-helper/types'
+import { MutationTypes as ApplicationMutationTypes } from 'src/store/applications/mutation-types'
 import { ActionTypes as ApplicationActionTypes } from 'src/store/applications/action-types'
 
 const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
@@ -32,34 +30,24 @@ const store = useStore()
 const { t } = useI18n({ useScope: 'global' })
 
 const selectedAppID = computed({
-  get: () => store.getters.getUserSelectedAppID,
+  get: () => store.getters.getAppSelectedAppID,
   set: (val) => {
-    store.commit(UserMutationTypes.SetSelectedAppID, val)
+    store.commit(ApplicationMutationTypes.SetSelectedAppID, val)
   }
 })
-const users = computed(() => store.getters.getAppUserInfosByAppID(selectedAppID.value))
-const myUsers = computed(() => {
-  const allUsers = [] as Array<AppUser>
-  if (users.value) {
-    users.value.forEach((user) => {
-      allUsers.push(user.User as AppUser)
-    })
-  }
-  return allUsers
-})
-
+const histories = computed(() => store.getters.getAuthHitoriesByAppID(selectedAppID.value))
 const loading = ref(false)
 
 const unsubscribe = ref<FunctionVoid>()
 
 watch(selectedAppID, () => {
   loading.value = true
-  store.dispatch(UserActionTypes.GetAppUserInfosByOtherApp, {
+  store.dispatch(ApplicationActionTypes.GetAuthHistoriesByOtherApp, {
     TargetAppID: selectedAppID.value,
     Message: {
       ModuleKey: ModuleKey.ModuleUsers,
       Error: {
-        Title: t('MSG_GET_APP_USER_INFOS_FAIL'),
+        Title: t('MSG_GET_APP_AUTH_HISTORIES_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
@@ -80,7 +68,7 @@ onMounted(() => {
   })
 
   unsubscribe.value = store.subscribe((mutation) => {
-    if (mutation.type === UserMutationTypes.SetAppUserInfos) {
+    if (mutation.type === ApplicationMutationTypes.SetAuthHistories) {
       loading.value = false
     }
   })

@@ -59,6 +59,8 @@ export default {
   MSG_GET_APP_EMAIL_TEMPLATES_FAIL: 'Cannot get app email templates',
   MSG_CREATE_APP_EMAIL_TEMPLATE_FAIL: 'Cannot create app email template',
   MSG_GET_APP_LANG_INFOS_FAIL: 'Cannot get app lang infos',
+  MSG_GET_APP_USER_INFOS_FAIL: 'Cannot get app user infos',
+  MSG_GET_APP_AUTH_HISTORIES_FAIL: 'Cannot get app auth histories',
   MSG_CREATE_APP_LANG_FAIL: 'Cannot create app lang',
   MSG_GET_LANGUAGES_FAIL: 'Cannot get languages',
   MSG_CREATE_LANGUAGE_FAIL: 'Create language fail',
