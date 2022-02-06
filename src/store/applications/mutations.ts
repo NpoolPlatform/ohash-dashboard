@@ -1,4 +1,5 @@
 import { MutationTree } from 'vuex'
+import { AppRole } from '../user-helper/types'
 import { MutationTypes } from './mutation-types'
 import { ApplicationsState } from './state'
 import { App, AppControl, Application, AuthHistory, BanApp } from './types'
@@ -8,6 +9,7 @@ type ApplicationMutations<S = ApplicationsState> = {
   [MutationTypes.SetApplication] (state: S, payload: App): void
   [MutationTypes.SetAppControl] (state: S, payload: AppControl): void
   [MutationTypes.SetAuthHistories] (state: S, payload: Array<AuthHistory>): void
+  [MutationTypes.SetAppRoles] (state: S, payload: Array<AppRole>): void
   [MutationTypes.SetSelectedAppID] (state: S, payload: string): void
 }
 
@@ -40,6 +42,12 @@ const mutations: MutationTree<ApplicationsState> & ApplicationMutations = {
   [MutationTypes.SetAuthHistories] (state: ApplicationsState, payload: Array<AuthHistory>): void {
     if (payload.length > 0) {
       state.AuthHistories.set(payload[0].AppID, payload)
+    }
+  },
+
+  [MutationTypes.SetAppRoles] (state: ApplicationsState, payload: Array<AppRole>): void {
+    if (payload.length > 0) {
+      state.AppRoles.set(payload[0].AppID, payload)
     }
   },
 

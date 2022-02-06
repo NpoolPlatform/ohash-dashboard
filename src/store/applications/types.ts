@@ -1,4 +1,5 @@
 import { ReqMessage } from '../notifications/types'
+import { AppRole } from '../user-helper/types'
 
 interface App {
   ID: string
@@ -95,6 +96,25 @@ interface GetAuthHistoriesByOtherAppResponse {
   Infos: Array<AuthHistory>
 }
 
+interface GetAppRolesByOtherAppRequest {
+  TargetAppID: string
+  Message: ReqMessage
+}
+
+interface GetAppRolesByOtherAppResponse {
+  Infos: Array<AppRole>
+}
+
+interface CreateAppRoleForOtherAppRequest {
+  TargetAppID: string
+  Message: ReqMessage
+  Info: AppRole
+}
+
+interface CreateAppRoleForOtherAppResponse {
+  Info: AppRole
+}
+
 export {
   App,
   AppControl,
@@ -112,5 +132,9 @@ export {
   CreateAppControlResponse,
   AuthHistory,
   GetAuthHistoriesByOtherAppRequest,
-  GetAuthHistoriesByOtherAppResponse
+  GetAuthHistoriesByOtherAppResponse,
+  GetAppRolesByOtherAppRequest,
+  GetAppRolesByOtherAppResponse,
+  CreateAppRoleForOtherAppRequest,
+  CreateAppRoleForOtherAppResponse
 }

@@ -1,6 +1,23 @@
 import { ActionTypes } from './action-types'
 import { MutationTypes } from './mutation-types'
-import { CreateAppControlRequest, CreateAppControlResponse, CreateApplicationRequest, CreateApplicationResponse, GetApplicationsRequest, GetApplicationsResponse, GetAuthHistoriesByOtherAppRequest, GetAuthHistoriesByOtherAppResponse, UpdateAppControlRequest, UpdateAppControlResponse, UpdateApplicationRequest, UpdateApplicationResponse } from './types'
+import {
+  CreateAppControlRequest,
+  CreateAppControlResponse,
+  CreateApplicationRequest,
+  CreateApplicationResponse,
+  CreateAppRoleForOtherAppRequest,
+  CreateAppRoleForOtherAppResponse,
+  GetApplicationsRequest,
+  GetApplicationsResponse,
+  GetAppRolesByOtherAppRequest,
+  GetAppRolesByOtherAppResponse,
+  GetAuthHistoriesByOtherAppRequest,
+  GetAuthHistoriesByOtherAppResponse,
+  UpdateAppControlRequest,
+  UpdateAppControlResponse,
+  UpdateApplicationRequest,
+  UpdateApplicationResponse
+} from './types'
 import { ApplicationsState } from './state'
 import { ActionTree } from 'vuex'
 import { AugmentedActionContext, RootState } from '../index'
@@ -56,6 +73,22 @@ interface ApplicationActions {
     RootState,
     ApplicationMutations<ApplicationsState>>,
     req: GetAuthHistoriesByOtherAppRequest): void
+
+  [ActionTypes.GetAppRolesByOtherApp]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationsState,
+    RootState,
+    ApplicationMutations<ApplicationsState>>,
+    req: GetAppRolesByOtherAppRequest): void
+
+  [ActionTypes.CreateAppRoleForOtherApp]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationsState,
+    RootState,
+    ApplicationMutations<ApplicationsState>>,
+    req: CreateAppRoleForOtherAppRequest): void
 }
 
 const actions: ActionTree<ApplicationsState, RootState> = {
@@ -122,6 +155,34 @@ const actions: ActionTree<ApplicationsState, RootState> = {
       req.Message,
       (resp: GetAuthHistoriesByOtherAppResponse): void => {
         commit(MutationTypes.SetAuthHistories, resp.Infos)
+      })
+  },
+
+  [ActionTypes.GetAppRolesByOtherApp] ({ commit }, req: GetAppRolesByOtherAppRequest) {
+    doAction<GetAppRolesByOtherAppRequest, GetAppRolesByOtherAppResponse>(
+      commit,
+      API.GET_APP_ROLES_BY_OTHER_APP,
+      req,
+      req.Message,
+      (resp: GetAppRolesByOtherAppResponse): void => {
+        commit(MutationTypes.SetAppRoles, resp.Infos)
+      })
+  },
+
+  [ActionTypes.CreateAppRoleForOtherApp] ({ commit }, req: CreateAppRoleForOtherAppRequest) {
+    let url = API.CREATE_APP_ROLE_FOR_OTHER_APP
+    if (req.Info.ID && req.Info.ID !== '') {
+      url = API.UPDATE_APP_ROLE
+    }
+
+    doAction<CreateAppRoleForOtherAppRequest, CreateAppRoleForOtherAppResponse>(
+      commit,
+      url,
+      req,
+      req.Message,
+      (resp: CreateAppRoleForOtherAppResponse): void => {
+        // commit(MutationTypes.SetAppRoles, resp.Info)
+        console.log('CREATED', resp.Info)
       })
   }
 }

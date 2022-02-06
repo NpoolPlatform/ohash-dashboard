@@ -1,4 +1,5 @@
 import { AppID } from 'src/const/const'
+import { AppRole } from '../user-helper/types'
 import { App, Application, AuthHistory } from './types'
 
 interface ApplicationsState {
@@ -6,6 +7,7 @@ interface ApplicationsState {
   Apps: Map<string, App>
   AuthHistories: Map<string, Array<AuthHistory>>
   SelectedAppID: string
+  AppRoles: Map<string, Array<AppRole>>
 }
 
 function state (): ApplicationsState {
@@ -13,7 +15,8 @@ function state (): ApplicationsState {
     Applications: new Map<string, Application>(),
     Apps: new Map<string, App>(),
     AuthHistories: new Map<string, Array<AuthHistory>>(),
-    SelectedAppID: AppID
+    SelectedAppID: AppID,
+    AppRoles: new Map<string, Array<AppRole>>()
   }
 }
 

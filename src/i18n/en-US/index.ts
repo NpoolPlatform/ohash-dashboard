@@ -61,6 +61,7 @@ export default {
   MSG_GET_APP_LANG_INFOS_FAIL: 'Cannot get app lang infos',
   MSG_GET_APP_USER_INFOS_FAIL: 'Cannot get app user infos',
   MSG_GET_APP_AUTH_HISTORIES_FAIL: 'Cannot get app auth histories',
+  MSG_GET_APP_ROLES_FAIL: 'Cannot get app roles',
   MSG_CREATE_APP_LANG_FAIL: 'Cannot create app lang',
   MSG_GET_LANGUAGES_FAIL: 'Cannot get languages',
   MSG_CREATE_LANGUAGE_FAIL: 'Create language fail',
@@ -69,6 +70,7 @@ export default {
   MSG_CREATE_COIN_FAIL: 'Cannot create coin',
   MSG_CREATE_APP_CONTACT_FAIL: 'Cannot create app contact',
   MSG_GET_APP_CONTACTS_FAIL: 'Cannot get app contacts',
+  MSG_CREATE_ROLE_FAIL: 'Cannot create app role',
   MSG_COUNTRY: '国家',
   MSG_PROVINCE: '省',
   MSG_CITY: '城市',
@@ -117,5 +119,9 @@ export default {
   MSG_EXTERN_SIGNIN_METHODS: '登录方法',
   MSG_RECAPTCHA_METHOD: '人机验证方法',
   MSG_CREATE_APP_SMS_TEMPLATE: '创建短信模板',
-  MSG_CREATE_APP_CONTACT: '创建应用内联系地址'
+  MSG_CREATE_APP_CONTACT: '创建应用内联系地址',
+  MSG_CREATE_ROLE: '创建角色',
+  MSG_CREATEOR: '创建者',
+  MSG_ROLE: '角色',
+  MSG_DEFAULT: '默认'
 }

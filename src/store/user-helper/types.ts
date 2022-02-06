@@ -96,6 +96,7 @@ export {
   LoginRequest,
   LoginResponse,
   AppUser,
+  AppRole,
   UserInfo,
   GetGoogleTokenRequest,
   GoogleToken,
