@@ -12,7 +12,6 @@ const routes: RouteRecordRaw[] = [
 
       // Review pages
       { path: 'review/kyc', component: () => import('pages/review/KYC.vue') },
-      { path: 'review/api', component: () => import('pages/review/API.vue') },
       { path: 'review/good', component: () => import('pages/review/Good.vue') },
 
       // Applications page
@@ -20,7 +19,13 @@ const routes: RouteRecordRaw[] = [
       { path: 'applications/email/template', component: () => import('pages/applications/ApplicationEmailTemplate.vue') },
       { path: 'applications/sms/template', component: () => import('pages/applications/ApplicationSMSTemplate.vue') },
       { path: 'applications/contacts', component: () => import('pages/applications/ApplicationContact.vue') },
-      { path: 'applications/languages', component: () => import('pages/applications/ApplicationLanguages.vue') }
+      { path: 'applications/languages', component: () => import('pages/applications/ApplicationLanguages.vue') },
+
+      // API list
+      { path: 'apis', component: () => import('pages/API.vue') },
+
+      // User list
+      { path: 'users', component: () => import('pages/Users.vue') }
     ]
   },
 

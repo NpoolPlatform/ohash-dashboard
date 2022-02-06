@@ -83,10 +83,22 @@ interface GoogleToken {
   Token: string
 }
 
+interface GetAppUserInfosByOtherAppRequest {
+  TargetAppID: string
+  Message: ReqMessage
+}
+
+interface GetAppUserInfosByOtherAppResponse {
+  Infos: Array<UserInfo>
+}
+
 export {
   LoginRequest,
   LoginResponse,
+  AppUser,
   UserInfo,
   GetGoogleTokenRequest,
-  GoogleToken
+  GoogleToken,
+  GetAppUserInfosByOtherAppRequest,
+  GetAppUserInfosByOtherAppResponse
 }

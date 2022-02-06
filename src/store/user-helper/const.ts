@@ -1,6 +1,7 @@
 enum API {
   LOGIN = '/login-gateway/v1/login',
-  LOGOUT = '/login-gateway/v1/logout'
+  LOGOUT = '/login-gateway/v1/logout',
+  GET_APP_USER_INFOS_BY_OTHER_APP = '/appuser-manager/v1/get/app/userinfos/by/other/app'
 }
 
 enum LoginType {

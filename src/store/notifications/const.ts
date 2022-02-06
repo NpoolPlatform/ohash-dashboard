@@ -3,7 +3,8 @@ enum ModuleKey {
   ModuleApplications = 'applications',
   ModuleReviews = 'reviews',
   ModuleGoods = 'goods',
-  ModuleInternationalization = 'internationalization'
+  ModuleInternationalization = 'internationalization',
+  ModuleUsers = 'users'
 }
 
 enum Type {
