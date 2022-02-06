@@ -125,5 +125,6 @@ export default {
   MSG_ROLE: '角色',
   MSG_DEFAULT: '默认',
   MSG_USER_SURFIX: '的用户',
-  MSG_APP_USER: 'APP的用户'
+  MSG_APP_USER: 'APP的用户',
+  MSG_ADD: '添加'
 }

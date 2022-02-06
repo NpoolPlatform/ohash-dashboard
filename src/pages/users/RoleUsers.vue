@@ -30,7 +30,16 @@
         selection='multiple'
         :title='t("MSG_APP_USER")'
         :rows='myAppUsers'
-      />
+      >
+        <template #top-right>
+          <div class='row'>
+            <q-space />
+            <q-btn dense @click='onAddUsersToRole'>
+              {{ $t('MSG_ADD') }}
+            </q-btn>
+          </div>
+        </template>
+      </q-table>
     </div>
   </div>
 </template>
@@ -168,6 +177,10 @@ watch(selectedAppID, () => {
     }
   })
 })
+
+const onAddUsersToRole = () => {
+  console.log('add', selectedUsers.value)
+}
 
 onMounted(() => {
   store.dispatch(ApplicationActionTypes.GetApplications, {
