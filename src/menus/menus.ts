@@ -96,12 +96,30 @@ const MainDrawerMenus = [
     children: []
   }, {
     menuId: uid(),
-    label: '用户',
-    caption: '管理用户',
+    label: '用户与角色',
+    caption: '管理用户、角色以及资源授权',
     icon: 'reviews',
     target: '/users',
     level: 0,
-    children: []
+    children: [
+      {
+        menuId: uid(),
+        label: '用户列表',
+        caption: '查看全部用户',
+        icon: 'format_list_numbered',
+        target: '/users/users',
+        level: 1,
+        children: []
+      }, {
+        menuId: uid(),
+        label: '角色列表',
+        caption: '查看全部角色',
+        icon: 'format_list_numbered',
+        target: '/users/roles',
+        level: 1,
+        children: []
+      }
+    ]
   }, {
     menuId: uid(),
     label: '国际化',

@@ -25,7 +25,8 @@ const routes: RouteRecordRaw[] = [
       { path: 'apis', component: () => import('pages/API.vue') },
 
       // User list
-      { path: 'users', component: () => import('pages/Users.vue') }
+      { path: 'users/users', component: () => import('pages/users/Users.vue') },
+      { path: 'users/roles', component: () => import('pages/users/Roles.vue') }
     ]
   },
 
