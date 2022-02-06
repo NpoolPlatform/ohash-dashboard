@@ -1,11 +1,12 @@
 <template>
   <div class='row'>
     <q-table
+      v-model:selected='selectedRole'
       flat
       dense
       :loading='loading'
       :rows='roleNames'
-      @row-click='(evt, row, index) => onRoleClick(row as roleName)'
+      selection='single'
     >
       <template #top-right>
         <div class='row'>
@@ -22,8 +23,11 @@
         :rows='myRoleUsers'
       />
       <q-table
-        flat
+        v-model:selected='selectedUsers'
+        row-key='ID'
         dense
+        flat
+        selection='multiple'
         :title='t("MSG_APP_USER")'
         :rows='myAppUsers'
       />
@@ -60,12 +64,14 @@ interface roleName {
   Role: string
 }
 
-const selectedRoleID = ref('')
-const selectedRoleName = ref('')
-const onRoleClick = (role: roleName) => {
-  selectedRoleID.value = role.ID
-  selectedRoleName.value = role.Role
-}
+const selectedRole = ref([] as Array<roleName>)
+const selectedRoleName = computed(() => {
+  return selectedRole.value.length > 0 ? selectedRole.value[0].Role : ''
+})
+const selectedRoleID = computed(() => {
+  return selectedRole.value.length > 0 ? selectedRole.value[0].ID : ''
+})
+const selectedUsers = ref([])
 
 const roleusers = computed(() => store.getters.getAppRoleUsersByAppRoleID(selectedAppID.value, selectedRoleID.value))
 const myRoleUsers = computed(() => {
