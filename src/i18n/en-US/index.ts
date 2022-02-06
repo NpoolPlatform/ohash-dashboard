@@ -123,5 +123,7 @@ export default {
   MSG_CREATE_ROLE: '创建角色',
   MSG_CREATEOR: '创建者',
   MSG_ROLE: '角色',
-  MSG_DEFAULT: '默认'
+  MSG_DEFAULT: '默认',
+  MSG_USER_SURFIX: '的用户',
+  MSG_APP_USER: 'APP的用户'
 }

@@ -8,6 +8,8 @@ type UserGetters = {
   getLogined (state: UserState): boolean
   getAppUserInfosByAppID (state: UserState): (appID: string) => Array<UserInfo>
   getAppRoleUsersByAppID (state: UserState): (appID: string) => Array<AppRoleUser>
+  getAppRoleUsersByAppRoleID (state: UserState): (appID: string, roleID: string) => Array<AppRoleUser>
+  getUserByAppUserID (state: UserState): (appID: string, userID: string) => UserInfo | undefined
   getUserSelectedAppID (state: UserState): string
   getGoogleToken (state: UserState): (req: string) => string
 }
@@ -23,6 +25,34 @@ const getters: GetterTree<UserState, RootState> & UserGetters = {
   getAppRoleUsersByAppID: (state: UserState): (appID: string) => Array<AppRoleUser> => {
     return (appID: string) => {
       return state.AppRoleUsers.get(appID) as Array<AppRoleUser>
+    }
+  },
+  getAppRoleUsersByAppRoleID: (state: UserState): (appID: string, roleID: string) => Array<AppRoleUser> => {
+    return (appID: string, roleID: string) => {
+      const roleUsers = [] as Array<AppRoleUser>
+      const users = state.AppRoleUsers.get(appID)
+      if (users) {
+        users.forEach((user) => {
+          if (roleID === user.RoleID) {
+            roleUsers.push(user)
+          }
+        })
+      }
+      return roleUsers
+    }
+  },
+  getUserByAppUserID: (state: UserState): (appID: string, userID: string) => UserInfo | undefined => {
+    return (appID: string, userID: string) => {
+      let user
+      const users = state.AppUserInfos.get(appID)
+      if (users) {
+        users.forEach((myUser) => {
+          if (userID === myUser.User?.ID) {
+            user = myUser
+          }
+        })
+      }
+      return user
     }
   },
   getUserSelectedAppID: (state: UserState): string => state.SelectedAppID,
