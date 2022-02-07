@@ -125,6 +125,13 @@ export default {
   MSG_ROLE: '角色',
   MSG_DEFAULT: '默认',
   MSG_USER_SURFIX: '的用户',
+  MSG_RESOURCE_SURFIX: '的资源',
   MSG_APP_USER: 'APP的用户',
-  MSG_ADD: '添加'
+  MSG_APP_RESOURCE: 'APP的资源',
+  MSG_ADD: '添加',
+  MSG_ALL_RESOURCE: '全部资源',
+  MSG_USER: '用户',
+  MSG_ADD_TO_USER: '添加到用户',
+  MSG_ADD_TO_ROLE: '添加到角色',
+  MSG_ADD_TO_APP: '添加到APP'
 }

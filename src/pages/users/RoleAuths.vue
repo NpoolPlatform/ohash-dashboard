@@ -1,36 +1,74 @@
 <template>
-  <q-table
-    flat
-    dense
-    :loading='loading'
-    :rows='roles'
-    @row-click='(evt, row, index) => onRowClick(row as AppRole)'
-  >
-    <template #top-right>
+  <div>
+    <div>
       <div class='row'>
         <q-space />
-        <q-btn dense @click='onCreateAppRoleClick'>
-          {{ $t('MSG_CREATE_ROLE') }}
-        </q-btn>
         <ApplicationSelector v-model:selected-app-id='selectedAppID' />
       </div>
-    </template>
-  </q-table>
-  <q-dialog
-    v-model='modifying'
-    position='right'
-    full-width
-    square
-    no-shake
-    @hide='onMenuHide'
-  >
-    <CreateAppRole
-      v-model:edit-role='selectedRole'
-      v-model:selected-app='selectedApp'
-      @update='onUpdate'
-      @submit='onSubmit'
-    />
-  </q-dialog>
+      <div class='row'>
+        <q-table
+          v-model:selected='selectedRole'
+          dense
+          :loading='loading'
+          :rows='roleNames'
+          :title='t("MSG_ROLE")'
+          selection='single'
+        />
+        <q-table
+          v-model:selected='selectedUser'
+          dense
+          :loading='loading'
+          :rows='myAppUsers'
+          :title='t("MSG_USER")'
+          selection='single'
+        />
+      </div>
+    </div>
+    <div>
+      <q-table
+        flat
+        dense
+        :title='t("MSG_ROLE") + selectedRoleName + t("MSG_RESOURCE_SURFIX")'
+        :rows='myRoleUsers'
+      />
+      <q-table
+        flat
+        dense
+        :title='t("MSG_USER") + selectedUsername + t("MSG_RESOURCE_SURFIX")'
+        :rows='myRoleUsers'
+      />
+      <q-table
+        flat
+        dense
+        :title='t("MSG_APP_RESOURCE")'
+        :rows='myRoleUsers'
+      />
+      <q-table
+        v-model:selected='selectedUsers'
+        row-key='ID'
+        dense
+        flat
+        selection='multiple'
+        :title='t("MSG_ALL_RESOURCE")'
+        :rows='allResources'
+      >
+        <template #top-right>
+          <div class='row'>
+            <q-space />
+            <q-btn dense @click='onAddUsersToRole'>
+              {{ $t('MSG_ADD_TO_USER') }}
+            </q-btn>
+            <q-btn dense @click='onAddUsersToRole'>
+              {{ $t('MSG_ADD_TO_ROLE') }}
+            </q-btn>
+            <q-btn dense @click='onAddUsersToRole'>
+              {{ $t('MSG_ADD_TO_APP') }}
+            </q-btn>
+          </div>
+        </template>
+      </q-table>
+    </div>
+  </div>
 </template>
 
 <script setup lang='ts'>
@@ -40,12 +78,12 @@ import { useStore } from 'src/store'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { FunctionVoid } from 'src/types/types'
 import { MutationTypes as UserMutationTypes } from 'src/store/user-helper/mutation-types'
+import { ActionTypes as UserActionTypes } from 'src/store/user-helper/action-types'
 import { ActionTypes as ApplicationActionTypes } from 'src/store/applications/action-types'
-import { MutationTypes as ApplicationMutationTypes } from 'src/store/applications/mutation-types'
-import { AppRole } from 'src/store/user-helper/types'
+import { AppUser } from 'src/store/user-helper/types'
+import { ActionTypes as APIActionTypes } from 'src/store/apis/action-types'
 
 const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
-const CreateAppRole = defineAsyncComponent(() => import('src/components/application/CreateAppRole.vue'))
 
 const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -57,20 +95,118 @@ const selectedAppID = computed({
     store.commit(UserMutationTypes.SetSelectedAppID, val)
   }
 })
-const selectedApp = computed(() => store.getters.getApplicationByID(selectedAppID.value))
-const roles = computed(() => store.getters.getAppRolesByAppID(selectedAppID.value))
+
+interface roleName {
+  ID: string
+  Role: string
+}
+
+const selectedRole = ref([] as Array<roleName>)
+const selectedRoleName = computed(() => {
+  return selectedRole.value.length > 0 ? selectedRole.value[0].Role : ''
+})
+const selectedRoleID = computed(() => {
+  return selectedRole.value.length > 0 ? selectedRole.value[0].ID : ''
+})
+const selectedUsers = ref([])
+
+const roleusers = computed(() => store.getters.getAppRoleUsersByAppRoleID(selectedAppID.value, selectedRoleID.value))
+const myRoleUsers = computed(() => {
+  const users = [] as Array<AppUser>
+  if (roleusers.value) {
+    roleusers.value.forEach((roleuser) => {
+      const user = store.getters.getUserByAppUserID(roleuser.AppID, roleuser.UserID)
+      if (user) {
+        users.push(user.User as AppUser)
+      }
+    })
+  }
+  return users
+})
+
+const appUsers = computed(() => store.getters.getAppUserInfosByAppID(selectedAppID.value))
+
+interface userWithRoles {
+  ID: string
+  EmailAddress: string
+  PhoneNO: string
+  RoleNames: string
+}
+const myAppUsers = computed(() => {
+  const users = [] as Array<userWithRoles>
+  if (appUsers.value) {
+    appUsers.value.forEach((user) => {
+      const roleNames = [] as Array<string>
+      user.Roles?.forEach((role) => {
+        roleNames.push(role.Role)
+      })
+      users.push({
+        ID: user.User?.ID as string,
+        EmailAddress: user.User?.EmailAddress as string,
+        PhoneNO: user.User?.PhoneNO as string,
+        RoleNames: roleNames.join(',')
+      })
+    })
+  }
+  return users
+})
+const selectedUser = ref([] as Array<userWithRoles>)
+const selectedUsername = computed(() => {
+  if (selectedUser.value.length > 0) {
+    if (selectedUser.value[0].EmailAddress.length > 0) {
+      return selectedUser.value[0].EmailAddress
+    }
+    return selectedUser.value[0].PhoneNO
+  }
+  return ''
+})
+
 const loading = ref(false)
+const roles = computed(() => store.getters.getAppRolesByAppID(selectedAppID.value))
 
-const creating = ref(false)
-const updating = ref(false)
-const modifying = ref(false)
+const roleNames = computed(() => {
+  const names = [] as Array<roleName>
+  if (roles.value) {
+    roles.value.forEach((role) => {
+      names.push({
+        ID: role.ID,
+        Role: role.Role
+      })
+    })
+  }
+  return names
+})
 
-const selectedRole = ref()
+const allResources = computed(() => store.getters.getExpandAPIs)
 
 const unsubscribe = ref<FunctionVoid>()
 
 watch(selectedAppID, () => {
   loading.value = true
+  store.dispatch(UserActionTypes.GetAppUserInfosByOtherApp, {
+    TargetAppID: selectedAppID.value,
+    Message: {
+      ModuleKey: ModuleKey.ModuleUsers,
+      Error: {
+        Title: t('MSG_GET_APP_USER_INFOS_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+
+  store.dispatch(UserActionTypes.GetAppRoleUsersByOtherApp, {
+    TargetAppID: selectedAppID.value,
+    Message: {
+      ModuleKey: ModuleKey.ModuleUsers,
+      Error: {
+        Title: t('MSG_GET_APP_ROLES_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+
   store.dispatch(ApplicationActionTypes.GetAppRolesByOtherApp, {
     TargetAppID: selectedAppID.value,
     Message: {
@@ -83,6 +219,10 @@ watch(selectedAppID, () => {
     }
   })
 })
+
+const onAddUsersToRole = () => {
+  console.log('add', selectedUsers.value)
+}
 
 onMounted(() => {
   store.dispatch(ApplicationActionTypes.GetApplications, {
@@ -96,64 +236,22 @@ onMounted(() => {
     }
   })
 
+  store.dispatch(APIActionTypes.GetAPIs, {
+    Message: {
+      ModuleKey: ModuleKey.ModuleReviews,
+      Error: {
+        Title: t('MSG_GET_APIS_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+
   unsubscribe.value = store.subscribe((mutation) => {
-    if (mutation.type === ApplicationMutationTypes.SetAppRoles) {
+    if (mutation.type === UserMutationTypes.SetAppRoleUsers) {
       loading.value = false
     }
   })
 })
-
-const onCreateAppRoleClick = () => {
-  creating.value = true
-  modifying.value = true
-}
-
-const onUpdate = (contact: AppRole) => {
-  // TODO: fileter the list
-  console.log('update', contact)
-}
-
-const onSubmit = (role: AppRole) => {
-  creating.value = false
-  updating.value = false
-  modifying.value = false
-
-  store.dispatch(ApplicationActionTypes.CreateAppRoleForOtherApp, {
-    TargetAppID: selectedAppID.value,
-    Info: role,
-    Message: {
-      ModuleKey: ModuleKey.ModuleUsers,
-      Error: {
-        Title: t('MSG_CREATE_ROLE_FAIL'),
-        Popup: true,
-        Type: NotificationType.Error
-      }
-    }
-  })
-
-  store.dispatch(ApplicationActionTypes.GetAppRolesByOtherApp, {
-    TargetAppID: selectedAppID.value,
-    Message: {
-      ModuleKey: ModuleKey.ModuleUsers,
-      Error: {
-        Title: t('MSG_GET_APP_ROLES_FAIL'),
-        Popup: true,
-        Type: NotificationType.Error
-      }
-    }
-  })
-}
-
-const onMenuHide = () => {
-  creating.value = false
-  updating.value = false
-  modifying.value = false
-}
-
-const onRowClick = (role: AppRole) => {
-  selectedRole.value = role
-  updating.value = true
-  modifying.value = true
-}
 
 </script>
