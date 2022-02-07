@@ -11,7 +11,19 @@ type AuthMutations<S = AuthsState> = {
 const mutations: MutationTree<AuthsState> & AuthMutations = {
   [MutationTypes.SetAuthsByApp] (state: AuthsState, payload: Array<Auth>) {
     if (payload.length > 0) {
-      state.AppAuths.set(payload[0].AppID, payload)
+      let auths = state.AppAuths.get(payload[0].AppID) as Array<Auth>
+      if (!auths) {
+        auths = [] as Array<Auth>
+      }
+      payload.forEach((auth) => {
+        for (let i = 0; i < auths?.length; i++) {
+          if (auths[i].ID === auth.ID) {
+            return
+          }
+        }
+        auths.push(auth)
+      })
+      state.AppAuths.set(payload[0].AppID, auths)
     }
   },
   [MutationTypes.SetSelectedAppID] (state: AuthsState, payload: string): void {

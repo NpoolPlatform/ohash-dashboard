@@ -57,13 +57,13 @@
         <template #top-right>
           <div class='row'>
             <q-space />
-            <q-btn dense @click='onAddUsersToRole'>
+            <q-btn dense @click='onAddResourcesToUser'>
               {{ $t('MSG_ADD_TO_USER') }}
             </q-btn>
-            <q-btn dense @click='onAddUsersToRole'>
+            <q-btn dense @click='onAddResourcesToRole'>
               {{ $t('MSG_ADD_TO_ROLE') }}
             </q-btn>
-            <q-btn dense @click='onAddUsersToRole'>
+            <q-btn dense @click='onAddResourcesToApp'>
               {{ $t('MSG_ADD_TO_APP') }}
             </q-btn>
           </div>
@@ -85,6 +85,7 @@ import { ActionTypes as UserActionTypes } from 'src/store/user-helper/action-typ
 import { ActionTypes as ApplicationActionTypes } from 'src/store/applications/action-types'
 import { ActionTypes as APIActionTypes } from 'src/store/apis/action-types'
 import { ActionTypes as AuthActionTypes } from 'src/store/auths/action-types'
+import { ExpandAPI } from 'src/store/apis/types'
 
 const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
 
@@ -227,8 +228,69 @@ watch(selectedAppID, () => {
   })
 })
 
-const onAddUsersToRole = () => {
-  console.log('add', selectedResources.value)
+const onAddResourcesToUser = () => {
+  selectedResources.value.forEach((resource: ExpandAPI) => {
+    store.dispatch(AuthActionTypes.CreateAppUserAuthForOtherApp, {
+      TargetAppID: selectedAppID.value,
+      Info: {
+        AppID: selectedAppID.value,
+        UserID: selectedUserID.value,
+        Resource: resource.Path,
+        Method: resource.Method
+      },
+      Message: {
+        ModuleKey: ModuleKey.ModuleUsers,
+        Error: {
+          Title: t('MSG_CREATE_AUTH_FAIL'),
+          Popup: true,
+          Type: NotificationType.Error
+        }
+      }
+    })
+  })
+}
+
+const onAddResourcesToRole = () => {
+  selectedResources.value.forEach((resource: ExpandAPI) => {
+    store.dispatch(AuthActionTypes.CreateAppRoleAuthForOtherApp, {
+      TargetAppID: selectedAppID.value,
+      Info: {
+        AppID: selectedAppID.value,
+        RoleID: selectedRoleID.value,
+        Resource: resource.Path,
+        Method: resource.Method
+      },
+      Message: {
+        ModuleKey: ModuleKey.ModuleUsers,
+        Error: {
+          Title: t('MSG_CREATE_AUTH_FAIL'),
+          Popup: true,
+          Type: NotificationType.Error
+        }
+      }
+    })
+  })
+}
+
+const onAddResourcesToApp = () => {
+  selectedResources.value.forEach((resource: ExpandAPI) => {
+    store.dispatch(AuthActionTypes.CreateAppAuthForOtherApp, {
+      TargetAppID: selectedAppID.value,
+      Info: {
+        AppID: selectedAppID.value,
+        Resource: resource.Path,
+        Method: resource.Method
+      },
+      Message: {
+        ModuleKey: ModuleKey.ModuleUsers,
+        Error: {
+          Title: t('MSG_CREATE_AUTH_FAIL'),
+          Popup: true,
+          Type: NotificationType.Error
+        }
+      }
+    })
+  })
 }
 
 onMounted(() => {
