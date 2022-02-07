@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, computed, ref, defineAsyncComponent, watch } from 'vue'
+import { onMounted, computed, ref, defineAsyncComponent, watch, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'src/store'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
@@ -179,7 +179,24 @@ watch(selectedAppID, () => {
 })
 
 const onAddUsersToRole = () => {
-  console.log('add', selectedUsers.value)
+  selectedUsers.value.forEach((user: AppUser) => {
+    store.dispatch(UserActionTypes.CreateAppRoleUserForOtherApp, {
+      TargetAppID: selectedAppID.value,
+      Info: {
+        AppID: selectedAppID.value,
+        UserID: user.ID as string,
+        RoleID: selectedRoleID.value
+      },
+      Message: {
+        ModuleKey: ModuleKey.ModuleUsers,
+        Error: {
+          Title: t('MSG_CREATE_APP_ROLE_USER_FAIL'),
+          Popup: true,
+          Type: NotificationType.Error
+        }
+      }
+    })
+  })
 }
 
 onMounted(() => {
@@ -194,11 +211,27 @@ onMounted(() => {
     }
   })
 
+  store.dispatch(UserActionTypes.GetAppRoleUsersByOtherApp, {
+    TargetAppID: selectedAppID.value,
+    Message: {
+      ModuleKey: ModuleKey.ModuleUsers,
+      Error: {
+        Title: t('MSG_GET_APP_ROLES_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+
   unsubscribe.value = store.subscribe((mutation) => {
     if (mutation.type === UserMutationTypes.SetAppRoleUsers) {
       loading.value = false
     }
   })
+})
+
+onUnmounted(() => {
+  unsubscribe.value?.()
 })
 
 </script>

@@ -12,14 +12,15 @@ import {
   GetAppUserInfosByOtherAppRequest,
   GetAppUserInfosByOtherAppResponse,
   GetAppRoleUsersByOtherAppRequest,
-  GetAppRoleUsersByOtherAppResponse
+  GetAppRoleUsersByOtherAppResponse,
+  CreateAppRoleUserForOtherAppRequest,
+  CreateAppRoleUserForOtherAppResponse
 } from './types'
 import { API } from './const'
 import { MutationTypes as NotificationMutationTypes } from '../notifications/mutation-types'
 import { notificationPush, notificationPop } from '../notifications/helper'
 import { Notification } from '../notifications/types'
 import { doAction } from '../action'
-import { CreateAppRoleForOtherAppRequest, CreateAppRoleForOtherAppResponse } from '../applications/types'
 
 interface UserActions {
   [ActionTypes.Login]({
@@ -52,7 +53,7 @@ interface UserActions {
     UserState,
     RootState,
     UserMutations<UserState>>,
-    req: CreateAppRoleForOtherAppRequest): void
+    req: CreateAppRoleUserForOtherAppRequest): void
 
   [ActionTypes.GetGoogleToken]({
     commit
@@ -100,13 +101,13 @@ const actions: ActionTree<UserState, RootState> = {
       })
   },
 
-  [ActionTypes.CreateAppRoleUserForOtherApp] ({ commit }, req: CreateAppRoleForOtherAppRequest) {
-    doAction<CreateAppRoleForOtherAppRequest, CreateAppRoleForOtherAppResponse>(
+  [ActionTypes.CreateAppRoleUserForOtherApp] ({ commit }, req: CreateAppRoleUserForOtherAppRequest) {
+    doAction<CreateAppRoleUserForOtherAppRequest, CreateAppRoleUserForOtherAppResponse>(
       commit,
       API.CREATE_APP_ROLE_USER_FOR_OTHER_APP,
       req,
       req.Message,
-      (resp: CreateAppRoleForOtherAppResponse): void => {
+      (resp: CreateAppRoleUserForOtherAppResponse): void => {
         // commit(MutationTypes.SetAppRoleUsers, resp.Info)
         console.log('CREATED', resp.Info)
       })

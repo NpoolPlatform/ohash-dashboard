@@ -93,7 +93,7 @@ interface GetAppUserInfosByOtherAppResponse {
 }
 
 interface AppRoleUser {
-  ID: string
+  ID?: string
   AppID: string
   RoleID: string
   UserID: string
