@@ -133,5 +133,6 @@ export default {
   MSG_USER: '用户',
   MSG_ADD_TO_USER: '添加到用户',
   MSG_ADD_TO_ROLE: '添加到角色',
-  MSG_ADD_TO_APP: '添加到APP'
+  MSG_ADD_TO_APP: '添加到APP',
+  MSG_GET_APP_AUTHS_FAIL: '获取授权信息失败'
 }

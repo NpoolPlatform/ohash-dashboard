@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, ref, computed, defineAsyncComponent } from 'vue'
+import { onMounted, ref, computed, defineAsyncComponent, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useStore } from 'src/store'
@@ -151,6 +151,10 @@ onMounted(() => {
       }
     }
   })
+})
+
+onUnmounted(() => {
+  unsubscribe.value?.()
 })
 
 const onMenuHide = () => {

@@ -114,6 +114,14 @@ import {
   AppContactActions
 } from './appcontacts'
 
+import {
+  auths,
+  AuthsState,
+  AuthMutations,
+  AuthGetters,
+  AuthActions
+} from './auths'
+
 // 2 combine your store to root store
 export interface RootState {
   user: UserState,
@@ -129,6 +137,7 @@ export interface RootState {
   appEmailTemplates: AppEmailTemplatesState
   appSMSTemplates: AppSMSTemplatesState
   appContacts: AppContactsState
+  auths: AuthsState
 }
 
 // 3 combine your actions, mutations and getters to root, if have multi use & combin
@@ -144,7 +153,8 @@ type Actions =
   APIActions &
   AppEmailTemplateActions &
   AppSMSTemplateActions &
-  AppContactActions
+  AppContactActions &
+  AuthActions
 type Mutations =
   UserMutations &
   MainBreadcrumbsMutations &
@@ -158,7 +168,8 @@ type Mutations =
   APIMutations &
   AppEmailTemplateMutations &
   AppSMSTemplateMutations &
-  AppContactMutations
+  AppContactMutations &
+  AuthMutations
 type Getters =
   UserGetters &
   MainBreadcrumbsGetters &
@@ -172,7 +183,8 @@ type Getters =
   APIGetters &
   AppEmailTemplateGetters &
   AppSMSTemplateGetters &
-  AppContactGetters
+  AppContactGetters &
+  AuthGetters
 
 // 4 attach your module to root
 export default store(function (/* { ssrContext } */) {
@@ -190,7 +202,8 @@ export default store(function (/* { ssrContext } */) {
       apis,
       appEmailTemplates,
       appSMSTemplates,
-      appContacts
+      appContacts,
+      auths
     },
 
     // enable strict mode (adds overhead!)

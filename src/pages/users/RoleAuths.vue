@@ -9,6 +9,7 @@
         <q-table
           v-model:selected='selectedRole'
           dense
+          row-key='ID'
           :loading='loading'
           :rows='roleNames'
           :title='t("MSG_ROLE")'
@@ -17,6 +18,7 @@
         <q-table
           v-model:selected='selectedUser'
           dense
+          row-key='ID'
           :loading='loading'
           :rows='myAppUsers'
           :title='t("MSG_USER")'
@@ -29,22 +31,22 @@
         flat
         dense
         :title='t("MSG_ROLE") + selectedRoleName + t("MSG_RESOURCE_SURFIX")'
-        :rows='myRoleUsers'
+        :rows='roleAuths'
       />
       <q-table
         flat
         dense
         :title='t("MSG_USER") + selectedUsername + t("MSG_RESOURCE_SURFIX")'
-        :rows='myRoleUsers'
+        :rows='userAuths'
       />
       <q-table
         flat
         dense
         :title='t("MSG_APP_RESOURCE")'
-        :rows='myRoleUsers'
+        :rows='appAuths'
       />
       <q-table
-        v-model:selected='selectedUsers'
+        v-model:selected='selectedResources'
         row-key='ID'
         dense
         flat
@@ -78,10 +80,11 @@ import { useStore } from 'src/store'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { FunctionVoid } from 'src/types/types'
 import { MutationTypes as UserMutationTypes } from 'src/store/user-helper/mutation-types'
+import { MutationTypes as AuthMutationTypes } from 'src/store/auths/mutation-types'
 import { ActionTypes as UserActionTypes } from 'src/store/user-helper/action-types'
 import { ActionTypes as ApplicationActionTypes } from 'src/store/applications/action-types'
-import { AppUser } from 'src/store/user-helper/types'
 import { ActionTypes as APIActionTypes } from 'src/store/apis/action-types'
+import { ActionTypes as AuthActionTypes } from 'src/store/auths/action-types'
 
 const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
 
@@ -90,9 +93,9 @@ const store = useStore()
 const { t } = useI18n({ useScope: 'global' })
 
 const selectedAppID = computed({
-  get: () => store.getters.getUserSelectedAppID,
+  get: () => store.getters.getAuthSelectedAppID,
   set: (val) => {
-    store.commit(UserMutationTypes.SetSelectedAppID, val)
+    store.commit(AuthMutationTypes.SetSelectedAppID, val)
   }
 })
 
@@ -108,21 +111,7 @@ const selectedRoleName = computed(() => {
 const selectedRoleID = computed(() => {
   return selectedRole.value.length > 0 ? selectedRole.value[0].ID : ''
 })
-const selectedUsers = ref([])
-
-const roleusers = computed(() => store.getters.getAppRoleUsersByAppRoleID(selectedAppID.value, selectedRoleID.value))
-const myRoleUsers = computed(() => {
-  const users = [] as Array<AppUser>
-  if (roleusers.value) {
-    roleusers.value.forEach((roleuser) => {
-      const user = store.getters.getUserByAppUserID(roleuser.AppID, roleuser.UserID)
-      if (user) {
-        users.push(user.User as AppUser)
-      }
-    })
-  }
-  return users
-})
+const selectedResources = ref([])
 
 const appUsers = computed(() => store.getters.getAppUserInfosByAppID(selectedAppID.value))
 
@@ -160,6 +149,9 @@ const selectedUsername = computed(() => {
   }
   return ''
 })
+const selectedUserID = computed(() => {
+  return selectedUser.value.length > 0 ? selectedUser.value[0].ID : ''
+})
 
 const loading = ref(false)
 const roles = computed(() => store.getters.getAppRolesByAppID(selectedAppID.value))
@@ -178,6 +170,9 @@ const roleNames = computed(() => {
 })
 
 const allResources = computed(() => store.getters.getExpandAPIs)
+const appAuths = computed(() => store.getters.getAuthsByApp(selectedAppID.value))
+const userAuths = computed(() => store.getters.getAuthsByAppUser(selectedAppID.value, selectedUserID.value))
+const roleAuths = computed(() => store.getters.getAuthsByAppRole(selectedAppID.value, selectedRoleID.value))
 
 const unsubscribe = ref<FunctionVoid>()
 
@@ -218,10 +213,22 @@ watch(selectedAppID, () => {
       }
     }
   })
+
+  store.dispatch(AuthActionTypes.GetAuthsByOtherApp, {
+    TargetAppID: selectedAppID.value,
+    Message: {
+      ModuleKey: ModuleKey.ModuleUsers,
+      Error: {
+        Title: t('MSG_GET_APP_AUTHS_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
 })
 
 const onAddUsersToRole = () => {
-  console.log('add', selectedUsers.value)
+  console.log('add', selectedResources.value)
 }
 
 onMounted(() => {

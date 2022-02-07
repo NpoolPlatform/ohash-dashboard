@@ -55,7 +55,7 @@ const actions: ActionTree<AppContactsState, RootState> = {
   [ActionTypes.GetAppContactsByApp] ({ commit }, req: GetAppContactsByAppRequest) {
     doAction<GetAppContactsByAppRequest, GetAppContactsByAppResponse>(
       commit,
-      API.GET_APP_EMAIL_TEMPALTES_BY_APP,
+      API.GET_APP_CONTACTS_BY_APP,
       req,
       req.Message,
       (resp: GetAppContactsByAppResponse): void => {
@@ -66,7 +66,7 @@ const actions: ActionTree<AppContactsState, RootState> = {
   [ActionTypes.GetAppContactsByOtherApp] ({ commit }, req: GetAppContactsByOtherAppRequest) {
     doAction<GetAppContactsByOtherAppRequest, GetAppContactsByOtherAppResponse>(
       commit,
-      API.GET_APP_EMAIL_TEMPALTES_BY_OTHER_APP,
+      API.GET_APP_CONTACTS_BY_OTHER_APP,
       req,
       req.Message,
       (resp: GetAppContactsByOtherAppResponse): void => {
