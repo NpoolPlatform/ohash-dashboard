@@ -15,12 +15,13 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, computed, ref, defineAsyncComponent, watch } from 'vue'
+import { onMounted, computed, ref, defineAsyncComponent, watch, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'src/store'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { FunctionVoid } from 'src/types/types'
-import { MutationTypes as ApplicationMutationTypes } from 'src/store/applications/mutation-types'
+import { MutationTypes as AuthMutationTypes } from 'src/store/auths/mutation-types'
+import { ActionTypes as AuthActionTypes } from 'src/store/auths/action-types'
 import { ActionTypes as ApplicationActionTypes } from 'src/store/applications/action-types'
 
 const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
@@ -32,7 +33,7 @@ const { t } = useI18n({ useScope: 'global' })
 const selectedAppID = computed({
   get: () => store.getters.getAppSelectedAppID,
   set: (val) => {
-    store.commit(ApplicationMutationTypes.SetSelectedAppID, val)
+    store.commit(AuthMutationTypes.SetSelectedAppID, val)
   }
 })
 const histories = computed(() => store.getters.getAuthHitoriesByAppID(selectedAppID.value))
@@ -42,7 +43,7 @@ const unsubscribe = ref<FunctionVoid>()
 
 watch(selectedAppID, () => {
   loading.value = true
-  store.dispatch(ApplicationActionTypes.GetAuthHistoriesByOtherApp, {
+  store.dispatch(AuthActionTypes.GetAuthHistoriesByOtherApp, {
     TargetAppID: selectedAppID.value,
     Message: {
       ModuleKey: ModuleKey.ModuleUsers,
@@ -68,10 +69,14 @@ onMounted(() => {
   })
 
   unsubscribe.value = store.subscribe((mutation) => {
-    if (mutation.type === ApplicationMutationTypes.SetAuthHistories) {
+    if (mutation.type === AuthMutationTypes.SetAuthHistories) {
       loading.value = false
     }
   })
+})
+
+onUnmounted(() => {
+  unsubscribe.value?.()
 })
 
 </script>

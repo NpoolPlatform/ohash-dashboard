@@ -1,12 +1,13 @@
 import { GetterTree } from 'vuex'
 import { RootState } from '../index'
 import { AuthsState } from './state'
-import { Auth } from './types'
+import { Auth, AuthHistory } from './types'
 
 type AuthGetters = {
   getAuthsByApp (state: AuthsState): (appID: string) => Array<Auth>
   getAuthsByAppUser (state: AuthsState): (appID: string, userID: string) => Array<Auth>
   getAuthsByAppRole (state: AuthsState): (appID: string, roleID: string) => Array<Auth>
+  getAuthHitoriesByAppID (state: AuthsState): (appID: string) => Array<AuthHistory>
   getAuthSelectedAppID (state: AuthsState): string
 }
 
@@ -20,6 +21,11 @@ const getters: GetterTree<AuthsState, RootState> & AuthGetters = {
         }
       })
       return auths
+    }
+  },
+  getAuthHitoriesByAppID: (state: AuthsState): (appID: string) => Array<AuthHistory> => {
+    return (appID: string) => {
+      return state.AuthHistories.get(appID) as Array<AuthHistory>
     }
   },
   getAuthsByAppUser: (state: AuthsState): (appID: string, userID: string) => Array<Auth> => {

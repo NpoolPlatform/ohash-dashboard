@@ -90,6 +90,25 @@ interface DeleteAppRoleAuthResponse {
   Info: Auth
 }
 
+interface AuthHistory {
+  ID: string
+  AppID: string
+  UserID: string
+  Resource: string
+  Method: string
+  Allowed: boolean
+  CreateAt: number
+}
+
+interface GetAuthHistoriesByOtherAppRequest {
+  TargetAppID: string
+  Message: ReqMessage
+}
+
+interface GetAuthHistoriesByOtherAppResponse {
+  Infos: Array<AuthHistory>
+}
+
 export {
   Auth,
   GetAuthsByOtherAppRequest,
@@ -105,5 +124,8 @@ export {
   DeleteAppUserAuthRequest,
   DeleteAppUserAuthResponse,
   DeleteAppRoleAuthRequest,
-  DeleteAppRoleAuthResponse
+  DeleteAppRoleAuthResponse,
+  AuthHistory,
+  GetAuthHistoriesByOtherAppRequest,
+  GetAuthHistoriesByOtherAppResponse
 }

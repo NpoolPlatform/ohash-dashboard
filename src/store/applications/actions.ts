@@ -11,8 +11,6 @@ import {
   GetApplicationsResponse,
   GetAppRolesByOtherAppRequest,
   GetAppRolesByOtherAppResponse,
-  GetAuthHistoriesByOtherAppRequest,
-  GetAuthHistoriesByOtherAppResponse,
   UpdateAppControlRequest,
   UpdateAppControlResponse,
   UpdateApplicationRequest,
@@ -65,14 +63,6 @@ interface ApplicationActions {
     RootState,
     ApplicationMutations<ApplicationsState>>,
     req: UpdateAppControlRequest): void
-
-  [ActionTypes.GetAuthHistoriesByOtherApp]({
-    commit
-  }: AugmentedActionContext<
-    ApplicationsState,
-    RootState,
-    ApplicationMutations<ApplicationsState>>,
-    req: GetAuthHistoriesByOtherAppRequest): void
 
   [ActionTypes.GetAppRolesByOtherApp]({
     commit
@@ -144,17 +134,6 @@ const actions: ActionTree<ApplicationsState, RootState> = {
       req.Message,
       (resp: CreateAppControlResponse): void => {
         commit(MutationTypes.SetAppControl, resp.Info)
-      })
-  },
-
-  [ActionTypes.GetAuthHistoriesByOtherApp] ({ commit }, req: GetAuthHistoriesByOtherAppRequest) {
-    doAction<GetAuthHistoriesByOtherAppRequest, GetAuthHistoriesByOtherAppResponse>(
-      commit,
-      API.GET_AUTH_HISTORIES_BY_OTHER_APP,
-      req,
-      req.Message,
-      (resp: GetAuthHistoriesByOtherAppResponse): void => {
-        commit(MutationTypes.SetAuthHistories, resp.Infos)
       })
   },
 

@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex'
 import { RootState } from '../index'
 import { ApplicationsState } from './state'
-import { Application, AuthHistory } from './types'
+import { Application } from './types'
 import { AppID } from 'src/const/const'
 import { AppRole } from '../user-helper/types'
 
@@ -9,7 +9,6 @@ type ApplicationGetters = {
   getApplication (state: ApplicationsState): Application
   getApplicationByID (state: ApplicationsState): (id: string) => Application
   getApplications (state: ApplicationsState): Array<Application>
-  getAuthHitoriesByAppID (state: ApplicationsState): (appID: string) => Array<AuthHistory>
   getAppRolesByAppID (state: ApplicationsState): (appID: string) => Array<AppRole>
   getAppSelectedAppID (state: ApplicationsState): string
 }
@@ -27,11 +26,6 @@ const getters: GetterTree<ApplicationsState, RootState> & ApplicationGetters = {
       applications.push(val)
     })
     return applications
-  },
-  getAuthHitoriesByAppID: (state: ApplicationsState): (appID: string) => Array<AuthHistory> => {
-    return (appID: string) => {
-      return state.AuthHistories.get(appID) as Array<AuthHistory>
-    }
   },
   getAppRolesByAppID: (state: ApplicationsState): (appID: string) => Array<AppRole> => {
     return (appID: string) => {

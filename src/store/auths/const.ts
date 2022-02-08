@@ -6,6 +6,7 @@ enum API {
   DELETE_APP_AUTH_FOR = '/authing-gateway/v1/delete/app/auth',
   DELETE_APP_USER_AUTH_FOR = '/authing-gateway/v1/delete/app/user/auth',
   DELETE_APP_ROLE_AUTH_FOR = '/authing-gateway/v1/delete/app/role/auth',
+  GET_AUTH_HISTORIES_BY_OTHER_APP = '/authing-gateway/v1/get/auth/histories/by/other/app'
 }
 
 export {

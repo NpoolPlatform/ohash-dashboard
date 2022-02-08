@@ -1,12 +1,13 @@
 import { MutationTree } from 'vuex'
 import { MutationTypes } from './mutation-types'
 import { AuthsState } from './state'
-import { Auth } from './types'
+import { Auth, AuthHistory } from './types'
 
 type AuthMutations<S = AuthsState> = {
   [MutationTypes.SetAuthsByApp] (state: S, payload: Array<Auth>): void
   [MutationTypes.DeleteAuth] (state: S, payload: Auth): void
   [MutationTypes.SetSelectedAppID] (state: S, payload: string): void
+  [MutationTypes.SetAuthHistories] (state: S, payload: Array<AuthHistory>): void
 }
 
 const mutations: MutationTree<AuthsState> & AuthMutations = {
@@ -35,6 +36,11 @@ const mutations: MutationTree<AuthsState> & AuthMutations = {
   },
   [MutationTypes.SetSelectedAppID] (state: AuthsState, payload: string): void {
     state.SelectedAppID = payload
+  },
+  [MutationTypes.SetAuthHistories] (state: AuthsState, payload: Array<AuthHistory>): void {
+    if (payload.length > 0) {
+      state.AuthHistories.set(payload[0].AppID, payload)
+    }
   }
 }
 

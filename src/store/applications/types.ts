@@ -77,25 +77,6 @@ interface CreateAppControlResponse {
   Info: AppControl
 }
 
-interface AuthHistory {
-  ID: string
-  AppID: string
-  UserID: string
-  Resource: string
-  Method: string
-  Allowed: boolean
-  CreateAt: number
-}
-
-interface GetAuthHistoriesByOtherAppRequest {
-  TargetAppID: string
-  Message: ReqMessage
-}
-
-interface GetAuthHistoriesByOtherAppResponse {
-  Infos: Array<AuthHistory>
-}
-
 interface GetAppRolesByOtherAppRequest {
   TargetAppID: string
   Message: ReqMessage
@@ -130,9 +111,6 @@ export {
   UpdateAppControlResponse,
   CreateAppControlRequest,
   CreateAppControlResponse,
-  AuthHistory,
-  GetAuthHistoriesByOtherAppRequest,
-  GetAuthHistoriesByOtherAppResponse,
   GetAppRolesByOtherAppRequest,
   GetAppRolesByOtherAppResponse,
   CreateAppRoleForOtherAppRequest,

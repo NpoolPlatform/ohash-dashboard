@@ -19,6 +19,8 @@ import {
   DeleteAppRoleAuthResponse,
   DeleteAppUserAuthRequest,
   DeleteAppUserAuthResponse,
+  GetAuthHistoriesByOtherAppRequest,
+  GetAuthHistoriesByOtherAppResponse,
   GetAuthsByOtherAppRequest,
   GetAuthsByOtherAppResponse
 } from './types'
@@ -27,7 +29,7 @@ interface AuthActions {
   [ActionTypes.GetAuthsByOtherApp]({
     commit
   }: AugmentedActionContext<
-  AuthsState,
+    AuthsState,
     RootState,
     AuthMutations<AuthsState>>,
     req: GetAuthsByOtherAppRequest): void
@@ -35,7 +37,7 @@ interface AuthActions {
   [ActionTypes.CreateAppAuthForOtherApp]({
     commit
   }: AugmentedActionContext<
-  AuthsState,
+    AuthsState,
     RootState,
     AuthMutations<AuthsState>>,
     req: CreateAppAuthForOtherAppRequest): void
@@ -43,7 +45,7 @@ interface AuthActions {
   [ActionTypes.CreateAppUserAuthForOtherApp]({
     commit
   }: AugmentedActionContext<
-  AuthsState,
+    AuthsState,
     RootState,
     AuthMutations<AuthsState>>,
     req: CreateAppUserAuthForOtherAppRequest): void
@@ -51,7 +53,7 @@ interface AuthActions {
   [ActionTypes.CreateAppRoleAuthForOtherApp]({
     commit
   }: AugmentedActionContext<
-  AuthsState,
+    AuthsState,
     RootState,
     AuthMutations<AuthsState>>,
     req: CreateAppRoleAuthForOtherAppRequest): void
@@ -59,7 +61,7 @@ interface AuthActions {
   [ActionTypes.DeleteAppAuth]({
     commit
   }: AugmentedActionContext<
-  AuthsState,
+    AuthsState,
     RootState,
     AuthMutations<AuthsState>>,
     req: DeleteAppAuthRequest): void
@@ -67,7 +69,7 @@ interface AuthActions {
   [ActionTypes.DeleteAppUserAuth]({
     commit
   }: AugmentedActionContext<
-  AuthsState,
+    AuthsState,
     RootState,
     AuthMutations<AuthsState>>,
     req: DeleteAppUserAuthRequest): void
@@ -75,10 +77,18 @@ interface AuthActions {
   [ActionTypes.DeleteAppRoleAuth]({
     commit
   }: AugmentedActionContext<
-  AuthsState,
+    AuthsState,
     RootState,
     AuthMutations<AuthsState>>,
     req: DeleteAppRoleAuthRequest): void
+
+  [ActionTypes.GetAuthHistoriesByOtherApp]({
+    commit
+  }: AugmentedActionContext<
+    AuthsState,
+    RootState,
+    AuthMutations<AuthsState>>,
+    req: GetAuthHistoriesByOtherAppRequest): void
 }
 
 const actions: ActionTree<AuthsState, RootState> = {
@@ -156,6 +166,17 @@ const actions: ActionTree<AuthsState, RootState> = {
       req.Message,
       (resp: DeleteAppRoleAuthResponse): void => {
         commit(MutationTypes.DeleteAuth, resp.Info)
+      })
+  },
+
+  [ActionTypes.GetAuthHistoriesByOtherApp] ({ commit }, req: GetAuthHistoriesByOtherAppRequest) {
+    doAction<GetAuthHistoriesByOtherAppRequest, GetAuthHistoriesByOtherAppResponse>(
+      commit,
+      API.GET_AUTH_HISTORIES_BY_OTHER_APP,
+      req,
+      req.Message,
+      (resp: GetAuthHistoriesByOtherAppResponse): void => {
+        commit(MutationTypes.SetAuthHistories, resp.Infos)
       })
   }
 }
