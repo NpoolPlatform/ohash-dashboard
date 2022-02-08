@@ -63,6 +63,33 @@ interface CreateAppRoleAuthForOtherAppResponse {
   Info: Auth
 }
 
+interface DeleteAppAuthRequest {
+  ID: string
+  Message: ReqMessage
+}
+
+interface DeleteAppAuthResponse {
+  Info: Auth
+}
+
+interface DeleteAppUserAuthRequest {
+  ID: string
+  Message: ReqMessage
+}
+
+interface DeleteAppUserAuthResponse {
+  Info: Auth
+}
+
+interface DeleteAppRoleAuthRequest {
+  ID: string
+  Message: ReqMessage
+}
+
+interface DeleteAppRoleAuthResponse {
+  Info: Auth
+}
+
 export {
   Auth,
   GetAuthsByOtherAppRequest,
@@ -72,5 +99,11 @@ export {
   CreateAppUserAuthForOtherAppRequest,
   CreateAppUserAuthForOtherAppResponse,
   CreateAppRoleAuthForOtherAppRequest,
-  CreateAppRoleAuthForOtherAppResponse
+  CreateAppRoleAuthForOtherAppResponse,
+  DeleteAppAuthRequest,
+  DeleteAppAuthResponse,
+  DeleteAppUserAuthRequest,
+  DeleteAppUserAuthResponse,
+  DeleteAppRoleAuthRequest,
+  DeleteAppRoleAuthResponse
 }

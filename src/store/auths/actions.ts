@@ -13,6 +13,12 @@ import {
   CreateAppRoleAuthForOtherAppResponse,
   CreateAppUserAuthForOtherAppRequest,
   CreateAppUserAuthForOtherAppResponse,
+  DeleteAppAuthRequest,
+  DeleteAppAuthResponse,
+  DeleteAppRoleAuthRequest,
+  DeleteAppRoleAuthResponse,
+  DeleteAppUserAuthRequest,
+  DeleteAppUserAuthResponse,
   GetAuthsByOtherAppRequest,
   GetAuthsByOtherAppResponse
 } from './types'
@@ -49,6 +55,30 @@ interface AuthActions {
     RootState,
     AuthMutations<AuthsState>>,
     req: CreateAppRoleAuthForOtherAppRequest): void
+
+  [ActionTypes.DeleteAppAuth]({
+    commit
+  }: AugmentedActionContext<
+  AuthsState,
+    RootState,
+    AuthMutations<AuthsState>>,
+    req: DeleteAppAuthRequest): void
+
+  [ActionTypes.DeleteAppUserAuth]({
+    commit
+  }: AugmentedActionContext<
+  AuthsState,
+    RootState,
+    AuthMutations<AuthsState>>,
+    req: DeleteAppUserAuthRequest): void
+
+  [ActionTypes.DeleteAppRoleAuth]({
+    commit
+  }: AugmentedActionContext<
+  AuthsState,
+    RootState,
+    AuthMutations<AuthsState>>,
+    req: DeleteAppRoleAuthRequest): void
 }
 
 const actions: ActionTree<AuthsState, RootState> = {
@@ -93,6 +123,39 @@ const actions: ActionTree<AuthsState, RootState> = {
       req.Message,
       (resp: CreateAppRoleAuthForOtherAppResponse): void => {
         commit(MutationTypes.SetAuthsByApp, [resp.Info])
+      })
+  },
+
+  [ActionTypes.DeleteAppAuth] ({ commit }, req: DeleteAppAuthRequest) {
+    doAction<DeleteAppAuthRequest, DeleteAppAuthResponse>(
+      commit,
+      API.DELETE_APP_AUTH_FOR,
+      req,
+      req.Message,
+      (resp: DeleteAppAuthResponse): void => {
+        commit(MutationTypes.DeleteAuth, resp.Info)
+      })
+  },
+
+  [ActionTypes.DeleteAppUserAuth] ({ commit }, req: DeleteAppUserAuthRequest) {
+    doAction<DeleteAppUserAuthRequest, DeleteAppUserAuthResponse>(
+      commit,
+      API.DELETE_APP_USER_AUTH_FOR,
+      req,
+      req.Message,
+      (resp: DeleteAppUserAuthResponse): void => {
+        commit(MutationTypes.DeleteAuth, resp.Info)
+      })
+  },
+
+  [ActionTypes.DeleteAppRoleAuth] ({ commit }, req: DeleteAppRoleAuthRequest) {
+    doAction<DeleteAppRoleAuthRequest, DeleteAppRoleAuthResponse>(
+      commit,
+      API.DELETE_APP_ROLE_AUTH_FOR,
+      req,
+      req.Message,
+      (resp: DeleteAppRoleAuthResponse): void => {
+        commit(MutationTypes.DeleteAuth, resp.Info)
       })
   }
 }

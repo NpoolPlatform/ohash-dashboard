@@ -138,5 +138,6 @@ export default {
   MSG_CREATE_AUTH_FAIL: '授权失败',
   MSG_CREATE_APP_ROLE_USER_FAIL: '设置用户角色失败',
   MSG_DELETE: '删除',
-  MSG_DELETE_APP_ROLE_USER_FAIL: '接触用户角色授权失败'
+  MSG_DELETE_APP_ROLE_USER_FAIL: '解除用户角色授权失败',
+  MSG_DELETE_AUTH_FAIL: '解除资源授权失败'
 }

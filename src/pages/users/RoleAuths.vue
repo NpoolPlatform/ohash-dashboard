@@ -28,23 +28,59 @@
     </div>
     <div>
       <q-table
+        v-model:selected='selectedRoleResources'
         flat
         dense
+        row-key='ID'
         :title='t("MSG_ROLE") + selectedRoleName + t("MSG_RESOURCE_SURFIX")'
         :rows='roleAuths'
-      />
+        selection='multiple'
+      >
+        <template #top-right>
+          <div class='row'>
+            <q-space />
+            <q-btn dense @click='onDeleteResourcesFromRole'>
+              {{ $t('MSG_DELETE') }}
+            </q-btn>
+          </div>
+        </template>
+      </q-table>
       <q-table
+        v-model:selected='selectedUserResources'
         flat
         dense
+        row-key='ID'
         :title='t("MSG_USER") + selectedUsername + t("MSG_RESOURCE_SURFIX")'
         :rows='userAuths'
-      />
+        selection='multiple'
+      >
+        <template #top-right>
+          <div class='row'>
+            <q-space />
+            <q-btn dense @click='onDeleteResourcesFromUser'>
+              {{ $t('MSG_DELETE') }}
+            </q-btn>
+          </div>
+        </template>
+      </q-table>
       <q-table
+        v-model:selected='selectedAppResources'
         flat
         dense
+        row-key='ID'
         :title='t("MSG_APP_RESOURCE")'
         :rows='appAuths'
-      />
+        selection='multiple'
+      >
+        <template #top-right>
+          <div class='row'>
+            <q-space />
+            <q-btn dense @click='onDeleteResourcesFromApp'>
+              {{ $t('MSG_DELETE') }}
+            </q-btn>
+          </div>
+        </template>
+      </q-table>
       <q-table
         v-model:selected='selectedResources'
         row-key='ID'
@@ -74,7 +110,7 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, computed, ref, defineAsyncComponent, watch } from 'vue'
+import { onMounted, computed, ref, defineAsyncComponent, watch, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'src/store'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
@@ -86,6 +122,7 @@ import { ActionTypes as ApplicationActionTypes } from 'src/store/applications/ac
 import { ActionTypes as APIActionTypes } from 'src/store/apis/action-types'
 import { ActionTypes as AuthActionTypes } from 'src/store/auths/action-types'
 import { ExpandAPI } from 'src/store/apis/types'
+import { Auth } from 'src/store/auths/types'
 
 const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
 
@@ -174,6 +211,58 @@ const allResources = computed(() => store.getters.getExpandAPIs)
 const appAuths = computed(() => store.getters.getAuthsByApp(selectedAppID.value))
 const userAuths = computed(() => store.getters.getAuthsByAppUser(selectedAppID.value, selectedUserID.value))
 const roleAuths = computed(() => store.getters.getAuthsByAppRole(selectedAppID.value, selectedRoleID.value))
+
+const selectedRoleResources = ref([])
+const selectedUserResources = ref([])
+const selectedAppResources = ref([])
+
+const onDeleteResourcesFromRole = () => {
+  selectedRoleResources.value.forEach((resource: Auth) => {
+    store.dispatch(AuthActionTypes.DeleteAppRoleAuth, {
+      ID: resource.ID,
+      Message: {
+        ModuleKey: ModuleKey.ModuleUsers,
+        Error: {
+          Title: t('MSG_DELETE_AUTH_FAIL'),
+          Popup: true,
+          Type: NotificationType.Error
+        }
+      }
+    })
+  })
+}
+
+const onDeleteResourcesFromUser = () => {
+  selectedUserResources.value.forEach((resource: Auth) => {
+    store.dispatch(AuthActionTypes.DeleteAppUserAuth, {
+      ID: resource.ID,
+      Message: {
+        ModuleKey: ModuleKey.ModuleUsers,
+        Error: {
+          Title: t('MSG_DELETE_AUTH_FAIL'),
+          Popup: true,
+          Type: NotificationType.Error
+        }
+      }
+    })
+  })
+}
+
+const onDeleteResourcesFromApp = () => {
+  selectedAppResources.value.forEach((resource: Auth) => {
+    store.dispatch(AuthActionTypes.DeleteAppAuth, {
+      ID: resource.ID,
+      Message: {
+        ModuleKey: ModuleKey.ModuleUsers,
+        Error: {
+          Title: t('MSG_DELETE_AUTH_FAIL'),
+          Popup: true,
+          Type: NotificationType.Error
+        }
+      }
+    })
+  })
+}
 
 const unsubscribe = ref<FunctionVoid>()
 
@@ -321,6 +410,10 @@ onMounted(() => {
       loading.value = false
     }
   })
+})
+
+onUnmounted(() => {
+  unsubscribe.value?.()
 })
 
 </script>
