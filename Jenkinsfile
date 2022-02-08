@@ -252,7 +252,7 @@ pipeline {
         sh(returnStdout: false, script: '''
 	  certname=`echo $ROOT_DOMAIN | sed 's/\\./-/g'`-cert
           set +e
-          kubectl get secret -n kube-system | grep $ROOT_DOMAIN
+          kubectl get secret -n kube-system | grep $certname
           rc=$?
           set -e
           if [ ! 0 -eq $rc ]; then
