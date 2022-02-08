@@ -250,7 +250,7 @@ pipeline {
           sh 'git clone https://github.com/NpoolPlatform/server-https-ca.git .server-https-ca'
         }
         sh(returnStdout: false, script: '''
-	  certname=`echo $ROOT_DOMAIN | sed 's/\./-/g'`-cert
+	  certname=`echo $ROOT_DOMAIN | sed 's/\\./-/g'`-cert
           set +e
           kubectl get secret -n kube-system | grep $ROOT_DOMAIN
           rc=$?
