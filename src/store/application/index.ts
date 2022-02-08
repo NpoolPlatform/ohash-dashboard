@@ -1,11 +1,11 @@
 import { Module } from 'vuex'
 import { RootState } from '../index'
-import { state, ApplicationsState } from './state'
+import { state, ApplicationState } from './state'
 import { ApplicationGetters, getters } from './getters'
 import { ApplicationMutations, mutations } from './mutations'
 import { ApplicationActions, actions } from './actions'
 
-const applications: Module<ApplicationsState, RootState> = {
+const application: Module<ApplicationState, RootState> = {
   // namespaced: true,
   actions,
   getters,
@@ -14,7 +14,7 @@ const applications: Module<ApplicationsState, RootState> = {
 }
 
 export {
-  applications, ApplicationsState,
+  application, ApplicationState,
   mutations, ApplicationMutations,
   getters, ApplicationGetters,
   actions, ApplicationActions

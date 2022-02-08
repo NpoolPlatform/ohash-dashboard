@@ -14,7 +14,6 @@ interface LoginRequest {
 
 interface AppUser {
   ID?: string
-  AppID: string
   EmailAddress?: string
   PhoneNO?: string
   ImportedFromApp?: string
@@ -23,7 +22,6 @@ interface AppUser {
 
 interface AppRole {
   ID: string
-  AppID: string
   CreatedBy: string
   Role: string
   Description: string
@@ -32,7 +30,6 @@ interface AppRole {
 
 interface AppUserExtra {
   ID: string
-  AppID: string
   UserID: string
   Username: string
   AddressFields: Array<string>
@@ -48,13 +45,11 @@ interface AppUserExtra {
 
 interface AppUserControl {
   ID: string
-  AppID: string
   UserID: string
 }
 
 interface BanAppUser {
   ID: string
-  AppID: string
   UserID: string
   Message: string
 }
@@ -83,39 +78,35 @@ interface GoogleToken {
   Token: string
 }
 
-interface GetAppUserInfosByOtherAppRequest {
-  TargetAppID: string
+interface GetAppUserInfosRequest {
   Message: ReqMessage
 }
 
-interface GetAppUserInfosByOtherAppResponse {
+interface GetAppUserInfosResponse {
   Infos: Array<UserInfo>
 }
 
 interface AppRoleUser {
   ID?: string
-  AppID: string
   RoleID: string
-  UserID: string
+  UserID?: string
 }
 
-interface GetAppRoleUsersByOtherAppRequest {
-  TargetAppID: string
+interface GetAppRoleUsersRequest {
   Message: ReqMessage
 }
 
-interface GetAppRoleUsersByOtherAppResponse {
+interface GetAppRoleUsersResponse {
   Infos: Array<AppRoleUser>
 }
 
-interface CreateAppRoleUserForOtherAppUserRequest {
-  TargetAppID: string
+interface CreateAppRoleUserForAppOtherUserRequest {
   TargetUserID: string
   Info: AppRoleUser
   Message: ReqMessage
 }
 
-interface CreateAppRoleUserForOtherAppUserResponse {
+interface CreateAppRoleUserForAppOtherUserResponse {
   Info: AppRoleUser
 }
 
@@ -137,12 +128,12 @@ export {
   UserInfo,
   GetGoogleTokenRequest,
   GoogleToken,
-  GetAppUserInfosByOtherAppRequest,
-  GetAppUserInfosByOtherAppResponse,
-  GetAppRoleUsersByOtherAppRequest,
-  GetAppRoleUsersByOtherAppResponse,
-  CreateAppRoleUserForOtherAppUserRequest,
-  CreateAppRoleUserForOtherAppUserResponse,
+  GetAppUserInfosRequest,
+  GetAppUserInfosResponse,
+  GetAppRoleUsersRequest,
+  GetAppRoleUsersResponse,
+  CreateAppRoleUserForAppOtherUserRequest,
+  CreateAppRoleUserForAppOtherUserResponse,
   DeleteAppRoleUserRequest,
   DeleteAppRoleUserResponse
 }

@@ -5,17 +5,7 @@
     :loading='loading'
     :rows='roles'
     @row-click='(evt, row, index) => onRowClick(row as AppRole)'
-  >
-    <template #top-right>
-      <div class='row'>
-        <q-space />
-        <q-btn dense @click='onCreateAppRoleClick'>
-          {{ $t('MSG_CREATE_ROLE') }}
-        </q-btn>
-        <ApplicationSelector v-model:selected-app-id='selectedAppID' />
-      </div>
-    </template>
-  </q-table>
+  />
   <q-dialog
     v-model='modifying'
     position='right'
@@ -26,7 +16,6 @@
   >
     <CreateAppRole
       v-model:edit-role='selectedRole'
-      v-model:selected-app='selectedApp'
       @update='onUpdate'
       @submit='onSubmit'
     />
@@ -34,31 +23,22 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, computed, ref, defineAsyncComponent, watch } from 'vue'
+import { onMounted, computed, ref, defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'src/store'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { FunctionVoid } from 'src/types/types'
-import { MutationTypes as UserMutationTypes } from 'src/store/user-helper/mutation-types'
-import { ActionTypes as ApplicationActionTypes } from 'src/store/applications/action-types'
-import { MutationTypes as ApplicationMutationTypes } from 'src/store/applications/mutation-types'
+import { ActionTypes as ApplicationActionTypes } from 'src/store/application/action-types'
+import { MutationTypes as ApplicationMutationTypes } from 'src/store/application/mutation-types'
 import { AppRole } from 'src/store/user-helper/types'
 
-const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
 const CreateAppRole = defineAsyncComponent(() => import('src/components/application/CreateAppRole.vue'))
 
 const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
 
-const selectedAppID = computed({
-  get: () => store.getters.getUserSelectedAppID,
-  set: (val) => {
-    store.commit(UserMutationTypes.SetSelectedAppID, val)
-  }
-})
-const selectedApp = computed(() => store.getters.getApplicationByID(selectedAppID.value))
-const roles = computed(() => store.getters.getAppRolesByAppID(selectedAppID.value))
+const roles = computed(() => store.getters.getAppRoles)
 const loading = ref(false)
 
 const creating = ref(false)
@@ -69,27 +49,13 @@ const selectedRole = ref()
 
 const unsubscribe = ref<FunctionVoid>()
 
-watch(selectedAppID, () => {
+onMounted(() => {
   loading.value = true
-  store.dispatch(ApplicationActionTypes.GetAppRolesByOtherApp, {
-    TargetAppID: selectedAppID.value,
+  store.dispatch(ApplicationActionTypes.GetAppRoles, {
     Message: {
       ModuleKey: ModuleKey.ModuleUsers,
       Error: {
         Title: t('MSG_GET_APP_ROLES_FAIL'),
-        Popup: true,
-        Type: NotificationType.Error
-      }
-    }
-  })
-})
-
-onMounted(() => {
-  store.dispatch(ApplicationActionTypes.GetApplications, {
-    Message: {
-      ModuleKey: ModuleKey.ModuleUsers,
-      Error: {
-        Title: t('MSG_GET_APPLICATIONS_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
@@ -103,11 +69,6 @@ onMounted(() => {
   })
 })
 
-const onCreateAppRoleClick = () => {
-  creating.value = true
-  modifying.value = true
-}
-
 const onUpdate = (contact: AppRole) => {
   // TODO: fileter the list
   console.log('update', contact)
@@ -118,8 +79,7 @@ const onSubmit = (role: AppRole) => {
   updating.value = false
   modifying.value = false
 
-  store.dispatch(ApplicationActionTypes.CreateAppRoleForOtherApp, {
-    TargetAppID: selectedAppID.value,
+  store.dispatch(ApplicationActionTypes.CreateAppRole, {
     Info: role,
     Message: {
       ModuleKey: ModuleKey.ModuleUsers,
@@ -131,8 +91,7 @@ const onSubmit = (role: AppRole) => {
     }
   })
 
-  store.dispatch(ApplicationActionTypes.GetAppRolesByOtherApp, {
-    TargetAppID: selectedAppID.value,
+  store.dispatch(ApplicationActionTypes.GetAppRoles, {
     Message: {
       ModuleKey: ModuleKey.ModuleUsers,
       Error: {

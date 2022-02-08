@@ -16,7 +16,6 @@
         <q-btn dense @click='onAddAppLanguage'>
           {{ $t('MSG_ADD_LANGUAGE') }}
         </q-btn>
-        <ApplicationSelector v-model:selected-app-id='selectedAppID' />
       </div>
     </template>
   </q-table>
@@ -27,7 +26,7 @@
     square
     no-shake
   >
-    <CreateAppLanguage v-model:selected-app='selectedApp' @update='onUpdate' @submit='onSubmit' />
+    <CreateAppLanguage @update='onUpdate' @submit='onSubmit' />
   </q-dialog>
 </template>
 
@@ -36,7 +35,6 @@ import { onMounted, ref, computed, defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useStore } from 'src/store'
-import { ActionTypes as ApplicationActionTypes } from 'src/store/applications/action-types'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { notify, notificationPop } from 'src/store/notifications/helper'
@@ -45,7 +43,6 @@ import { ActionTypes as LangActionTypes } from 'src/store/languages/action-types
 import { MutationTypes as LangMutationTypes } from 'src/store/languages/mutation-types'
 import { AppLanguage } from 'src/store/languages/types'
 
-const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
 const CreateAppLanguage = defineAsyncComponent(() => import('src/components/application/CreateAppLanguage.vue'))
 
 const store = useStore()
@@ -55,16 +52,8 @@ const { t } = useI18n({ useScope: 'global' })
 const loading = ref(true)
 const modifying = ref(false)
 
-const selectedAppID = computed({
-  get: () => store.getters.getAppEmailTemplateSelectedAppID,
-  set: (val) => {
-    store.commit(LangMutationTypes.SetSelectedAppID, val)
-  }
-})
-const selectedApp = computed(() => store.getters.getApplicationByID(selectedAppID.value))
-
 const languages = computed(() => store.getters.getLanguages)
-const appLanguages = computed(() => store.getters.getAppLangInfosByApp(selectedAppID.value))
+const appLanguages = computed(() => store.getters.getAppLangInfos)
 
 const onAddAppLanguage = () => {
   modifying.value = true
@@ -80,7 +69,7 @@ const onSubmit = (appLanguage: AppLanguage) => {
   store.dispatch(LangActionTypes.CreateAppLanguage, {
     Info: appLanguage,
     Message: {
-      ModuleKey: ModuleKey.ModuleApplications,
+      ModuleKey: ModuleKey.ModuleApplication,
       Error: {
         Title: t('MSG_CREATE_APP_LANG_FAIL'),
         Popup: true,
@@ -104,11 +93,11 @@ onMounted(() => {
     }
   })
 
-  store.dispatch(ApplicationActionTypes.GetApplications, {
+  store.dispatch(LangActionTypes.GetAppLangInfos, {
     Message: {
-      ModuleKey: ModuleKey.ModuleApplications,
+      ModuleKey: ModuleKey.ModuleApplication,
       Error: {
-        Title: t('MSG_GET_APPLICATIONS_FAIL'),
+        Title: t('MSG_GET_APP_LANG_INFOS_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
@@ -116,29 +105,12 @@ onMounted(() => {
   })
 
   unsubscribe.value = store.subscribe((mutation) => {
-    if (mutation.type === LangMutationTypes.SetSelectedAppID ||
-      mutation.type === LangMutationTypes.SetAppLanguage) {
-      loading.value = true
-      // TODO: here AppID will be override, should be fixed
-      store.dispatch(LangActionTypes.GetAppLangInfosByOtherApp, {
-        TargetAppID: selectedAppID.value,
-        Message: {
-          ModuleKey: ModuleKey.ModuleApplications,
-          Error: {
-            Title: t('MSG_GET_APP_LANG_INFOS_FAIL'),
-            Popup: true,
-            Type: NotificationType.Error
-          }
-        }
-      })
-    }
-
     if (mutation.type === LangMutationTypes.SetAppLangInfos) {
       loading.value = false
     }
 
     if (mutation.type === NotificationMutationTypes.Push) {
-      const notification = store.getters.peekNotification(ModuleKey.ModuleApplications)
+      const notification = store.getters.peekNotification(ModuleKey.ModuleApplication)
       if (notification) {
         notify(notification)
         store.commit(NotificationMutationTypes.Pop, notificationPop(notification))

@@ -2,7 +2,6 @@ import { ReqMessage } from '../notifications/types'
 
 interface AppContact {
   ID?: string
-  AppID: string
   UsedFor: string
   Account: string
   AccountType: string
@@ -10,7 +9,6 @@ interface AppContact {
 }
 
 interface GetAppContactsByAppRequest {
-  AppID: string
   Message: ReqMessage
 }
 
@@ -18,12 +16,11 @@ interface GetAppContactsByAppResponse {
   Infos: ReadonlyArray<AppContact>
 }
 
-interface GetAppContactsByOtherAppRequest {
-  TargetAppID: string
+interface GetAppContactsRequest {
   Message: ReqMessage
 }
 
-interface GetAppContactsByOtherAppResponse {
+interface GetAppContactsResponse {
   Infos: ReadonlyArray<AppContact>
 }
 
@@ -49,8 +46,8 @@ export {
   AppContact,
   GetAppContactsByAppRequest,
   GetAppContactsByAppResponse,
-  GetAppContactsByOtherAppRequest,
-  GetAppContactsByOtherAppResponse,
+  GetAppContactsRequest,
+  GetAppContactsResponse,
   CreateAppContactRequest,
   CreateAppContactResponse,
   UpdateAppContactRequest,

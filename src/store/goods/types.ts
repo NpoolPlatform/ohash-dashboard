@@ -78,7 +78,6 @@ interface CreateFeeTypeResponse {
 
 interface Fee {
   ID?: string
-  AppID: string
   FeeTypeID: string
   Value: number
 }

@@ -12,7 +12,6 @@
         <q-btn dense @click='onCreateAppSMSTemplateClick'>
           {{ $t('MSG_CREATE_APP_SMS_TEMPLATE') }}
         </q-btn>
-        <ApplicationSelector v-model:selected-app-id='selectedAppID' />
       </div>
     </template>
   </q-table>
@@ -26,7 +25,6 @@
   >
     <CreateAppSMSTemplate
       v-model:edit-template='selectedTemplate'
-      v-model:selected-app='selectedApp'
       @update='onUpdate'
       @submit='onSubmit'
     />
@@ -38,7 +36,6 @@ import { onMounted, ref, computed, defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useStore } from 'src/store'
-import { ActionTypes as ApplicationActionTypes } from 'src/store/applications/action-types'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { notify, notificationPop } from 'src/store/notifications/helper'
@@ -47,7 +44,6 @@ import { MutationTypes as AppSMSTemplateMutationTypes } from 'src/store/appsmste
 import { ActionTypes as AppSMSTemplateActionTypes } from 'src/store/appsmstemplates/action-types'
 import { AppSMSTemplate } from 'src/store/appsmstemplates/types'
 
-const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
 const CreateAppSMSTemplate = defineAsyncComponent(() => import('src/components/application/CreateAppSMSTemplate.vue'))
 
 const store = useStore()
@@ -59,14 +55,7 @@ const adding = ref(false)
 const updating = ref(false)
 const modifying = ref(false)
 
-const selectedAppID = computed({
-  get: () => store.getters.getAppSMSTemplateSelectedAppID,
-  set: (val) => {
-    store.commit(AppSMSTemplateMutationTypes.SetAppSMSTemplateSelectedAppID, val)
-  }
-})
-const selectedApp = computed(() => store.getters.getApplicationByID(selectedAppID.value))
-const templates = computed(() => store.getters.getAppSMSTemplatesByApp(selectedAppID.value))
+const templates = computed(() => store.getters.getAppSMSTemplates)
 
 const selectedTemplate = ref()
 
@@ -100,7 +89,7 @@ const onSubmit = (template: AppSMSTemplate) => {
   store.dispatch(action, {
     Info: template,
     Message: {
-      ModuleKey: ModuleKey.ModuleApplications,
+      ModuleKey: ModuleKey.ModuleApplication,
       Error: {
         Title: t('MSG_CREATE_APP_SMS_TEMPLATE_FAIL'),
         Popup: true,
@@ -113,38 +102,23 @@ const onSubmit = (template: AppSMSTemplate) => {
 const unsubscribe = ref<FunctionVoid>()
 
 onMounted(() => {
-  store.dispatch(ApplicationActionTypes.GetApplications, {
+  store.dispatch(AppSMSTemplateActionTypes.GetAppSMSTemplates, {
     Message: {
-      ModuleKey: ModuleKey.ModuleApplications,
+      ModuleKey: ModuleKey.ModuleApplication,
       Error: {
-        Title: t('MSG_GET_APPLICATIONS_FAIL'),
+        Title: t('MSG_GET_APP_SMS_TEMPLATES_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
     }
   })
-
   unsubscribe.value = store.subscribe((mutation) => {
-    if (mutation.type === AppSMSTemplateMutationTypes.SetAppSMSTemplateSelectedAppID) {
-      store.dispatch(AppSMSTemplateActionTypes.GetAppSMSTemplatesByOtherApp, {
-        TargetAppID: selectedAppID.value,
-        Message: {
-          ModuleKey: ModuleKey.ModuleApplications,
-          Error: {
-            Title: t('MSG_GET_APP_SMS_TEMPLATES_FAIL'),
-            Popup: true,
-            Type: NotificationType.Error
-          }
-        }
-      })
-    }
-
-    if (mutation.type === AppSMSTemplateMutationTypes.SetAppSMSTemplatesByApp) {
+    if (mutation.type === AppSMSTemplateMutationTypes.SetAppSMSTemplates) {
       loading.value = false
     }
 
     if (mutation.type === NotificationMutationTypes.Push) {
-      const notification = store.getters.peekNotification(ModuleKey.ModuleApplications)
+      const notification = store.getters.peekNotification(ModuleKey.ModuleApplication)
       if (notification) {
         notify(notification)
         store.commit(NotificationMutationTypes.Pop, notificationPop(notification))

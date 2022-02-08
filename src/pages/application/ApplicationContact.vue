@@ -12,7 +12,6 @@
         <q-btn dense @click='onCreateAppContactClick'>
           {{ $t('MSG_CREATE_APP_CONTACT') }}
         </q-btn>
-        <ApplicationSelector v-model:selected-app-id='selectedAppID' />
       </div>
     </template>
   </q-table>
@@ -26,7 +25,6 @@
   >
     <CreateAppContact
       v-model:edit-contact='selectedContact'
-      v-model:selected-app='selectedApp'
       @update='onUpdate'
       @submit='onSubmit'
     />
@@ -38,7 +36,6 @@ import { onMounted, ref, computed, defineAsyncComponent, onUnmounted } from 'vue
 import { useI18n } from 'vue-i18n'
 
 import { useStore } from 'src/store'
-import { ActionTypes as ApplicationActionTypes } from 'src/store/applications/action-types'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { notify, notificationPop } from 'src/store/notifications/helper'
@@ -47,7 +44,6 @@ import { MutationTypes as AppContactMutationTypes } from 'src/store/appcontacts/
 import { ActionTypes as AppContactActionTypes } from 'src/store/appcontacts/action-types'
 import { AppContact } from 'src/store/appcontacts/types'
 
-const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
 const CreateAppContact = defineAsyncComponent(() => import('src/components/application/CreateAppContact.vue'))
 
 const store = useStore()
@@ -59,14 +55,7 @@ const adding = ref(false)
 const updating = ref(false)
 const modifying = ref(false)
 
-const selectedAppID = computed({
-  get: () => store.getters.getAppContactSelectedAppID,
-  set: (val) => {
-    store.commit(AppContactMutationTypes.SetAppContactSelectedAppID, val)
-  }
-})
-const selectedApp = computed(() => store.getters.getApplicationByID(selectedAppID.value))
-const contacts = computed(() => store.getters.getAppContactsByApp(selectedAppID.value))
+const contacts = computed(() => store.getters.getAppContacts)
 
 const selectedContact = ref()
 
@@ -100,7 +89,7 @@ const onSubmit = (contact: AppContact) => {
   store.dispatch(action, {
     Info: contact,
     Message: {
-      ModuleKey: ModuleKey.ModuleApplications,
+      ModuleKey: ModuleKey.ModuleApplication,
       Error: {
         Title: t('MSG_CREATE_APP_CONTACT_FAIL'),
         Popup: true,
@@ -113,11 +102,11 @@ const onSubmit = (contact: AppContact) => {
 const unsubscribe = ref<FunctionVoid>()
 
 onMounted(() => {
-  store.dispatch(ApplicationActionTypes.GetApplications, {
+  store.dispatch(AppContactActionTypes.GetAppContacts, {
     Message: {
-      ModuleKey: ModuleKey.ModuleApplications,
+      ModuleKey: ModuleKey.ModuleApplication,
       Error: {
-        Title: t('MSG_GET_APPLICATIONS_FAIL'),
+        Title: t('MSG_GET_APP_CONTACTS_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
@@ -125,26 +114,12 @@ onMounted(() => {
   })
 
   unsubscribe.value = store.subscribe((mutation) => {
-    if (mutation.type === AppContactMutationTypes.SetAppContactSelectedAppID) {
-      store.dispatch(AppContactActionTypes.GetAppContactsByOtherApp, {
-        TargetAppID: selectedAppID.value,
-        Message: {
-          ModuleKey: ModuleKey.ModuleApplications,
-          Error: {
-            Title: t('MSG_GET_APP_CONTACTS_FAIL'),
-            Popup: true,
-            Type: NotificationType.Error
-          }
-        }
-      })
-    }
-
-    if (mutation.type === AppContactMutationTypes.SetAppContactsByApp) {
+    if (mutation.type === AppContactMutationTypes.SetAppContacts) {
       loading.value = false
     }
 
     if (mutation.type === NotificationMutationTypes.Push) {
-      const notification = store.getters.peekNotification(ModuleKey.ModuleApplications)
+      const notification = store.getters.peekNotification(ModuleKey.ModuleApplication)
       if (notification) {
         notify(notification)
         store.commit(NotificationMutationTypes.Pop, notificationPop(notification))

@@ -12,7 +12,6 @@ interface App {
 
 interface AppControl {
   ID: string
-  AppID: string
   SignupMethods: Array<string>
   ExternSigninMethods: Array<string>
   RecaptchaMethod: string
@@ -23,7 +22,6 @@ interface AppControl {
 
 interface BanApp {
   ID: string
-  AppID: string
   Message: string
 }
 
@@ -33,11 +31,11 @@ interface Application {
   Ban: BanApp
 }
 
-interface GetApplicationsResponse {
-  Infos: ReadonlyArray<Application>
+interface GetApplicationResponse {
+  Info: Application
 }
 
-interface GetApplicationsRequest {
+interface GetApplicationRequest {
   Message: ReqMessage
 }
 
@@ -77,22 +75,20 @@ interface CreateAppControlResponse {
   Info: AppControl
 }
 
-interface GetAppRolesByOtherAppRequest {
-  TargetAppID: string
+interface GetAppRolesRequest {
   Message: ReqMessage
 }
 
-interface GetAppRolesByOtherAppResponse {
+interface GetAppRolesResponse {
   Infos: Array<AppRole>
 }
 
-interface CreateAppRoleForOtherAppRequest {
-  TargetAppID: string
+interface CreateAppRoleFRequest {
   Message: ReqMessage
   Info: AppRole
 }
 
-interface CreateAppRoleForOtherAppResponse {
+interface CreateAppRoleFResponse {
   Info: AppRole
 }
 
@@ -101,8 +97,8 @@ export {
   AppControl,
   BanApp,
   Application,
-  GetApplicationsRequest,
-  GetApplicationsResponse,
+  GetApplicationRequest,
+  GetApplicationResponse,
   CreateApplicationRequest,
   CreateApplicationResponse,
   UpdateApplicationRequest,
@@ -111,8 +107,8 @@ export {
   UpdateAppControlResponse,
   CreateAppControlRequest,
   CreateAppControlResponse,
-  GetAppRolesByOtherAppRequest,
-  GetAppRolesByOtherAppResponse,
-  CreateAppRoleForOtherAppRequest,
-  CreateAppRoleForOtherAppResponse
+  GetAppRolesRequest,
+  GetAppRolesResponse,
+  CreateAppRoleFRequest,
+  CreateAppRoleFResponse
 }

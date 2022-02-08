@@ -35,12 +35,12 @@ import {
 } from './notifications'
 
 import {
-  applications,
-  ApplicationsState,
+  application,
+  ApplicationState,
   ApplicationMutations,
   ApplicationGetters,
   ApplicationActions
-} from './applications'
+} from './application'
 
 import {
   reviews,
@@ -83,14 +83,6 @@ import {
 } from './kycs'
 
 import {
-  apis,
-  APIsState,
-  APIMutations,
-  APIGetters,
-  APIActions
-} from './apis'
-
-import {
   appEmailTemplates,
   AppEmailTemplatesState,
   AppEmailTemplateMutations,
@@ -127,13 +119,12 @@ export interface RootState {
   user: UserState,
   mainBreadcrumbs: MainBreadcrumbsState,
   notifications: NotificationState
-  applications: ApplicationsState
+  applications: ApplicationState
   reviews: ReviewsState
   goods: GoodsState
   coins: CoinsState
   languages: LanguagesState
   kyc: KYCsState
-  apis: APIsState
   appEmailTemplates: AppEmailTemplatesState
   appSMSTemplates: AppSMSTemplatesState
   appContacts: AppContactsState
@@ -150,7 +141,6 @@ type Actions =
   CoinActions &
   LanguageActions &
   KYCActions &
-  APIActions &
   AppEmailTemplateActions &
   AppSMSTemplateActions &
   AppContactActions &
@@ -165,7 +155,6 @@ type Mutations =
   CoinMutations &
   LanguageMutations &
   KYCMutations &
-  APIMutations &
   AppEmailTemplateMutations &
   AppSMSTemplateMutations &
   AppContactMutations &
@@ -180,7 +169,6 @@ type Getters =
   CoinGetters &
   LanguageGetters &
   KYCGetters &
-  APIGetters &
   AppEmailTemplateGetters &
   AppSMSTemplateGetters &
   AppContactGetters &
@@ -193,13 +181,12 @@ export default store(function (/* { ssrContext } */) {
       user,
       mainBreadcrumbs,
       notifications,
-      applications,
+      application,
       reviews,
       goods,
       coins,
       languages,
       kyc,
-      apis,
       appEmailTemplates,
       appSMSTemplates,
       appContacts,

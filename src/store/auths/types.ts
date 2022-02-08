@@ -2,7 +2,6 @@ import { ReqMessage } from '../notifications/types'
 
 interface AppAuth {
   ID?: string
-  AppID: string
   Resource: string
   Method: string
 }
@@ -17,49 +16,44 @@ interface AppRoleAuth extends AppAuth {
 
 interface Auth {
   ID: string
-  AppID: string
   RoleID: string
   UserID: string
   Resource: string
   Method: string
 }
 
-interface GetAuthsByOtherAppRequest {
-  TargetAppID: string
+interface GetAuthsRequest {
   Message: ReqMessage
 }
 
-interface GetAuthsByOtherAppResponse {
+interface GetAuthsResponse {
   Infos: Array<Auth>
 }
 
-interface CreateAppAuthForOtherAppRequest {
-  TargetAppID: string
+interface CreateAppAuthRequest {
   Info: AppAuth
   Message: ReqMessage
 }
 
-interface CreateAppAuthForOtherAppResponse {
+interface CreateAppAuthResponse {
   Info: Auth
 }
 
-interface CreateAppUserAuthForOtherAppRequest {
-  TargetAppID: string
+interface CreateAppUserAuthRequest {
   Info: AppUserAuth
   Message: ReqMessage
 }
 
-interface CreateAppUserAuthForOtherAppResponse {
+interface CreateAppUserAuthResponse {
   Info: Auth
 }
 
-interface CreateAppRoleAuthForOtherAppRequest {
-  TargetAppID: string
+interface CreateAppRoleAuthRequest {
   Info: AppRoleAuth
   Message: ReqMessage
 }
 
-interface CreateAppRoleAuthForOtherAppResponse {
+interface CreateAppRoleAuthResponse {
   Info: Auth
 }
 
@@ -92,7 +86,6 @@ interface DeleteAppRoleAuthResponse {
 
 interface AuthHistory {
   ID: string
-  AppID: string
   UserID: string
   Resource: string
   Method: string
@@ -100,25 +93,24 @@ interface AuthHistory {
   CreateAt: number
 }
 
-interface GetAuthHistoriesByOtherAppRequest {
-  TargetAppID: string
+interface GetAuthHistoriesRequest {
   Message: ReqMessage
 }
 
-interface GetAuthHistoriesByOtherAppResponse {
+interface GetAuthHistoriesResponse {
   Infos: Array<AuthHistory>
 }
 
 export {
   Auth,
-  GetAuthsByOtherAppRequest,
-  GetAuthsByOtherAppResponse,
-  CreateAppAuthForOtherAppRequest,
-  CreateAppAuthForOtherAppResponse,
-  CreateAppUserAuthForOtherAppRequest,
-  CreateAppUserAuthForOtherAppResponse,
-  CreateAppRoleAuthForOtherAppRequest,
-  CreateAppRoleAuthForOtherAppResponse,
+  GetAuthsRequest,
+  GetAuthsResponse,
+  CreateAppAuthRequest,
+  CreateAppAuthResponse,
+  CreateAppUserAuthRequest,
+  CreateAppUserAuthResponse,
+  CreateAppRoleAuthRequest,
+  CreateAppRoleAuthResponse,
   DeleteAppAuthRequest,
   DeleteAppAuthResponse,
   DeleteAppUserAuthRequest,
@@ -126,6 +118,6 @@ export {
   DeleteAppRoleAuthRequest,
   DeleteAppRoleAuthResponse,
   AuthHistory,
-  GetAuthHistoriesByOtherAppRequest,
-  GetAuthHistoriesByOtherAppResponse
+  GetAuthHistoriesRequest,
+  GetAuthHistoriesResponse
 }

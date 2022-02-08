@@ -2,7 +2,6 @@ import { ReqMessage } from '../notifications/types'
 
 interface AppEmailTemplate {
   ID?: string
-  AppID: string
   LangID: string
   DefaultToUsername: string
   UsedFor: string
@@ -13,21 +12,11 @@ interface AppEmailTemplate {
   Body: string
 }
 
-interface GetAppEmailTemplatesByAppRequest {
-  AppID: string
+interface GetAppEmailTemplatesRequest {
   Message: ReqMessage
 }
 
-interface GetAppEmailTemplatesByAppResponse {
-  Infos: ReadonlyArray<AppEmailTemplate>
-}
-
-interface GetAppEmailTemplatesByOtherAppRequest {
-  TargetAppID: string
-  Message: ReqMessage
-}
-
-interface GetAppEmailTemplatesByOtherAppResponse {
+interface GetAppEmailTemplatesResponse {
   Infos: ReadonlyArray<AppEmailTemplate>
 }
 
@@ -51,10 +40,8 @@ interface UpdateAppEmailTemplateResponse {
 
 export {
   AppEmailTemplate,
-  GetAppEmailTemplatesByAppRequest,
-  GetAppEmailTemplatesByAppResponse,
-  GetAppEmailTemplatesByOtherAppRequest,
-  GetAppEmailTemplatesByOtherAppResponse,
+  GetAppEmailTemplatesRequest,
+  GetAppEmailTemplatesResponse,
   CreateAppEmailTemplateRequest,
   CreateAppEmailTemplateResponse,
   UpdateAppEmailTemplateRequest,

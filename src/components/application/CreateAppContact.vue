@@ -52,17 +52,14 @@
 
 <script setup lang='ts'>
 import { defineProps, toRef, computed, defineEmits, watch, ref } from 'vue'
-import { Application } from 'src/store/applications/types'
 import { AppContact } from 'src/store/appcontacts/types'
 
 interface Props {
-  selectedApp?: Application
   editContact?: AppContact
 }
 
 const props = defineProps<Props>()
 
-const selectedApp = toRef(props, 'selectedApp')
 const editContact = toRef(props, 'editContact')
 
 const editContactAccount = computed(() => {
@@ -93,7 +90,6 @@ const id = ref(editContactID.value)
 const template = computed(() => {
   return {
     ID: id.value as string,
-    AppID: selectedApp.value?.App.ID,
     Account: account.value,
     AccountType: accountType.value,
     UsedFor: usedFor.value,

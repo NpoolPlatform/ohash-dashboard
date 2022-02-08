@@ -106,7 +106,7 @@ onMounted(() => {
         Account: account.value,
         PasswordHash: encryptPassword(password.value),
         ManMachineSpec: token.Token,
-        LoginType: LoginType.USERNAME,
+        LoginType: LoginType.EMAIL_ADDRESS,
         Message: {
           ModuleKey: ModuleKey.ModuleLogin,
           Error: {

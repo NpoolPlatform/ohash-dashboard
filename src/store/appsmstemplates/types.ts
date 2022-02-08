@@ -2,28 +2,17 @@ import { ReqMessage } from '../notifications/types'
 
 interface AppSMSTemplate {
   ID?: string
-  AppID: string
   LangID: string
   UsedFor: string
   Subject: string
   Message: string
 }
 
-interface GetAppSMSTemplatesByAppRequest {
-  AppID: string
+interface GetAppSMSTemplatesRequest {
   Message: ReqMessage
 }
 
-interface GetAppSMSTemplatesByAppResponse {
-  Infos: ReadonlyArray<AppSMSTemplate>
-}
-
-interface GetAppSMSTemplatesByOtherAppRequest {
-  TargetAppID: string
-  Message: ReqMessage
-}
-
-interface GetAppSMSTemplatesByOtherAppResponse {
+interface GetAppSMSTemplatesResponse {
   Infos: ReadonlyArray<AppSMSTemplate>
 }
 
@@ -47,10 +36,8 @@ interface UpdateAppSMSTemplateResponse {
 
 export {
   AppSMSTemplate,
-  GetAppSMSTemplatesByAppRequest,
-  GetAppSMSTemplatesByAppResponse,
-  GetAppSMSTemplatesByOtherAppRequest,
-  GetAppSMSTemplatesByOtherAppResponse,
+  GetAppSMSTemplatesRequest,
+  GetAppSMSTemplatesResponse,
   CreateAppSMSTemplateRequest,
   CreateAppSMSTemplateResponse,
   UpdateAppSMSTemplateRequest,

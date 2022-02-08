@@ -36,20 +36,20 @@ See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
 
 Jenkinsfile
 
-+ church-dashboard -> your_project_name
++ procyon-dashboard -> your_project_name
 
 nginx.template.conf
 
-+ church_dashboard_error.log -> your_project_name_error.log
++ procyon_dashboard_error.log -> your_project_name_error.log
 
 k8s
 
-+ 01-church-dashboard.yaml -> your_project_name.yaml
-+ church-dashboard -> your_project_name
++ 01-procyon-dashboard.yaml -> your_project_name.yaml
++ procyon-dashboard -> your_project_name
 
 02-ingress.yaml
 
-+ church-dashboard -> your_project_name
++ procyon-dashboard -> your_project_name
 
 logo
 

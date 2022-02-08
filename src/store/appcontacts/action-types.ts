@@ -1,6 +1,5 @@
 export enum ActionTypes {
-  GetAppContactsByApp = 'GET_APP_CONTACTS_BY_APP',
-  GetAppContactsByOtherApp = 'GET_APP_CONTACTS_BY_OTHER_APP',
+  GetAppContacts = 'GET_APP_CONTACTS',
   CreateAppContact = 'CREATE_APP_CONTACT',
   UpdateAppContact = 'UPDATE_APP_CONTACT'
 }

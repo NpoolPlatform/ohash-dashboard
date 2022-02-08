@@ -1,13 +1,12 @@
 import { AppContact } from './types'
 
 interface AppContactsState {
-  AppContacts: Map<string, Array<AppContact>>
-  SelectedAppID?: string
+  AppContacts: Array<AppContact>
 }
 
 function state (): AppContactsState {
   return {
-    AppContacts: new Map<string, Array<AppContact>>()
+    AppContacts: [] as Array<AppContact>
   }
 }
 

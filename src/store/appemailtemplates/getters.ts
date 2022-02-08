@@ -4,17 +4,11 @@ import { AppEmailTemplatesState } from './state'
 import { AppEmailTemplate } from './types'
 
 type AppEmailTemplateGetters = {
-  getAppEmailTemplatesByApp (state: AppEmailTemplatesState): (appID: string) => Array<AppEmailTemplate>
-  getAppEmailTemplateSelectedAppID (state: AppEmailTemplatesState): string
+  getAppEmailTemplates (state: AppEmailTemplatesState): Array<AppEmailTemplate>
 }
 
 const getters: GetterTree<AppEmailTemplatesState, RootState> & AppEmailTemplateGetters = {
-  getAppEmailTemplatesByApp: (state: AppEmailTemplatesState): (appID: string) => Array<AppEmailTemplate> => {
-    return (appID: string) => {
-      return state.AppEmailTemplates.get(appID) as Array<AppEmailTemplate>
-    }
-  },
-  getAppEmailTemplateSelectedAppID: (state: AppEmailTemplatesState): string => state.SelectedAppID as string
+  getAppEmailTemplates: (state: AppEmailTemplatesState): Array<AppEmailTemplate> => state.AppEmailTemplates
 }
 
 export { AppEmailTemplateGetters, getters }

@@ -1,13 +1,12 @@
 import { AppSMSTemplate } from './types'
 
 interface AppSMSTemplatesState {
-  AppSMSTemplates: Map<string, Array<AppSMSTemplate>>
-  SelectedAppID?: string
+  AppSMSTemplates: Array<AppSMSTemplate>
 }
 
 function state (): AppSMSTemplatesState {
   return {
-    AppSMSTemplates: new Map<string, Array<AppSMSTemplate>>()
+    AppSMSTemplates: [] as Array<AppSMSTemplate>
   }
 }
 

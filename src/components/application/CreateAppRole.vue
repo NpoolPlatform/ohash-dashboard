@@ -43,19 +43,16 @@
 
 <script setup lang='ts'>
 import { defineProps, toRef, computed, defineEmits, watch, ref } from 'vue'
-import { Application } from 'src/store/applications/types'
 import { AppRole } from 'src/store/user-helper/types'
 import { useStore } from 'src/store'
 
 interface Props {
-  selectedApp?: Application
   editRole?: AppRole
 }
 
 const props = defineProps<Props>()
 const store = useStore()
 
-const selectedApp = toRef(props, 'selectedApp')
 const editRole = toRef(props, 'editRole')
 const userInfo = computed(() => store.getters.getLoginedUser)
 
@@ -87,7 +84,6 @@ const id = ref(editRoleID.value)
 const appRole = computed(() => {
   return {
     ID: id.value as string,
-    AppID: selectedApp.value?.App.ID,
     CreatedBy: createdBy.value,
     Role: role.value,
     Description: description.value,

@@ -1,16 +1,15 @@
 enum API {
   LOGIN = '/login-gateway/v1/login',
   LOGOUT = '/login-gateway/v1/logout',
-  GET_APP_USER_INFOS_BY_OTHER_APP = '/appuser-manager/v1/get/app/userinfos/by/other/app',
-  GET_APP_ROLE_USERS_BY_OTHER_APP = '/appuser-manager/v1/get/app/role/users/by/other/app',
-  CREATE_APP_ROLE_USER_FOR_OTHER_APP_USER = '/appuser-manager/v1/create/app/role/user/for/other/app/user',
+  GET_APP_USER_INFOS = '/appuser-manager/v1/get/app/userinfos/by/app',
+  GET_APP_ROLE_USERS = '/appuser-manager/v1/get/app/role/users/by/app',
+  CREATE_APP_ROLE_USER_FOR_APP_OTHER_USER = '/appuser-manager/v1/create/app/role/user/for/app/other/user',
   DELETE_APP_ROLE_USER = '/appuser-manager/v1/delete/app/role/user'
 }
 
 enum LoginType {
-  PHONE_NO = 'phone_no',
-  EMAIL_ADDRESS = 'email_address',
-  USERNAME = 'username'
+  PHONE_NO = 'mobile',
+  EMAIL_ADDRESS = 'email'
 }
 
 enum GoogleTokenReq {

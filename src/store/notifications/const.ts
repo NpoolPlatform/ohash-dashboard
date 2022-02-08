@@ -1,6 +1,6 @@
 enum ModuleKey {
   ModuleLogin = 'login',
-  ModuleApplications = 'applications',
+  ModuleApplication = 'application',
   ModuleReviews = 'reviews',
   ModuleGoods = 'goods',
   ModuleInternationalization = 'internationalization',

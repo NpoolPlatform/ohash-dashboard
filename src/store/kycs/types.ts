@@ -3,7 +3,6 @@ import { ImageType } from './const'
 
 interface KYC {
   ID: string
-  AppID: string
   UserID: string
   FirstName: string
   LastName: string
@@ -21,7 +20,6 @@ interface GetKYCsResponse {
 }
 
 interface GetKYCsRequest {
-  AppID: string
   Message: ReqMessage
 }
 

@@ -10,7 +10,6 @@ type LanguageMutations<S = LanguagesState> = {
   [MutationTypes.SetMessages] (state: S, payload: unknown): void
   [MutationTypes.SetAppLangInfos] (state: S, payload: Array<AppLangInfo>): void
   [MutationTypes.SetAppLanguage] (state: S, payload: AppLanguage): void
-  [MutationTypes.SetSelectedAppID] (state: S, payload: string): void
 }
 
 const mutations: MutationTree<LanguagesState> & LanguageMutations = {
@@ -24,20 +23,15 @@ const mutations: MutationTree<LanguagesState> & LanguageMutations = {
     state.Messages = payload
   },
   [MutationTypes.SetAppLangInfos] (state: LanguagesState, payload: Array<AppLangInfo>): void {
-    if (payload.length > 0) {
-      state.AppLangInfos.set(payload[0].AppLang.AppID, payload)
-    }
+    state.AppLangInfos = payload
   },
   [MutationTypes.SetAppLanguage] (state: LanguagesState, payload: AppLanguage) {
-    let appLanguages = state.AppLanguages.get(payload.AppID)
+    let appLanguages = state.AppLanguages
     if (!appLanguages) {
       appLanguages = [] as Array<AppLanguage>
     }
     appLanguages?.push(payload)
-    state.AppLanguages.set(payload.AppID, appLanguages)
-  },
-  [MutationTypes.SetSelectedAppID] (state: LanguagesState, payload: string) {
-    state.SelectedAppID = payload
+    state.AppLanguages = appLanguages
   }
 }
 

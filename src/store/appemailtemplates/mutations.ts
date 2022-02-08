@@ -4,19 +4,16 @@ import { AppEmailTemplatesState } from './state'
 import { AppEmailTemplate } from './types'
 
 type AppEmailTemplateMutations<S = AppEmailTemplatesState> = {
-  [MutationTypes.SetAppEmailTemplatesByApp] (state: S, payload: Array<AppEmailTemplate>): void
+  [MutationTypes.SetAppEmailTemplates] (state: S, payload: Array<AppEmailTemplate>): void
   [MutationTypes.SetAppEmailTemplate] (state: S, payload: AppEmailTemplate): void
-  [MutationTypes.SetAppEmailTemplateSelectedAppID] (state: S, payload: string): void
 }
 
 const mutations: MutationTree<AppEmailTemplatesState> & AppEmailTemplateMutations = {
-  [MutationTypes.SetAppEmailTemplatesByApp] (state: AppEmailTemplatesState, payload: Array<AppEmailTemplate>) {
-    if (payload.length > 0) {
-      state.AppEmailTemplates.set(payload[0].AppID, payload)
-    }
+  [MutationTypes.SetAppEmailTemplates] (state: AppEmailTemplatesState, payload: Array<AppEmailTemplate>) {
+    state.AppEmailTemplates = payload
   },
   [MutationTypes.SetAppEmailTemplate] (state: AppEmailTemplatesState, payload: AppEmailTemplate) {
-    let templates = state.AppEmailTemplates.get(payload.AppID) as Array<AppEmailTemplate>
+    let templates = state.AppEmailTemplates
     if (!templates) {
       templates = [] as Array<AppEmailTemplate>
     }
@@ -33,10 +30,7 @@ const mutations: MutationTree<AppEmailTemplatesState> & AppEmailTemplateMutation
     } else {
       templates.push(payload)
     }
-    state.AppEmailTemplates.set(payload.AppID, templates)
-  },
-  [MutationTypes.SetAppEmailTemplateSelectedAppID] (state: AppEmailTemplatesState, payload: string): void {
-    state.SelectedAppID = payload
+    state.AppEmailTemplates = templates
   }
 }
 

@@ -15,23 +15,15 @@ const MainDrawerMenus = [
     label: '应用',
     caption: '管理应用',
     icon: 'pending',
-    target: '/applications',
+    target: '/application',
     level: 0,
     children: [
       {
         menuId: uid(),
-        label: '应用管理',
-        caption: '管理应用',
-        icon: 'perm_identity',
-        target: '/applications/applications',
-        level: 1,
-        children: []
-      }, {
-        menuId: uid(),
         label: '应用短信模板',
         caption: '管理应用短信模板',
         icon: 'perm_identity',
-        target: '/applications/sms/template',
+        target: '/application/sms/template',
         level: 1,
         children: []
       }, {
@@ -39,7 +31,7 @@ const MainDrawerMenus = [
         label: '应用邮件模板',
         caption: '管理应用邮件模板',
         icon: 'perm_identity',
-        target: '/applications/email/template',
+        target: '/application/email/template',
         level: 1,
         children: []
       }, {
@@ -47,15 +39,7 @@ const MainDrawerMenus = [
         label: '应用内联系',
         caption: '管理应用内联系地址',
         icon: 'perm_identity',
-        target: '/applications/contacts',
-        level: 1,
-        children: []
-      }, {
-        menuId: uid(),
-        label: '国际化',
-        caption: '管理应用支持语言',
-        icon: 'perm_identity',
-        target: '/applications/languages',
+        target: '/application/contacts',
         level: 1,
         children: []
       }
@@ -76,24 +60,8 @@ const MainDrawerMenus = [
         target: '/review/kyc',
         level: 1,
         children: []
-      }, {
-        menuId: uid(),
-        label: '商品',
-        caption: '审核商品上下架',
-        icon: 'format_list_numbered',
-        target: '/review/good',
-        level: 1,
-        children: []
       }
     ]
-  }, {
-    menuId: uid(),
-    label: 'API',
-    caption: '管理API授权',
-    icon: 'perm_identity',
-    target: '/apis',
-    level: 0,
-    children: []
   }, {
     menuId: uid(),
     label: '用户与角色',
@@ -126,22 +94,6 @@ const MainDrawerMenus = [
         target: '/users/roleusers',
         level: 1,
         children: []
-      }, {
-        menuId: uid(),
-        label: '角色授权',
-        caption: '管理角色访问权限',
-        icon: 'format_list_numbered',
-        target: '/users/roleauths',
-        level: 1,
-        children: []
-      }, {
-        menuId: uid(),
-        label: '鉴权历史',
-        caption: '查看鉴权历史',
-        icon: 'format_list_numbered',
-        target: '/users/auth/histories',
-        level: 1,
-        children: []
       }
     ]
   }, {
@@ -152,58 +104,6 @@ const MainDrawerMenus = [
     target: '/internationalization',
     level: 0,
     children: []
-  }, {
-    menuId: uid(),
-    label: '商品',
-    caption: '管理算力商品',
-    icon: 'format_list_numbered',
-    target: '/goods',
-    level: 0,
-    children: []
-  }, {
-    menuId: uid(),
-    label: '多层菜单',
-    caption: '多层菜单',
-    icon: 'menu',
-    target: '/internationalization',
-    level: 0,
-    children: [
-      {
-        menuId: uid(),
-        label: '多层菜单',
-        caption: '多层菜单',
-        icon: 'menu',
-        target: '/example',
-        level: 1,
-        children: [
-          {
-            menuId: uid(),
-            label: '多层菜单',
-            caption: '多层菜单',
-            icon: 'menu',
-            target: '/example',
-            level: 2,
-            children: []
-          }, {
-            menuId: uid(),
-            label: '多层菜单',
-            caption: '多层菜单',
-            icon: 'menu',
-            target: '/example',
-            level: 2,
-            children: []
-          }
-        ]
-      }, {
-        menuId: uid(),
-        label: '多层菜单',
-        caption: '多层菜单',
-        icon: 'menu',
-        target: '/example',
-        level: 1,
-        children: []
-      }
-    ]
   }
 ]
 

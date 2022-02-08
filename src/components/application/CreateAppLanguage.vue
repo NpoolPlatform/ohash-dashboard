@@ -43,7 +43,7 @@
 
 <script setup lang='ts'>
 import { ref, defineProps, toRef, computed, defineEmits, watch, onMounted } from 'vue'
-import { Application } from 'src/store/applications/types'
+import { Application } from 'src/store/application/types'
 import { useStore } from 'src/store'
 import { Language, AppLanguage } from 'src/store/languages/types'
 import { ActionTypes } from 'src/store/languages/action-types'
@@ -70,7 +70,6 @@ const selectedLangID = computed(() => selectedLang.value.ID)
 
 const appLanguage = computed(() => {
   return {
-    AppID: selectedApp.value?.App.ID,
     LangID: selectedLangID.value
   } as AppLanguage
 })
@@ -94,7 +93,7 @@ const onLangItemClick = (lang: Language) => {
 onMounted(() => {
   store.dispatch(ActionTypes.GetLanguages, {
     Message: {
-      ModuleKey: ModuleKey.ModuleApplications,
+      ModuleKey: ModuleKey.ModuleApplication,
       Error: {
         Title: t('MSG_GET_LANGUAGES_FAIL'),
         Popup: true,

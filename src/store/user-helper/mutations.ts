@@ -9,7 +9,6 @@ type UserMutations<S = UserState> = {
   [MutationTypes.SetAppUserInfos] (state: S, payload: Array<UserInfo>): void
   [MutationTypes.SetAppRoleUsers] (state: S, payload: Array<AppRoleUser>): void
   [MutationTypes.DeleteAppRoleUser] (state: S, payload: AppRoleUser): void
-  [MutationTypes.SetSelectedAppID] (state: S, payload: string): void
   [MutationTypes.Reset] (state: S): void
 }
 
@@ -21,35 +20,16 @@ const mutations: MutationTree<UserState> & UserMutations = {
     state.GoogleToken.set(payload.Req, payload.Token)
   },
   [MutationTypes.SetAppUserInfos] (state: UserState, payload: Array<UserInfo>): void {
-    if (payload.length > 0) {
-      state.AppUserInfos.set(payload[0].User?.AppID as string, payload)
-    }
+    state.AppUserInfos = payload
   },
   [MutationTypes.SetAppRoleUsers] (state: UserState, payload: Array<AppRoleUser>): void {
-    if (payload.length > 0) {
-      let users = state.AppRoleUsers.get(payload[0].AppID) as Array<AppRoleUser>
-      if (!users) {
-        users = [] as Array<AppRoleUser>
-      }
-      payload.forEach((user) => {
-        for (let i = 0; i < users?.length; i++) {
-          if (users[i].ID === user.ID) {
-            return
-          }
-        }
-        users.push(user)
-      })
-      state.AppRoleUsers.set(payload[0].AppID, users)
-    }
+    state.AppRoleUsers = payload
   },
   [MutationTypes.DeleteAppRoleUser] (state: UserState, payload: AppRoleUser): void {
-    const users = state.AppRoleUsers.get(payload.AppID)?.filter((user) => {
+    const users = state.AppRoleUsers.filter((user) => {
       return user.ID !== payload.ID
     })
-    state.AppRoleUsers.set(payload.AppID, users as Array<AppRoleUser>)
-  },
-  [MutationTypes.SetSelectedAppID] (state: UserState, payload: string): void {
-    state.SelectedAppID = payload
+    state.AppRoleUsers = users
   },
   [MutationTypes.Reset] (state: UserState) {
     Object.assign(state, { ...emptyState })

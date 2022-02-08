@@ -100,7 +100,6 @@
 
 <script setup lang='ts'>
 import { defineProps, toRef, computed, defineEmits, watch, onMounted, ref } from 'vue'
-import { Application } from 'src/store/applications/types'
 import { AppEmailTemplate } from 'src/store/appemailtemplates/types'
 import { useStore } from 'src/store'
 import { Language } from 'src/store/languages/types'
@@ -114,16 +113,14 @@ const store = useStore()
 const { t } = useI18n({ useScope: 'global' })
 
 interface Props {
-  selectedApp?: Application
   editTemplate?: AppEmailTemplate
 }
 
 const props = defineProps<Props>()
 
-const selectedApp = toRef(props, 'selectedApp')
 const editTemplate = toRef(props, 'editTemplate')
 
-const languages = computed(() => store.getters.getAppLangInfosByApp(selectedApp.value?.App.ID as string))
+const languages = computed(() => store.getters.getAppLangInfos)
 
 const editTemplateLang = computed(() => {
   if (!editTemplate.value) {
@@ -184,7 +181,6 @@ const id = ref(editTemplateID.value)
 const template = computed(() => {
   return {
     ID: id.value as string,
-    AppID: selectedApp.value?.App.ID,
     LangID: selectedLangID.value,
     ReplyTos: replyTos.value.split(','),
     CCTos: ccTos.value.split(','),
@@ -213,10 +209,9 @@ const onLangItemClick = (lang: Language) => {
 }
 
 onMounted(() => {
-  store.dispatch(ActionTypes.GetAppLangInfosByOtherApp, {
-    TargetAppID: selectedApp.value?.App.ID as string,
+  store.dispatch(ActionTypes.GetAppLangInfos, {
     Message: {
-      ModuleKey: ModuleKey.ModuleApplications,
+      ModuleKey: ModuleKey.ModuleApplication,
       Error: {
         Title: t('MSG_GET_APP_LANG_INFOS_FAIL'),
         Popup: true,

@@ -14,22 +14,16 @@ const routes: RouteRecordRaw[] = [
       { path: 'review/kyc', component: () => import('pages/review/KYC.vue') },
       { path: 'review/good', component: () => import('pages/review/Good.vue') },
 
-      // Applications page
-      { path: 'applications/applications', component: () => import('pages/applications/Applications.vue') },
-      { path: 'applications/email/template', component: () => import('pages/applications/ApplicationEmailTemplate.vue') },
-      { path: 'applications/sms/template', component: () => import('pages/applications/ApplicationSMSTemplate.vue') },
-      { path: 'applications/contacts', component: () => import('pages/applications/ApplicationContact.vue') },
-      { path: 'applications/languages', component: () => import('pages/applications/ApplicationLanguages.vue') },
-
-      // API list
-      { path: 'apis', component: () => import('pages/API.vue') },
+      // Application page
+      { path: 'application/email/template', component: () => import('pages/application/ApplicationEmailTemplate.vue') },
+      { path: 'application/sms/template', component: () => import('pages/application/ApplicationSMSTemplate.vue') },
+      { path: 'application/contacts', component: () => import('pages/application/ApplicationContact.vue') },
+      { path: 'application/languages', component: () => import('pages/application/ApplicationLanguages.vue') },
 
       // User list
       { path: 'users/users', component: () => import('pages/users/Users.vue') },
       { path: 'users/roles', component: () => import('pages/users/Roles.vue') },
-      { path: 'users/auth/histories', component: () => import('pages/users/AuthHistories.vue') },
-      { path: 'users/roleusers', component: () => import('pages/users/RoleUsers.vue') },
-      { path: 'users/roleauths', component: () => import('pages/users/RoleAuths.vue') }
+      { path: 'users/roleusers', component: () => import('pages/users/RoleUsers.vue') }
     ]
   },
 

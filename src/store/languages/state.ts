@@ -6,9 +6,8 @@ interface LanguagesState {
   Languages: Map<string, Language>
   CurLang: string
   Messages?: LocaleMessages<VueMessageType>
-  AppLangInfos: Map<string, Array<AppLangInfo>>
-  AppLanguages: Map<string, Array<AppLanguage>>
-  SelectedAppID?: string
+  AppLangInfos: Array<AppLangInfo>
+  AppLanguages: Array<AppLanguage>
 }
 
 const DefaultLang = 'en-US'
@@ -26,8 +25,8 @@ function state (): LanguagesState {
   return {
     Languages: defaultLanguage,
     CurLang: DefaultLang,
-    AppLangInfos: new Map<string, Array<AppLangInfo>>(),
-    AppLanguages: new Map<string, Array<AppLanguage>>()
+    AppLangInfos: [] as Array<AppLangInfo>,
+    AppLanguages: [] as Array<AppLanguage>
   }
 }
 

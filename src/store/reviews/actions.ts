@@ -1,10 +1,8 @@
 import { ActionTypes } from './action-types'
 import { MutationTypes } from './mutation-types'
 import {
-  GetKYCReviewsByOtherAppRequest,
-  GetKYCReviewsByOtherAppResponse,
-  GetGoodReviewsRequest,
-  GetGoodReviewsResponse,
+  GetKYCReviewsRequest,
+  GetKYCReviewsResponse,
   UpdateReviewRequest,
   UpdateReviewResponse
 } from './types'
@@ -16,21 +14,13 @@ import { API } from './const'
 import { doAction } from '../action'
 
 interface ReviewActions {
-  [ActionTypes.GetKYCReviewsByOtherApp]({
+  [ActionTypes.GetKYCReviews]({
     commit
   }: AugmentedActionContext<
   ReviewsState,
     RootState,
     ReviewMutations<ReviewsState>>,
-    req: GetKYCReviewsByOtherAppRequest): void
-
-  [ActionTypes.GetGoodReviews]({
-    commit
-  }: AugmentedActionContext<
-  ReviewsState,
-    RootState,
-    ReviewMutations<ReviewsState>>,
-    req: GetGoodReviewsRequest): void
+    req: GetKYCReviewsRequest): void
 
   [ActionTypes.UpdateReview]({
     commit
@@ -42,25 +32,14 @@ interface ReviewActions {
 }
 
 const actions: ActionTree<ReviewsState, RootState> = {
-  [ActionTypes.GetKYCReviewsByOtherApp] ({ commit }, req: GetKYCReviewsByOtherAppRequest) {
-    doAction<GetKYCReviewsByOtherAppRequest, GetKYCReviewsByOtherAppResponse>(
+  [ActionTypes.GetKYCReviews] ({ commit }, req: GetKYCReviewsRequest) {
+    doAction<GetKYCReviewsRequest, GetKYCReviewsResponse>(
       commit,
-      API.GET_KYC_REVIEWS_BY_OTHER_APP,
+      API.GET_KYC_REVIEWS,
       req,
       req.Message,
-      (resp: GetKYCReviewsByOtherAppResponse): void => {
+      (resp: GetKYCReviewsResponse): void => {
         commit(MutationTypes.SetKYCReviews, resp.Infos)
-      })
-  },
-
-  [ActionTypes.GetGoodReviews] ({ commit }, req: GetGoodReviewsRequest) {
-    doAction<GetGoodReviewsRequest, GetGoodReviewsResponse>(
-      commit,
-      API.GET_GOOD_REVIEWS,
-      req,
-      req.Message,
-      (resp: GetGoodReviewsResponse): void => {
-        commit(MutationTypes.SetGoodReviews, resp.Infos)
       })
   },
 

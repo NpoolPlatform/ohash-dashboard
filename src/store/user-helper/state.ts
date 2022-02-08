@@ -1,21 +1,18 @@
-import { AppID } from 'src/const/const'
 import { AppRoleUser, UserInfo } from './types'
 
 interface UserState {
   LoginedUser: UserInfo
   GoogleToken: Map<string, string>
-  AppUserInfos: Map<string, Array<UserInfo>>
-  AppRoleUsers: Map<string, Array<AppRoleUser>>
-  SelectedAppID: string
+  AppUserInfos: Array<UserInfo>
+  AppRoleUsers: Array<AppRoleUser>
 }
 
 function state (): UserState {
   return {
     LoginedUser: {},
     GoogleToken: new Map<string, string>(),
-    AppUserInfos: new Map<string, Array<UserInfo>>(),
-    AppRoleUsers: new Map<string, Array<AppRoleUser>>(),
-    SelectedAppID: AppID
+    AppUserInfos: [] as Array<UserInfo>,
+    AppRoleUsers: [] as Array<AppRoleUser>
   }
 }
 

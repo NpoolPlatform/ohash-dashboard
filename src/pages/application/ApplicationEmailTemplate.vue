@@ -12,7 +12,6 @@
         <q-btn dense @click='onCreateAppEmailTemplateClick'>
           {{ $t('MSG_CREATE_APP_EMAIL_TEMPLATE') }}
         </q-btn>
-        <ApplicationSelector v-model:selected-app-id='selectedAppID' />
       </div>
     </template>
   </q-table>
@@ -26,7 +25,6 @@
   >
     <CreateAppEmailTemplate
       v-model:edit-template='selectedTemplate'
-      v-model:selected-app='selectedApp'
       @update='onUpdate'
       @submit='onSubmit'
     />
@@ -38,7 +36,6 @@ import { onMounted, ref, computed, defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useStore } from 'src/store'
-import { ActionTypes as ApplicationActionTypes } from 'src/store/applications/action-types'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { MutationTypes as NotificationMutationTypes } from 'src/store/notifications/mutation-types'
 import { notify, notificationPop } from 'src/store/notifications/helper'
@@ -47,7 +44,6 @@ import { MutationTypes as AppEmailTemplateMutationTypes } from 'src/store/appema
 import { ActionTypes as AppEmailTemplateActionTypes } from 'src/store/appemailtemplates/action-types'
 import { AppEmailTemplate } from 'src/store/appemailtemplates/types'
 
-const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
 const CreateAppEmailTemplate = defineAsyncComponent(() => import('src/components/application/CreateAppEmailTemplate.vue'))
 
 const store = useStore()
@@ -59,20 +55,12 @@ const adding = ref(false)
 const updating = ref(false)
 const modifying = ref(false)
 
-const selectedAppID = computed({
-  get: () => store.getters.getAppEmailTemplateSelectedAppID,
-  set: (val) => {
-    store.commit(AppEmailTemplateMutationTypes.SetAppEmailTemplateSelectedAppID, val)
-  }
-})
-const selectedApp = computed(() => store.getters.getApplicationByID(selectedAppID.value))
-const templates = computed(() => store.getters.getAppEmailTemplatesByApp(selectedAppID.value))
+const templates = computed(() => store.getters.getAppEmailTemplates)
 
 const selectedTemplate = ref()
 
 interface MyTemplate {
   ID?: string
-  AppID: string
   LangID: string
   UsedFor: string
   Sender: string
@@ -88,7 +76,6 @@ const myTemplates = computed(() => {
   templates.value.forEach(elem => {
     tmps.push({
       ID: elem.ID,
-      AppID: elem.AppID,
       LangID: elem.LangID,
       UsedFor: elem.UsedFor,
       Sender: elem.Sender,
@@ -138,7 +125,7 @@ const onSubmit = (template: AppEmailTemplate) => {
   store.dispatch(action, {
     Info: template,
     Message: {
-      ModuleKey: ModuleKey.ModuleApplications,
+      ModuleKey: ModuleKey.ModuleApplication,
       Error: {
         Title: t('MSG_CREATE_APP_EMAIL_TEMPLATE_FAIL'),
         Popup: true,
@@ -151,11 +138,11 @@ const onSubmit = (template: AppEmailTemplate) => {
 const unsubscribe = ref<FunctionVoid>()
 
 onMounted(() => {
-  store.dispatch(ApplicationActionTypes.GetApplications, {
+  store.dispatch(AppEmailTemplateActionTypes.GetAppEmailTemplates, {
     Message: {
-      ModuleKey: ModuleKey.ModuleApplications,
+      ModuleKey: ModuleKey.ModuleApplication,
       Error: {
-        Title: t('MSG_GET_APPLICATIONS_FAIL'),
+        Title: t('MSG_GET_APP_EMAIL_TEMPLATES_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
@@ -163,26 +150,12 @@ onMounted(() => {
   })
 
   unsubscribe.value = store.subscribe((mutation) => {
-    if (mutation.type === AppEmailTemplateMutationTypes.SetAppEmailTemplateSelectedAppID) {
-      store.dispatch(AppEmailTemplateActionTypes.GetAppEmailTemplatesByOtherApp, {
-        TargetAppID: selectedAppID.value,
-        Message: {
-          ModuleKey: ModuleKey.ModuleApplications,
-          Error: {
-            Title: t('MSG_GET_APP_EMAIL_TEMPLATES_FAIL'),
-            Popup: true,
-            Type: NotificationType.Error
-          }
-        }
-      })
-    }
-
-    if (mutation.type === AppEmailTemplateMutationTypes.SetAppEmailTemplatesByApp) {
+    if (mutation.type === AppEmailTemplateMutationTypes.SetAppEmailTemplates) {
       loading.value = false
     }
 
     if (mutation.type === NotificationMutationTypes.Push) {
-      const notification = store.getters.peekNotification(ModuleKey.ModuleApplications)
+      const notification = store.getters.peekNotification(ModuleKey.ModuleApplication)
       if (notification) {
         notify(notification)
         store.commit(NotificationMutationTypes.Pop, notificationPop(notification))

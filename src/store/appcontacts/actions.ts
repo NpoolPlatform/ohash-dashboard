@@ -3,10 +3,8 @@ import { MutationTypes } from './mutation-types'
 import {
   CreateAppContactRequest,
   CreateAppContactResponse,
-  GetAppContactsByAppRequest,
-  GetAppContactsByAppResponse,
-  GetAppContactsByOtherAppRequest,
-  GetAppContactsByOtherAppResponse,
+  GetAppContactsRequest,
+  GetAppContactsResponse,
   UpdateAppContactRequest,
   UpdateAppContactResponse
 } from './types'
@@ -18,21 +16,13 @@ import { API } from './const'
 import { doAction } from '../action'
 
 interface AppContactActions {
-  [ActionTypes.GetAppContactsByApp]({
+  [ActionTypes.GetAppContacts]({
     commit
   }: AugmentedActionContext<
   AppContactsState,
     RootState,
     AppContactMutations<AppContactsState>>,
-    req: GetAppContactsByAppRequest): void
-
-    [ActionTypes.GetAppContactsByOtherApp]({
-      commit
-    }: AugmentedActionContext<
-    AppContactsState,
-      RootState,
-      AppContactMutations<AppContactsState>>,
-      req: GetAppContactsByOtherAppRequest): void
+    req: GetAppContactsRequest): void
 
   [ActionTypes.CreateAppContact]({
     commit
@@ -52,25 +42,14 @@ interface AppContactActions {
 }
 
 const actions: ActionTree<AppContactsState, RootState> = {
-  [ActionTypes.GetAppContactsByApp] ({ commit }, req: GetAppContactsByAppRequest) {
-    doAction<GetAppContactsByAppRequest, GetAppContactsByAppResponse>(
+  [ActionTypes.GetAppContacts] ({ commit }, req: GetAppContactsRequest) {
+    doAction<GetAppContactsRequest, GetAppContactsResponse>(
       commit,
-      API.GET_APP_CONTACTS_BY_APP,
+      API.GET_APP_CONTACTS,
       req,
       req.Message,
-      (resp: GetAppContactsByAppResponse): void => {
-        commit(MutationTypes.SetAppContactsByApp, resp.Infos)
-      })
-  },
-
-  [ActionTypes.GetAppContactsByOtherApp] ({ commit }, req: GetAppContactsByOtherAppRequest) {
-    doAction<GetAppContactsByOtherAppRequest, GetAppContactsByOtherAppResponse>(
-      commit,
-      API.GET_APP_CONTACTS_BY_OTHER_APP,
-      req,
-      req.Message,
-      (resp: GetAppContactsByOtherAppResponse): void => {
-        commit(MutationTypes.SetAppContactsByApp, resp.Infos)
+      (resp: GetAppContactsResponse): void => {
+        commit(MutationTypes.SetAppContacts, resp.Infos)
       })
   },
 

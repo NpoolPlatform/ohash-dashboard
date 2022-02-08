@@ -3,10 +3,8 @@ import { MutationTypes } from './mutation-types'
 import {
   CreateAppSMSTemplateRequest,
   CreateAppSMSTemplateResponse,
-  GetAppSMSTemplatesByAppRequest,
-  GetAppSMSTemplatesByAppResponse,
-  GetAppSMSTemplatesByOtherAppRequest,
-  GetAppSMSTemplatesByOtherAppResponse,
+  GetAppSMSTemplatesRequest,
+  GetAppSMSTemplatesResponse,
   UpdateAppSMSTemplateRequest,
   UpdateAppSMSTemplateResponse
 } from './types'
@@ -18,21 +16,21 @@ import { API } from './const'
 import { doAction } from '../action'
 
 interface AppSMSTemplateActions {
-  [ActionTypes.GetAppSMSTemplatesByApp]({
+  [ActionTypes.GetAppSMSTemplates]({
     commit
   }: AugmentedActionContext<
   AppSMSTemplatesState,
     RootState,
     AppSMSTemplateMutations<AppSMSTemplatesState>>,
-    req: GetAppSMSTemplatesByAppRequest): void
+    req: GetAppSMSTemplatesRequest): void
 
-    [ActionTypes.GetAppSMSTemplatesByOtherApp]({
+    [ActionTypes.GetAppSMSTemplates]({
       commit
     }: AugmentedActionContext<
     AppSMSTemplatesState,
       RootState,
       AppSMSTemplateMutations<AppSMSTemplatesState>>,
-      req: GetAppSMSTemplatesByOtherAppRequest): void
+      req: GetAppSMSTemplatesRequest): void
 
   [ActionTypes.CreateAppSMSTemplate]({
     commit
@@ -52,25 +50,25 @@ interface AppSMSTemplateActions {
 }
 
 const actions: ActionTree<AppSMSTemplatesState, RootState> = {
-  [ActionTypes.GetAppSMSTemplatesByApp] ({ commit }, req: GetAppSMSTemplatesByAppRequest) {
-    doAction<GetAppSMSTemplatesByAppRequest, GetAppSMSTemplatesByAppResponse>(
+  [ActionTypes.GetAppSMSTemplates] ({ commit }, req: GetAppSMSTemplatesRequest) {
+    doAction<GetAppSMSTemplatesRequest, GetAppSMSTemplatesResponse>(
       commit,
-      API.GET_APP_SMS_TEMPALTES_BY_APP,
+      API.GET_APP_SMS_TEMPALTES,
       req,
       req.Message,
-      (resp: GetAppSMSTemplatesByAppResponse): void => {
-        commit(MutationTypes.SetAppSMSTemplatesByApp, resp.Infos)
+      (resp: GetAppSMSTemplatesResponse): void => {
+        commit(MutationTypes.SetAppSMSTemplates, resp.Infos)
       })
   },
 
-  [ActionTypes.GetAppSMSTemplatesByOtherApp] ({ commit }, req: GetAppSMSTemplatesByOtherAppRequest) {
-    doAction<GetAppSMSTemplatesByOtherAppRequest, GetAppSMSTemplatesByOtherAppResponse>(
+  [ActionTypes.GetAppSMSTemplates] ({ commit }, req: GetAppSMSTemplatesRequest) {
+    doAction<GetAppSMSTemplatesRequest, GetAppSMSTemplatesResponse>(
       commit,
-      API.GET_APP_SMS_TEMPALTES_BY_OTHER_APP,
+      API.GET_APP_SMS_TEMPALTES,
       req,
       req.Message,
-      (resp: GetAppSMSTemplatesByOtherAppResponse): void => {
-        commit(MutationTypes.SetAppSMSTemplatesByApp, resp.Infos)
+      (resp: GetAppSMSTemplatesResponse): void => {
+        commit(MutationTypes.SetAppSMSTemplates, resp.Infos)
       })
   },
 

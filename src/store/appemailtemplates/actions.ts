@@ -3,10 +3,8 @@ import { MutationTypes } from './mutation-types'
 import {
   CreateAppEmailTemplateRequest,
   CreateAppEmailTemplateResponse,
-  GetAppEmailTemplatesByAppRequest,
-  GetAppEmailTemplatesByAppResponse,
-  GetAppEmailTemplatesByOtherAppRequest,
-  GetAppEmailTemplatesByOtherAppResponse,
+  GetAppEmailTemplatesRequest,
+  GetAppEmailTemplatesResponse,
   UpdateAppEmailTemplateRequest,
   UpdateAppEmailTemplateResponse
 } from './types'
@@ -18,21 +16,13 @@ import { API } from './const'
 import { doAction } from '../action'
 
 interface AppEmailTemplateActions {
-  [ActionTypes.GetAppEmailTemplatesByApp]({
+  [ActionTypes.GetAppEmailTemplates]({
     commit
   }: AugmentedActionContext<
   AppEmailTemplatesState,
     RootState,
     AppEmailTemplateMutations<AppEmailTemplatesState>>,
-    req: GetAppEmailTemplatesByAppRequest): void
-
-    [ActionTypes.GetAppEmailTemplatesByOtherApp]({
-      commit
-    }: AugmentedActionContext<
-    AppEmailTemplatesState,
-      RootState,
-      AppEmailTemplateMutations<AppEmailTemplatesState>>,
-      req: GetAppEmailTemplatesByOtherAppRequest): void
+    req: GetAppEmailTemplatesRequest): void
 
   [ActionTypes.CreateAppEmailTemplate]({
     commit
@@ -52,25 +42,14 @@ interface AppEmailTemplateActions {
 }
 
 const actions: ActionTree<AppEmailTemplatesState, RootState> = {
-  [ActionTypes.GetAppEmailTemplatesByApp] ({ commit }, req: GetAppEmailTemplatesByAppRequest) {
-    doAction<GetAppEmailTemplatesByAppRequest, GetAppEmailTemplatesByAppResponse>(
+  [ActionTypes.GetAppEmailTemplates] ({ commit }, req: GetAppEmailTemplatesRequest) {
+    doAction<GetAppEmailTemplatesRequest, GetAppEmailTemplatesResponse>(
       commit,
-      API.GET_APP_EMAIL_TEMPALTES_BY_APP,
+      API.GET_APP_EMAIL_TEMPALTES,
       req,
       req.Message,
-      (resp: GetAppEmailTemplatesByAppResponse): void => {
-        commit(MutationTypes.SetAppEmailTemplatesByApp, resp.Infos)
-      })
-  },
-
-  [ActionTypes.GetAppEmailTemplatesByOtherApp] ({ commit }, req: GetAppEmailTemplatesByOtherAppRequest) {
-    doAction<GetAppEmailTemplatesByOtherAppRequest, GetAppEmailTemplatesByOtherAppResponse>(
-      commit,
-      API.GET_APP_EMAIL_TEMPALTES_BY_OTHER_APP,
-      req,
-      req.Message,
-      (resp: GetAppEmailTemplatesByOtherAppResponse): void => {
-        commit(MutationTypes.SetAppEmailTemplatesByApp, resp.Infos)
+      (resp: GetAppEmailTemplatesResponse): void => {
+        commit(MutationTypes.SetAppEmailTemplates, resp.Infos)
       })
   },
 

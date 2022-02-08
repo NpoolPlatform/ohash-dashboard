@@ -4,19 +4,16 @@ import { AppSMSTemplatesState } from './state'
 import { AppSMSTemplate } from './types'
 
 type AppSMSTemplateMutations<S = AppSMSTemplatesState> = {
-  [MutationTypes.SetAppSMSTemplatesByApp] (state: S, payload: Array<AppSMSTemplate>): void
+  [MutationTypes.SetAppSMSTemplates] (state: S, payload: Array<AppSMSTemplate>): void
   [MutationTypes.SetAppSMSTemplate] (state: S, payload: AppSMSTemplate): void
-  [MutationTypes.SetAppSMSTemplateSelectedAppID] (state: S, payload: string): void
 }
 
 const mutations: MutationTree<AppSMSTemplatesState> & AppSMSTemplateMutations = {
-  [MutationTypes.SetAppSMSTemplatesByApp] (state: AppSMSTemplatesState, payload: Array<AppSMSTemplate>) {
-    if (payload.length > 0) {
-      state.AppSMSTemplates.set(payload[0].AppID, payload)
-    }
+  [MutationTypes.SetAppSMSTemplates] (state: AppSMSTemplatesState, payload: Array<AppSMSTemplate>) {
+    state.AppSMSTemplates = payload
   },
   [MutationTypes.SetAppSMSTemplate] (state: AppSMSTemplatesState, payload: AppSMSTemplate) {
-    let templates = state.AppSMSTemplates.get(payload.AppID) as Array<AppSMSTemplate>
+    let templates = state.AppSMSTemplates
     if (!templates) {
       templates = [] as Array<AppSMSTemplate>
     }
@@ -33,10 +30,8 @@ const mutations: MutationTree<AppSMSTemplatesState> & AppSMSTemplateMutations = 
     } else {
       templates.push(payload)
     }
-    state.AppSMSTemplates.set(payload.AppID, templates)
-  },
-  [MutationTypes.SetAppSMSTemplateSelectedAppID] (state: AppSMSTemplatesState, payload: string): void {
-    state.SelectedAppID = payload
+
+    state.AppSMSTemplates = templates
   }
 }
 

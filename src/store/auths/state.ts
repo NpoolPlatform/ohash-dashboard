@@ -1,15 +1,12 @@
-import { Auth, AuthHistory } from './types'
+import { Auth } from './types'
 
 interface AuthsState {
-  AppAuths: Map<string, Array<Auth>>
-  SelectedAppID?: string
-  AuthHistories: Map<string, Array<AuthHistory>>
+  AppAuths: Array<Auth>
 }
 
 function state (): AuthsState {
   return {
-    AppAuths: new Map<string, Array<Auth>>(),
-    AuthHistories: new Map<string, Array<AuthHistory>>()
+    AppAuths: [] as Array<Auth>
   }
 }
 

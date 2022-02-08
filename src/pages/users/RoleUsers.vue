@@ -8,14 +8,7 @@
       :loading='loading'
       :rows='roleNames'
       selection='single'
-    >
-      <template #top-right>
-        <div class='row'>
-          <q-space />
-          <ApplicationSelector v-model:selected-app-id='selectedAppID' />
-        </div>
-      </template>
-    </q-table>
+    />
     <div>
       <q-table
         v-model:selected='selectedRoleUsers'
@@ -58,28 +51,19 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, computed, ref, defineAsyncComponent, watch, onUnmounted } from 'vue'
+import { onMounted, computed, ref, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'src/store'
 import { ModuleKey, Type as NotificationType } from 'src/store/notifications/const'
 import { FunctionVoid } from 'src/types/types'
 import { MutationTypes as UserMutationTypes } from 'src/store/user-helper/mutation-types'
 import { ActionTypes as UserActionTypes } from 'src/store/user-helper/action-types'
-import { ActionTypes as ApplicationActionTypes } from 'src/store/applications/action-types'
+import { ActionTypes as ApplicationActionTypes } from 'src/store/application/action-types'
 import { AppUser } from 'src/store/user-helper/types'
-
-const ApplicationSelector = defineAsyncComponent(() => import('src/components/dropdown/ApplicationSelector.vue'))
 
 const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
-
-const selectedAppID = computed({
-  get: () => store.getters.getUserSelectedAppID,
-  set: (val) => {
-    store.commit(UserMutationTypes.SetSelectedAppID, val)
-  }
-})
 
 interface roleName {
   ID: string
@@ -95,7 +79,7 @@ const selectedRoleID = computed(() => {
 })
 const selectedUsers = ref([])
 
-const roleusers = computed(() => store.getters.getAppRoleUsersByAppRoleID(selectedAppID.value, selectedRoleID.value))
+const roleusers = computed(() => store.getters.getAppRoleUsersByRoleID(selectedRoleID.value))
 
 interface appUserWithRole extends AppUser {
   RoleUserID: string
@@ -105,7 +89,7 @@ const myRoleUsers = computed(() => {
   const users = [] as Array<appUserWithRole>
   if (roleusers.value) {
     roleusers.value.forEach((roleuser) => {
-      const user = store.getters.getUserByAppUserID(roleuser.AppID, roleuser.UserID)
+      const user = store.getters.getUserByUserID(roleuser.UserID as string)
       if (user) {
         users.push({
           RoleUserID: roleuser.ID as string,
@@ -121,7 +105,7 @@ const myRoleUsers = computed(() => {
 
 const selectedRoleUsers = ref([])
 
-const appUsers = computed(() => store.getters.getAppUserInfosByAppID(selectedAppID.value))
+const appUsers = computed(() => store.getters.getAppUserInfos)
 
 interface userWithRoles extends AppUser {
   RoleNames: string
@@ -147,7 +131,7 @@ const myAppUsers = computed(() => {
 })
 
 const loading = ref(false)
-const roles = computed(() => store.getters.getAppRolesByAppID(selectedAppID.value))
+const roles = computed(() => store.getters.getAppRoles)
 
 const roleNames = computed(() => {
   const names = [] as Array<roleName>
@@ -164,53 +148,11 @@ const roleNames = computed(() => {
 
 const unsubscribe = ref<FunctionVoid>()
 
-watch(selectedAppID, () => {
-  loading.value = true
-  store.dispatch(UserActionTypes.GetAppUserInfosByOtherApp, {
-    TargetAppID: selectedAppID.value,
-    Message: {
-      ModuleKey: ModuleKey.ModuleUsers,
-      Error: {
-        Title: t('MSG_GET_APP_USER_INFOS_FAIL'),
-        Popup: true,
-        Type: NotificationType.Error
-      }
-    }
-  })
-
-  store.dispatch(UserActionTypes.GetAppRoleUsersByOtherApp, {
-    TargetAppID: selectedAppID.value,
-    Message: {
-      ModuleKey: ModuleKey.ModuleUsers,
-      Error: {
-        Title: t('MSG_GET_APP_ROLES_FAIL'),
-        Popup: true,
-        Type: NotificationType.Error
-      }
-    }
-  })
-
-  store.dispatch(ApplicationActionTypes.GetAppRolesByOtherApp, {
-    TargetAppID: selectedAppID.value,
-    Message: {
-      ModuleKey: ModuleKey.ModuleUsers,
-      Error: {
-        Title: t('MSG_GET_APP_ROLES_FAIL'),
-        Popup: true,
-        Type: NotificationType.Error
-      }
-    }
-  })
-})
-
 const onAddUsersToRole = () => {
   selectedUsers.value.forEach((user: AppUser) => {
-    store.dispatch(UserActionTypes.CreateAppRoleUserForOtherAppUser, {
-      TargetAppID: selectedAppID.value,
+    store.dispatch(UserActionTypes.CreateAppRoleUserForAppOtherUser, {
       TargetUserID: user.ID as string,
       Info: {
-        AppID: selectedAppID.value,
-        UserID: user.ID as string,
         RoleID: selectedRoleID.value
       },
       Message: {
@@ -242,19 +184,29 @@ const onDeleteUsersFromRole = () => {
 }
 
 onMounted(() => {
-  store.dispatch(ApplicationActionTypes.GetApplications, {
+  store.dispatch(UserActionTypes.GetAppUserInfos, {
     Message: {
       ModuleKey: ModuleKey.ModuleUsers,
       Error: {
-        Title: t('MSG_GET_APPLICATIONS_FAIL'),
+        Title: t('MSG_GET_APP_USER_INFOS_FAIL'),
         Popup: true,
         Type: NotificationType.Error
       }
     }
   })
 
-  store.dispatch(UserActionTypes.GetAppRoleUsersByOtherApp, {
-    TargetAppID: selectedAppID.value,
+  store.dispatch(UserActionTypes.GetAppRoleUsers, {
+    Message: {
+      ModuleKey: ModuleKey.ModuleUsers,
+      Error: {
+        Title: t('MSG_GET_APP_ROLES_FAIL'),
+        Popup: true,
+        Type: NotificationType.Error
+      }
+    }
+  })
+
+  store.dispatch(ApplicationActionTypes.GetAppRoles, {
     Message: {
       ModuleKey: ModuleKey.ModuleUsers,
       Error: {

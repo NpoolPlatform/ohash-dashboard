@@ -9,12 +9,12 @@ import {
   LoginRequest,
   LoginResponse,
   GetGoogleTokenRequest,
-  GetAppUserInfosByOtherAppRequest,
-  GetAppUserInfosByOtherAppResponse,
-  GetAppRoleUsersByOtherAppRequest,
-  GetAppRoleUsersByOtherAppResponse,
-  CreateAppRoleUserForOtherAppUserRequest,
-  CreateAppRoleUserForOtherAppUserResponse,
+  GetAppUserInfosRequest,
+  GetAppUserInfosResponse,
+  GetAppRoleUsersRequest,
+  GetAppRoleUsersResponse,
+  CreateAppRoleUserForAppOtherUserRequest,
+  CreateAppRoleUserForAppOtherUserResponse,
   DeleteAppRoleUserRequest,
   DeleteAppRoleUserResponse
 } from './types'
@@ -33,29 +33,29 @@ interface UserActions {
     UserMutations<UserState>>,
     req: LoginRequest): void
 
-  [ActionTypes.GetAppUserInfosByOtherApp]({
+  [ActionTypes.GetAppUserInfos]({
     commit
   }: AugmentedActionContext<
     UserState,
     RootState,
     UserMutations<UserState>>,
-    req: GetAppUserInfosByOtherAppRequest): void
+    req: GetAppUserInfosRequest): void
 
-  [ActionTypes.GetAppRoleUsersByOtherApp]({
+  [ActionTypes.GetAppRoleUsers]({
     commit
   }: AugmentedActionContext<
     UserState,
     RootState,
     UserMutations<UserState>>,
-    req: GetAppRoleUsersByOtherAppRequest): void
+    req: GetAppRoleUsersRequest): void
 
-  [ActionTypes.CreateAppRoleUserForOtherAppUser]({
+  [ActionTypes.CreateAppRoleUserForAppOtherUser]({
     commit
   }: AugmentedActionContext<
     UserState,
     RootState,
     UserMutations<UserState>>,
-    req: CreateAppRoleUserForOtherAppUserRequest): void
+    req: CreateAppRoleUserForAppOtherUserRequest): void
 
     [ActionTypes.DeleteAppRoleUser]({
       commit
@@ -89,35 +89,35 @@ const actions: ActionTree<UserState, RootState> = {
       })
   },
 
-  [ActionTypes.GetAppUserInfosByOtherApp] ({ commit }, req: GetAppUserInfosByOtherAppRequest) {
-    doAction<GetAppUserInfosByOtherAppRequest, GetAppUserInfosByOtherAppResponse>(
+  [ActionTypes.GetAppUserInfos] ({ commit }, req: GetAppUserInfosRequest) {
+    doAction<GetAppUserInfosRequest, GetAppUserInfosResponse>(
       commit,
-      API.GET_APP_USER_INFOS_BY_OTHER_APP,
+      API.GET_APP_USER_INFOS,
       req,
       req.Message,
-      (resp: GetAppUserInfosByOtherAppResponse): void => {
+      (resp: GetAppUserInfosResponse): void => {
         commit(MutationTypes.SetAppUserInfos, resp.Infos)
       })
   },
 
-  [ActionTypes.GetAppRoleUsersByOtherApp] ({ commit }, req: GetAppRoleUsersByOtherAppRequest) {
-    doAction<GetAppRoleUsersByOtherAppRequest, GetAppRoleUsersByOtherAppResponse>(
+  [ActionTypes.GetAppRoleUsers] ({ commit }, req: GetAppRoleUsersRequest) {
+    doAction<GetAppRoleUsersRequest, GetAppRoleUsersResponse>(
       commit,
-      API.GET_APP_ROLE_USERS_BY_OTHER_APP,
+      API.GET_APP_ROLE_USERS,
       req,
       req.Message,
-      (resp: GetAppRoleUsersByOtherAppResponse): void => {
+      (resp: GetAppRoleUsersResponse): void => {
         commit(MutationTypes.SetAppRoleUsers, resp.Infos)
       })
   },
 
-  [ActionTypes.CreateAppRoleUserForOtherAppUser] ({ commit }, req: CreateAppRoleUserForOtherAppUserRequest) {
-    doAction<CreateAppRoleUserForOtherAppUserRequest, CreateAppRoleUserForOtherAppUserResponse>(
+  [ActionTypes.CreateAppRoleUserForAppOtherUser] ({ commit }, req: CreateAppRoleUserForAppOtherUserRequest) {
+    doAction<CreateAppRoleUserForAppOtherUserRequest, CreateAppRoleUserForAppOtherUserResponse>(
       commit,
-      API.CREATE_APP_ROLE_USER_FOR_OTHER_APP_USER,
+      API.CREATE_APP_ROLE_USER_FOR_APP_OTHER_USER,
       req,
       req.Message,
-      (resp: CreateAppRoleUserForOtherAppUserResponse): void => {
+      (resp: CreateAppRoleUserForAppOtherUserResponse): void => {
         commit(MutationTypes.SetAppRoleUsers, [resp.Info])
       })
   },

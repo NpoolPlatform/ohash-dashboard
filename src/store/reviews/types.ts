@@ -5,7 +5,6 @@ import { UserInfo } from '../user-helper/types'
 
 interface Review {
   ID?: string
-  AppID?: string
   ObjectType?: string
   ReviewerID?: string
   State?: string
@@ -21,12 +20,11 @@ interface KYCReview {
   User: UserInfo
 }
 
-interface GetKYCReviewsByOtherAppResponse {
+interface GetKYCReviewsResponse {
   Infos: ReadonlyArray<KYCReview>
 }
 
-interface GetKYCReviewsByOtherAppRequest {
-  TargetAppID: string
+interface GetKYCReviewsRequest {
   Message: ReqMessage
 }
 
@@ -55,8 +53,8 @@ interface UpdateReviewResponse {
 export {
   Review,
   KYCReview,
-  GetKYCReviewsByOtherAppRequest,
-  GetKYCReviewsByOtherAppResponse,
+  GetKYCReviewsRequest,
+  GetKYCReviewsResponse,
   GoodReview,
   GetGoodReviewsRequest,
   GetGoodReviewsResponse,

@@ -5,10 +5,8 @@ import {
   AddLanguageResponse,
   CreateAppLanguageRequest,
   CreateAppLanguageResponse,
-  GetAppLangInfosByAppRequest,
-  GetAppLangInfosByAppResponse,
-  GetAppLangInfosByOtherAppRequest,
-  GetAppLangInfosByOtherAppResponse,
+  GetAppLangInfosRequest,
+  GetAppLangInfosResponse,
   GetLanguagesRequest,
   GetLanguagesResponse
 } from './types'
@@ -28,21 +26,13 @@ interface LanguageActions {
     LanguageMutations<LanguagesState>>,
     req: GetLanguagesRequest): void
 
-  [ActionTypes.GetAppLangInfosByApp]({
+  [ActionTypes.GetAppLangInfos]({
     commit
   }: AugmentedActionContext<
     LanguagesState,
     RootState,
     LanguageMutations<LanguagesState>>,
-    req: GetAppLangInfosByAppRequest): void
-
-  [ActionTypes.GetAppLangInfosByOtherApp]({
-    commit
-  }: AugmentedActionContext<
-    LanguagesState,
-    RootState,
-    LanguageMutations<LanguagesState>>,
-    req: GetAppLangInfosByOtherAppRequest): void
+    req: GetAppLangInfosRequest): void
 
   [ActionTypes.AddLanguage]({
     commit
@@ -76,24 +66,13 @@ const actions: ActionTree<LanguagesState, RootState> = {
       })
   },
 
-  [ActionTypes.GetAppLangInfosByApp] ({ commit }, req: GetAppLangInfosByAppRequest) {
-    doAction<GetAppLangInfosByAppRequest, GetAppLangInfosByAppResponse>(
+  [ActionTypes.GetAppLangInfos] ({ commit }, req: GetAppLangInfosRequest) {
+    doAction<GetAppLangInfosRequest, GetAppLangInfosResponse>(
       commit,
-      API.GET_APP_LANG_INFOS_BY_APP,
+      API.GET_APP_LANG_INFOS,
       req,
       req.Message,
-      (resp: GetAppLangInfosByAppResponse): void => {
-        commit(MutationTypes.SetAppLangInfos, resp.Infos)
-      })
-  },
-
-  [ActionTypes.GetAppLangInfosByOtherApp] ({ commit }, req: GetAppLangInfosByOtherAppRequest) {
-    doAction<GetAppLangInfosByOtherAppRequest, GetAppLangInfosByOtherAppResponse>(
-      commit,
-      API.GET_APP_LANG_INFOS_BY_OTHER_APP,
-      req,
-      req.Message,
-      (resp: GetAppLangInfosByOtherAppResponse): void => {
+      (resp: GetAppLangInfosResponse): void => {
         commit(MutationTypes.SetAppLangInfos, resp.Infos)
       })
   },

@@ -79,7 +79,7 @@ module.exports = configure(function (ctx) {
     devServer: {
       proxy: {
         '/api': {
-          target: 'http://api.xpool.top',
+          target: 'http://api.procyon.vip',
           pathRewrite: {
             '^/api': '/api'
           },
@@ -219,7 +219,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'vue-template-webui'
+        appId: 'procyon-dashboard-webui'
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
