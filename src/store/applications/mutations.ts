@@ -47,7 +47,19 @@ const mutations: MutationTree<ApplicationsState> & ApplicationMutations = {
 
   [MutationTypes.SetAppRoles] (state: ApplicationsState, payload: Array<AppRole>): void {
     if (payload.length > 0) {
-      state.AppRoles.set(payload[0].AppID, payload)
+      let roles = state.AppRoles.get(payload[0].AppID) as Array<AppRole>
+      if (!roles) {
+        roles = [] as Array<AppRole>
+      }
+      payload.forEach((role) => {
+        for (let i = 0; i < roles.length; i++) {
+          if (role.ID === roles[i].ID) {
+            return
+          }
+        }
+        roles.push(role)
+      })
+      state.AppRoles.set(payload[0].AppID, roles)
     }
   },
 

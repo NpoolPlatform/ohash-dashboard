@@ -3,7 +3,7 @@ enum API {
   LOGOUT = '/login-gateway/v1/logout',
   GET_APP_USER_INFOS_BY_OTHER_APP = '/appuser-manager/v1/get/app/userinfos/by/other/app',
   GET_APP_ROLE_USERS_BY_OTHER_APP = '/appuser-manager/v1/get/app/role/users/by/other/app',
-  CREATE_APP_ROLE_USER_FOR_OTHER_APP = '/appuser-manager/v1/create/app/role/user/for/other/app'
+  CREATE_APP_ROLE_USER_FOR_OTHER_APP_USER = '/appuser-manager/v1/create/app/role/user/for/other/app/user'
 }
 
 enum LoginType {

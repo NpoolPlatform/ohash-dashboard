@@ -108,13 +108,14 @@ interface GetAppRoleUsersByOtherAppResponse {
   Infos: Array<AppRoleUser>
 }
 
-interface CreateAppRoleUserForOtherAppRequest {
+interface CreateAppRoleUserForOtherAppUserRequest {
   TargetAppID: string
+  TargetUserID: string
   Info: AppRoleUser
   Message: ReqMessage
 }
 
-interface CreateAppRoleUserForOtherAppResponse {
+interface CreateAppRoleUserForOtherAppUserResponse {
   Info: AppRoleUser
 }
 
@@ -131,6 +132,6 @@ export {
   GetAppUserInfosByOtherAppResponse,
   GetAppRoleUsersByOtherAppRequest,
   GetAppRoleUsersByOtherAppResponse,
-  CreateAppRoleUserForOtherAppRequest,
-  CreateAppRoleUserForOtherAppResponse
+  CreateAppRoleUserForOtherAppUserRequest,
+  CreateAppRoleUserForOtherAppUserResponse
 }

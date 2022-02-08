@@ -26,7 +26,19 @@ const mutations: MutationTree<UserState> & UserMutations = {
   },
   [MutationTypes.SetAppRoleUsers] (state: UserState, payload: Array<AppRoleUser>): void {
     if (payload.length > 0) {
-      state.AppRoleUsers.set(payload[0].AppID, payload)
+      let users = state.AppRoleUsers.get(payload[0].AppID) as Array<AppRoleUser>
+      if (!users) {
+        users = [] as Array<AppRoleUser>
+      }
+      payload.forEach((user) => {
+        for (let i = 0; i < users?.length; i++) {
+          if (users[i].ID === user.ID) {
+            return
+          }
+        }
+        users.push(user)
+      })
+      state.AppRoleUsers.set(payload[0].AppID, users)
     }
   },
   [MutationTypes.SetSelectedAppID] (state: UserState, payload: string): void {

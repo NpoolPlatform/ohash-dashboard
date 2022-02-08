@@ -181,8 +181,7 @@ const actions: ActionTree<ApplicationsState, RootState> = {
       req,
       req.Message,
       (resp: CreateAppRoleForOtherAppResponse): void => {
-        // commit(MutationTypes.SetAppRoles, resp.Info)
-        console.log('CREATED', resp.Info)
+        commit(MutationTypes.SetAppRoles, [resp.Info])
       })
   }
 }

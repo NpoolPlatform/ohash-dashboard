@@ -17,11 +17,23 @@
     </q-table>
     <div>
       <q-table
+        v-model:selected='selectedRoleUsers'
+        row-key='ID'
+        selection='multiple'
         flat
         dense
         :title='selectedRoleName + t("MSG_USER_SURFIX")'
         :rows='myRoleUsers'
-      />
+      >
+        <template #top-right>
+          <div class='row'>
+            <q-space />
+            <q-btn dense @click='onDeleteUsersFromRole'>
+              {{ $t('MSG_DELETE') }}
+            </q-btn>
+          </div>
+        </template>
+      </q-table>
       <q-table
         v-model:selected='selectedUsers'
         row-key='ID'
@@ -95,6 +107,8 @@ const myRoleUsers = computed(() => {
   }
   return users
 })
+
+const selectedRoleUsers = ref([])
 
 const appUsers = computed(() => store.getters.getAppUserInfosByAppID(selectedAppID.value))
 
@@ -180,8 +194,9 @@ watch(selectedAppID, () => {
 
 const onAddUsersToRole = () => {
   selectedUsers.value.forEach((user: AppUser) => {
-    store.dispatch(UserActionTypes.CreateAppRoleUserForOtherApp, {
+    store.dispatch(UserActionTypes.CreateAppRoleUserForOtherAppUser, {
       TargetAppID: selectedAppID.value,
+      TargetUserID: user.ID as string,
       Info: {
         AppID: selectedAppID.value,
         UserID: user.ID as string,
@@ -197,6 +212,10 @@ const onAddUsersToRole = () => {
       }
     })
   })
+}
+
+const onDeleteUsersFromRole = () => {
+  console.log('delete', selectedRoleUsers.value)
 }
 
 onMounted(() => {
