@@ -16,7 +16,7 @@ spec:
   tls:
     - hosts:
         - dashboard.xpool.top
-      secretName: xpool-top-tls
+      secretName: xpool-top-cert
   rules:
     - host: dashboard.xpool.top
       http:
