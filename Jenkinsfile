@@ -256,7 +256,7 @@ pipeline {
           rc=$?
           set -e
           if [ ! 0 -eq $rc ]; then
-            kubectl create secret tls $certname --cert=.server-https-ca/$ROOT_DOMAIN/tls.crt --key=.server-https-ca/ROOT_DOMAIN/tls.key -n kube-system
+            kubectl create secret tls $certname --cert=.server-https-ca/$ROOT_DOMAIN/tls.crt --key=.server-https-ca/$ROOT_DOMAIN/tls.key -n kube-system
           fi
           rm .server-https-ca -rf
         '''.stripIndent())
