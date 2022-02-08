@@ -2,6 +2,7 @@
   <div class='row'>
     <q-table
       v-model:selected='selectedRole'
+      row-key='ID'
       flat
       dense
       :loading='loading'
@@ -18,7 +19,7 @@
     <div>
       <q-table
         v-model:selected='selectedRoleUsers'
-        row-key='ID'
+        row-key='RoleUserID'
         selection='multiple'
         flat
         dense
@@ -95,13 +96,23 @@ const selectedRoleID = computed(() => {
 const selectedUsers = ref([])
 
 const roleusers = computed(() => store.getters.getAppRoleUsersByAppRoleID(selectedAppID.value, selectedRoleID.value))
+
+interface appUserWithRole extends AppUser {
+  RoleUserID: string
+}
+
 const myRoleUsers = computed(() => {
-  const users = [] as Array<AppUser>
+  const users = [] as Array<appUserWithRole>
   if (roleusers.value) {
     roleusers.value.forEach((roleuser) => {
       const user = store.getters.getUserByAppUserID(roleuser.AppID, roleuser.UserID)
       if (user) {
-        users.push(user.User as AppUser)
+        users.push({
+          RoleUserID: roleuser.ID as string,
+          EmailAddress: user.User?.EmailAddress,
+          PhoneNO: user.User?.PhoneNO,
+          AppID: user.User?.AppID as string
+        })
       }
     })
   }
@@ -215,7 +226,19 @@ const onAddUsersToRole = () => {
 }
 
 const onDeleteUsersFromRole = () => {
-  console.log('delete', selectedRoleUsers.value)
+  selectedRoleUsers.value.forEach((user: appUserWithRole) => {
+    store.dispatch(UserActionTypes.DeleteAppRoleUser, {
+      ID: user.RoleUserID,
+      Message: {
+        ModuleKey: ModuleKey.ModuleUsers,
+        Error: {
+          Title: t('MSG_DELETE_APP_ROLE_USER_FAIL'),
+          Popup: true,
+          Type: NotificationType.Error
+        }
+      }
+    })
+  })
 }
 
 onMounted(() => {

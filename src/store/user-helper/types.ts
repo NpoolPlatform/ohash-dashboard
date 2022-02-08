@@ -119,6 +119,15 @@ interface CreateAppRoleUserForOtherAppUserResponse {
   Info: AppRoleUser
 }
 
+interface DeleteAppRoleUserRequest {
+  ID: string
+  Message: ReqMessage
+}
+
+interface DeleteAppRoleUserResponse {
+  Info: AppRoleUser
+}
+
 export {
   LoginRequest,
   LoginResponse,
@@ -133,5 +142,7 @@ export {
   GetAppRoleUsersByOtherAppRequest,
   GetAppRoleUsersByOtherAppResponse,
   CreateAppRoleUserForOtherAppUserRequest,
-  CreateAppRoleUserForOtherAppUserResponse
+  CreateAppRoleUserForOtherAppUserResponse,
+  DeleteAppRoleUserRequest,
+  DeleteAppRoleUserResponse
 }

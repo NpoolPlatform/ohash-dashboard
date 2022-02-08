@@ -3,6 +3,7 @@ export enum MutationTypes {
   SetGoogleToken = 'USER_SET_GOOGLE_TOKEN',
   SetAppUserInfos = 'USER_SET_APP_USER_INFOS',
   SetSelectedAppID = 'USER_SET_SELECTED_APP_ID',
-  SetAppRoleUsers = 'USET_SET_APP_ROLE_USERS',
+  SetAppRoleUsers = 'USER_SET_APP_ROLE_USERS',
+  DeleteAppRoleUser = 'USER_DELETE_APP_ROLE_USER',
   Reset = 'USER_RESET'
 }

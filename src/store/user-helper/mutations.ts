@@ -8,6 +8,7 @@ type UserMutations<S = UserState> = {
   [MutationTypes.SetGoogleToken] (state: S, payload: GoogleToken): void
   [MutationTypes.SetAppUserInfos] (state: S, payload: Array<UserInfo>): void
   [MutationTypes.SetAppRoleUsers] (state: S, payload: Array<AppRoleUser>): void
+  [MutationTypes.DeleteAppRoleUser] (state: S, payload: AppRoleUser): void
   [MutationTypes.SetSelectedAppID] (state: S, payload: string): void
   [MutationTypes.Reset] (state: S): void
 }
@@ -40,6 +41,12 @@ const mutations: MutationTree<UserState> & UserMutations = {
       })
       state.AppRoleUsers.set(payload[0].AppID, users)
     }
+  },
+  [MutationTypes.DeleteAppRoleUser] (state: UserState, payload: AppRoleUser): void {
+    const users = state.AppRoleUsers.get(payload.AppID)?.filter((user) => {
+      return user.ID !== payload.ID
+    })
+    state.AppRoleUsers.set(payload.AppID, users as Array<AppRoleUser>)
   },
   [MutationTypes.SetSelectedAppID] (state: UserState, payload: string): void {
     state.SelectedAppID = payload

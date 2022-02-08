@@ -14,7 +14,9 @@ import {
   GetAppRoleUsersByOtherAppRequest,
   GetAppRoleUsersByOtherAppResponse,
   CreateAppRoleUserForOtherAppUserRequest,
-  CreateAppRoleUserForOtherAppUserResponse
+  CreateAppRoleUserForOtherAppUserResponse,
+  DeleteAppRoleUserRequest,
+  DeleteAppRoleUserResponse
 } from './types'
 import { API } from './const'
 import { MutationTypes as NotificationMutationTypes } from '../notifications/mutation-types'
@@ -54,6 +56,14 @@ interface UserActions {
     RootState,
     UserMutations<UserState>>,
     req: CreateAppRoleUserForOtherAppUserRequest): void
+
+    [ActionTypes.DeleteAppRoleUser]({
+      commit
+    }: AugmentedActionContext<
+      UserState,
+      RootState,
+      UserMutations<UserState>>,
+      req: DeleteAppRoleUserRequest): void
 
   [ActionTypes.GetGoogleToken]({
     commit
@@ -109,6 +119,17 @@ const actions: ActionTree<UserState, RootState> = {
       req.Message,
       (resp: CreateAppRoleUserForOtherAppUserResponse): void => {
         commit(MutationTypes.SetAppRoleUsers, [resp.Info])
+      })
+  },
+
+  [ActionTypes.DeleteAppRoleUser] ({ commit }, req: DeleteAppRoleUserRequest) {
+    doAction<DeleteAppRoleUserRequest, DeleteAppRoleUserResponse>(
+      commit,
+      API.DELETE_APP_ROLE_USER,
+      req,
+      req.Message,
+      (resp: DeleteAppRoleUserResponse): void => {
+        commit(MutationTypes.DeleteAppRoleUser, resp.Info)
       })
   },
 
