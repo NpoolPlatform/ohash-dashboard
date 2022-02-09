@@ -4,9 +4,6 @@
       <q-item-label>{{ $t('MSG_CREATE_APP_CONTACT') }}</q-item-label>
     </q-card-section>
     <q-item-section>
-      <q-item>
-        <q-item-label>{{ $t('MSG_APP_NAME') }}: {{ selectedApp?.App.Name }}</q-item-label>
-      </q-item>
       <q-input
         v-model='account'
         :label='$t("MSG_ACCOUNT")'

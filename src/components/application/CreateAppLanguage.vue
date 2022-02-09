@@ -4,9 +4,6 @@
       <q-item-label>{{ $t('MSG_ADD_LANGUAGE') }}</q-item-label>
     </q-card-section>
     <q-item-section>
-      <q-item>
-        <q-item-label>{{ $t('MSG_APP_NAME') }}: {{ selectedApp?.App.Name }}</q-item-label>
-      </q-item>
       <q-btn-dropdown
         dense
         split
@@ -42,8 +39,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, defineProps, toRef, computed, defineEmits, watch, onMounted } from 'vue'
-import { Application } from 'src/store/application/types'
+import { ref, computed, defineEmits, watch, onMounted } from 'vue'
 import { useStore } from 'src/store'
 import { Language, AppLanguage } from 'src/store/languages/types'
 import { ActionTypes } from 'src/store/languages/action-types'
@@ -55,13 +51,6 @@ const store = useStore()
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const { t } = useI18n({ useScope: 'global' })
 
-interface Props {
-  selectedApp?: Application
-}
-
-const props = defineProps<Props>()
-
-const selectedApp = toRef(props, 'selectedApp')
 const languages = computed(() => store.getters.getLanguages)
 
 const selectedLang = ref({} as Language)

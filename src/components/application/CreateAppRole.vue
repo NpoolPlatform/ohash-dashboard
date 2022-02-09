@@ -5,9 +5,6 @@
     </q-card-section>
     <q-item-section>
       <q-item>
-        <q-item-label>{{ $t('MSG_APP_NAME') }}: {{ selectedApp?.App.Name }}</q-item-label>
-      </q-item>
-      <q-item>
         <q-item-label>{{ $t('MSG_CREATEOR') }}: {{ createdBy }}</q-item-label>
       </q-item>
       <q-input
