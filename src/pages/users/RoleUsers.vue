@@ -94,8 +94,7 @@ const myRoleUsers = computed(() => {
         users.push({
           RoleUserID: roleuser.ID as string,
           EmailAddress: user.User?.EmailAddress,
-          PhoneNO: user.User?.PhoneNO,
-          AppID: user.User?.AppID as string
+          PhoneNO: user.User?.PhoneNO
         })
       }
     })
@@ -120,7 +119,6 @@ const myAppUsers = computed(() => {
       })
       users.push({
         ID: user.User?.ID,
-        AppID: user.User?.AppID as string,
         EmailAddress: user.User?.EmailAddress,
         PhoneNO: user.User?.PhoneNO,
         RoleNames: roleNames.join(',')
