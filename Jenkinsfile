@@ -26,6 +26,7 @@ pipeline {
           fi
           PATH=/usr/local/bin:$PATH:./node_modules/@quasar/app/bin yarn install --registry https://registry.npm.taobao.org/
           PATH=/usr/local/bin:$PATH:./node_modules/@quasar/app/bin quasar build
+          PATH=/usr/local/bin:$PATH:./node_modules/@quasar/app/bin quasar build
         '''.stripIndent())
       }
     }
