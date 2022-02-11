@@ -92,6 +92,7 @@ const myRoleUsers = computed(() => {
       const user = store.getters.getUserByUserID(roleuser.UserID as string)
       if (user) {
         users.push({
+          ID: user.User?.ID,
           RoleUserID: roleuser.ID as string,
           EmailAddress: user.User?.EmailAddress,
           PhoneNO: user.User?.PhoneNO
