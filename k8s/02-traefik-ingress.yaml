@@ -17,8 +17,18 @@ spec:
     - hosts:
         - dashboard.procyon.vip
       secretName: procyon-vip-cert
+    - hosts:
+        - dashboard.npool.top
+      secretName: npool-top-cert
   rules:
     - host: dashboard.procyon.vip
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: procyon-dashboard
+              servicePort: 80
+    - host: dashboard.npool.top
       http:
         paths:
           - path: /
