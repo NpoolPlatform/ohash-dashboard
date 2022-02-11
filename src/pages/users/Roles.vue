@@ -12,7 +12,6 @@
         <q-btn dense @click='onCreateAppRoleClick'>
           {{ $t('MSG_CREATE_ROLE') }}
         </q-btn>
-        <ApplicationSelector v-model:selected-app-id='selectedAppID' />
       </div>
     </template>
   </q-table>
