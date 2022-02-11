@@ -4,5 +4,7 @@ export enum ActionTypes {
   UpdateApplication = 'UPDATE_APPLICATION',
   UpdateAppControl = 'UPDATE_APPLICATION_CONTROL',
   CreateAppControl = 'CREATE_APPLICATION_CONTROL',
-  GetAppRoles = 'GET_APP_ROLES'
+  GetAppRoles = 'GET_APP_ROLES',
+  CreateAppRole = 'CREATE_APP_ROLE',
+  UpdateAppRole = 'UPDATE_APP_ROLE'
 }

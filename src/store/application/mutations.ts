@@ -8,6 +8,7 @@ type ApplicationMutations<S = ApplicationState> = {
   [MutationTypes.SetApplication] (state: S, payload: Application): void
   [MutationTypes.SetAppControl] (state: S, payload: AppControl): void
   [MutationTypes.SetAppRoles] (state: S, payload: Array<AppRole>): void
+  [MutationTypes.SetAppRole] (state: S, payload: AppRole): void
 }
 
 const mutations: MutationTree<ApplicationState> & ApplicationMutations = {
@@ -25,6 +26,13 @@ const mutations: MutationTree<ApplicationState> & ApplicationMutations = {
 
   [MutationTypes.SetAppRoles] (state: ApplicationState, payload: Array<AppRole>): void {
     state.AppRoles = payload
+  },
+
+  [MutationTypes.SetAppRole] (state: ApplicationState, payload: AppRole): void {
+    state.AppRoles = state.AppRoles.filter((role) => {
+      return role.ID !== payload.ID
+    })
+    state.AppRoles.push(payload)
   }
 }
 

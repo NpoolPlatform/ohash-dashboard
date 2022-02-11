@@ -83,12 +83,21 @@ interface GetAppRolesResponse {
   Infos: Array<AppRole>
 }
 
-interface CreateAppRoleFRequest {
+interface CreateAppRoleRequest {
   Message: ReqMessage
   Info: AppRole
 }
 
-interface CreateAppRoleFResponse {
+interface CreateAppRoleResponse {
+  Info: AppRole
+}
+
+interface UpdateAppRoleRequest {
+  Message: ReqMessage
+  Info: AppRole
+}
+
+interface UpdateAppRoleResponse {
   Info: AppRole
 }
 
@@ -109,6 +118,8 @@ export {
   CreateAppControlResponse,
   GetAppRolesRequest,
   GetAppRolesResponse,
-  CreateAppRoleFRequest,
-  CreateAppRoleFResponse
+  CreateAppRoleRequest,
+  CreateAppRoleResponse,
+  UpdateAppRoleRequest,
+  UpdateAppRoleResponse
 }

@@ -5,6 +5,8 @@ import {
   CreateAppControlResponse,
   CreateApplicationRequest,
   CreateApplicationResponse,
+  CreateAppRoleRequest,
+  CreateAppRoleResponse,
   GetApplicationRequest,
   GetApplicationResponse,
   GetAppRolesRequest,
@@ -12,7 +14,9 @@ import {
   UpdateAppControlRequest,
   UpdateAppControlResponse,
   UpdateApplicationRequest,
-  UpdateApplicationResponse
+  UpdateApplicationResponse,
+  UpdateAppRoleRequest,
+  UpdateAppRoleResponse
 } from './types'
 import { ApplicationState } from './state'
 import { ActionTree } from 'vuex'
@@ -69,6 +73,22 @@ interface ApplicationActions {
     RootState,
     ApplicationMutations<ApplicationState>>,
     req: GetAppRolesRequest): void
+
+  [ActionTypes.CreateAppRole]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationState,
+    RootState,
+    ApplicationMutations<ApplicationState>>,
+    req: CreateAppRoleRequest): void
+
+  [ActionTypes.UpdateAppRole]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationState,
+    RootState,
+    ApplicationMutations<ApplicationState>>,
+    req: UpdateAppRoleRequest): void
 }
 
 const actions: ActionTree<ApplicationState, RootState> = {
@@ -135,6 +155,28 @@ const actions: ActionTree<ApplicationState, RootState> = {
       req.Message,
       (resp: GetAppRolesResponse): void => {
         commit(MutationTypes.SetAppRoles, resp.Infos)
+      })
+  },
+
+  [ActionTypes.CreateAppRole] ({ commit }, req: CreateAppRoleRequest) {
+    doAction<CreateAppRoleRequest, CreateAppRoleResponse>(
+      commit,
+      API.CREATE_APP_ROLE,
+      req,
+      req.Message,
+      (resp: CreateAppRoleResponse): void => {
+        commit(MutationTypes.SetAppRole, resp.Info)
+      })
+  },
+
+  [ActionTypes.UpdateAppRole] ({ commit }, req: UpdateAppRoleRequest) {
+    doAction<UpdateAppRoleRequest, UpdateAppRoleResponse>(
+      commit,
+      API.UPDATE_APP_ROLE,
+      req,
+      req.Message,
+      (resp: UpdateAppRoleResponse): void => {
+        commit(MutationTypes.SetAppRole, resp.Info)
       })
   }
 }
