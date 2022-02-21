@@ -8,7 +8,7 @@ enum API {
   UPDATE_APP_ROLE = '/appuser-manager/v1/update/app/role',
   CREATE_APP_ROLE = '/appuser-manager/v1/create/app/rile',
   GET_APP_GOODS = '/cloud-hashing-goods/v1/get/app/goods',
-  GET_RECOMMENDS = '/cloud-hashing-goods/v1/get/recommends',
+  GET_RECOMMENDS = '/cloud-hashing-goods/v1/get/recommends/by/app',
   CREATE_RECOMMEND = '/cloud-hashing-goods/v1/create/recommend',
   SET_APP_GOOD_PRICE = '/cloud-hashing-goods/v1/set/app/good/price',
   ONSALE_APP_GOOD = '/cloud-hashing-goods/v1/onsale/app/good',
