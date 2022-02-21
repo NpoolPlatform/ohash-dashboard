@@ -226,9 +226,11 @@ const mySetting = ref(setting.value)
 
 const withdrawAutoReviewCoinAmount = ref(0)
 watch(selectedCoin, () => {
-  mySetting.value = store.getters.getAppWithdrawSettingByCoin(selectedCoin.value[0].ID as string)
-  if (mySetting.value) {
-    withdrawAutoReviewCoinAmount.value = mySetting.value.WithdrawAutoReviewCoinAmount
+  if (selectedCoin.value.length > 0) {
+    mySetting.value = store.getters.getAppWithdrawSettingByCoin(selectedCoin.value[0].ID as string)
+    if (mySetting.value) {
+      withdrawAutoReviewCoinAmount.value = mySetting.value.WithdrawAutoReviewCoinAmount
+    }
   }
 })
 
