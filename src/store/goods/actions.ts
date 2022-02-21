@@ -28,12 +28,8 @@ import { GoodsState } from './state'
 import { ActionTree } from 'vuex'
 import { AugmentedActionContext, RootState } from '../index'
 import { GoodMutations } from './mutations'
-import { notificationPush, notificationPop } from '../notifications/helper'
-import { MutationTypes as NotificationMutationTypes } from '../notifications/mutation-types'
-import { Notification } from '../notifications/types'
-import { api } from 'src/boot/axios'
 import { API } from './const'
-import { AxiosResponse } from 'axios'
+import { doAction } from '../action'
 
 interface GoodActions {
   [ActionTypes.GetAllGoods]({
@@ -127,266 +123,123 @@ interface GoodActions {
 
 const actions: ActionTree<GoodsState, RootState> = {
   [ActionTypes.GetAllGoods] ({ commit }, req: GetAllGoodsRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<GetAllGoodsRequest, AxiosResponse<GetAllGoodsResponse>>(API.GET_ALL_GOODS, req)
-      .then((response: AxiosResponse<GetAllGoodsResponse>) => {
-        commit(MutationTypes.SetAllGoods, response.data.Infos)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+    doAction<GetAllGoodsRequest, GetAllGoodsResponse>(
+      commit,
+      API.GET_ALL_GOODS,
+      req,
+      req.Message,
+      (resp: GetAllGoodsResponse): void => {
+        commit(MutationTypes.SetAllGoods, resp.Infos)
       })
   },
 
   [ActionTypes.GetAllDevices] ({ commit }, req: GetAllDevicesRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<GetAllDevicesRequest, AxiosResponse<GetAllDevicesResponse>>(API.GET_ALL_DEVICES, req)
-      .then((response: AxiosResponse<GetAllDevicesResponse>) => {
-        commit(MutationTypes.SetAllDevices, response.data.Infos)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+    doAction<GetAllDevicesRequest, GetAllDevicesResponse>(
+      commit,
+      API.GET_ALL_DEVICES,
+      req,
+      req.Message,
+      (resp: GetAllDevicesResponse): void => {
+        commit(MutationTypes.SetAllGoods, resp.Infos)
       })
   },
 
   [ActionTypes.GetAllVendorLocations] ({ commit }, req: GetAllVendorLocationsRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<GetAllVendorLocationsRequest, AxiosResponse<GetAllVendorLocationsResponse>>(API.GET_ALL_VENDOR_LOCATIONS, req)
-      .then((response: AxiosResponse<GetAllVendorLocationsResponse>) => {
-        commit(MutationTypes.SetAllVendorLocations, response.data.Infos)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+    doAction<GetAllVendorLocationsRequest, GetAllVendorLocationsResponse>(
+      commit,
+      API.GET_ALL_VENDOR_LOCATIONS,
+      req,
+      req.Message,
+      (resp: GetAllVendorLocationsResponse): void => {
+        commit(MutationTypes.SetAllVendorLocations, resp.Infos)
       })
   },
 
   [ActionTypes.CreateDevice] ({ commit }, req: CreateDeviceRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<CreateDeviceRequest, AxiosResponse<CreateDeviceResponse>>(API.CREATE_DEVICE, req)
-      .then((response: AxiosResponse<CreateDeviceResponse>) => {
-        commit(MutationTypes.AppendDevice, response.data.Info)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+    doAction<CreateDeviceRequest, CreateDeviceResponse>(
+      commit,
+      API.CREATE_DEVICE,
+      req,
+      req.Message,
+      (resp: CreateDeviceResponse): void => {
+        commit(MutationTypes.AppendDevice, resp.Info)
       })
   },
 
   [ActionTypes.CreateVendorLocation] ({ commit }, req: CreateVendorLocationRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<CreateVendorLocationRequest, AxiosResponse<CreateVendorLocationResponse>>(API.CREATE_VENDOR_LOCATION, req)
-      .then((response: AxiosResponse<CreateVendorLocationResponse>) => {
-        commit(MutationTypes.AppendVendorLocation, response.data.Info)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+    doAction<CreateVendorLocationRequest, CreateVendorLocationResponse>(
+      commit,
+      API.CREATE_VENDOR_LOCATION,
+      req,
+      req.Message,
+      (resp: CreateVendorLocationResponse): void => {
+        commit(MutationTypes.AppendVendorLocation, resp.Info)
       })
   },
 
   [ActionTypes.GetAllFeeTypes] ({ commit }, req: GetAllFeeTypesRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<GetAllFeeTypesRequest, AxiosResponse<GetAllFeeTypesResponse>>(API.GET_ALL_FEE_TYPES, req)
-      .then((response: AxiosResponse<GetAllFeeTypesResponse>) => {
-        commit(MutationTypes.SetAllFeeTypes, response.data.Infos)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+    doAction<GetAllFeeTypesRequest, GetAllFeeTypesResponse>(
+      commit,
+      API.GET_ALL_FEE_TYPES,
+      req,
+      req.Message,
+      (resp: GetAllFeeTypesResponse): void => {
+        commit(MutationTypes.SetAllFeeTypes, resp.Infos)
       })
   },
 
   [ActionTypes.GetAllFees] ({ commit }, req: GetAllFeesRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<GetAllFeesRequest, AxiosResponse<GetAllFeesResponse>>(API.GET_ALL_FEES, req)
-      .then((response: AxiosResponse<GetAllFeesResponse>) => {
-        commit(MutationTypes.SetAllFees, response.data.Infos)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+    doAction<GetAllFeesRequest, GetAllFeesResponse>(
+      commit,
+      API.GET_ALL_FEES,
+      req,
+      req.Message,
+      (resp: GetAllFeesResponse): void => {
+        commit(MutationTypes.SetAllFees, resp.Infos)
       })
   },
 
   [ActionTypes.CreateFeeType] ({ commit }, req: CreateFeeTypeRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<CreateFeeTypeRequest, AxiosResponse<CreateFeeTypeResponse>>(API.CREATE_FEE_TYPE, req)
-      .then((response: AxiosResponse<CreateFeeTypeResponse>) => {
-        commit(MutationTypes.AppendFeeType, response.data.Info)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+    doAction<CreateFeeTypeRequest, CreateFeeTypeResponse>(
+      commit,
+      API.CREATE_FEE_TYPE,
+      req,
+      req.Message,
+      (resp: CreateFeeTypeResponse): void => {
+        commit(MutationTypes.AppendFeeType, resp.Info)
       })
   },
 
   [ActionTypes.CreateGood] ({ commit }, req: CreateGoodRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<CreateGoodRequest, AxiosResponse<CreateGoodResponse>>(API.CREATE_GOOD, req)
-      .then((response: AxiosResponse<CreateGoodResponse>) => {
-        commit(MutationTypes.AppendGood, response.data.Info)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+    doAction<CreateGoodRequest, CreateGoodResponse>(
+      commit,
+      API.CREATE_GOOD,
+      req,
+      req.Message,
+      (resp: CreateGoodResponse): void => {
+        commit(MutationTypes.AppendGood, resp.Info)
       })
   },
 
   [ActionTypes.GetAllPriceCurrencys] ({ commit }, req: GetAllPriceCurrencysRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<GetAllPriceCurrencysRequest, AxiosResponse<GetAllPriceCurrencysResponse>>(API.GET_ALL_PRICE_CURRENCYS, req)
-      .then((response: AxiosResponse<GetAllPriceCurrencysResponse>) => {
-        commit(MutationTypes.SetAllPriceCurrencys, response.data.Infos)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+    doAction<GetAllPriceCurrencysRequest, GetAllPriceCurrencysResponse>(
+      commit,
+      API.GET_ALL_PRICE_CURRENCYS,
+      req,
+      req.Message,
+      (resp: GetAllPriceCurrencysResponse): void => {
+        commit(MutationTypes.SetAllPriceCurrencys, resp.Infos)
       })
   },
 
   [ActionTypes.CreatePriceCurrency] ({ commit }, req: CreatePriceCurrencyRequest) {
-    let waitingNotification: Notification
-    if (req.Message.Waiting) {
-      waitingNotification = notificationPush(req.Message.ModuleKey, req.Message.Waiting)
-      commit(NotificationMutationTypes.Push, waitingNotification)
-    }
-    api
-      .post<CreatePriceCurrencyRequest, AxiosResponse<CreatePriceCurrencyResponse>>(API.CREATE_PRICE_CURRENCY, req)
-      .then((response: AxiosResponse<CreatePriceCurrencyResponse>) => {
-        commit(MutationTypes.AppendPriceCurrency, response.data.Info)
-        if (waitingNotification) {
-          commit(NotificationMutationTypes.Pop, notificationPop(waitingNotification))
-        }
-      })
-      .catch((err: Error) => {
-        const error = req.Message.Error
-        if (error) {
-          error.Description = err.message
-          const errorNotification = notificationPush(req.Message.ModuleKey, error)
-          commit(NotificationMutationTypes.Push, errorNotification)
-        }
+    doAction<CreatePriceCurrencyRequest, CreatePriceCurrencyResponse>(
+      commit,
+      API.CREATE_PRICE_CURRENCY,
+      req,
+      req.Message,
+      (resp: CreatePriceCurrencyResponse): void => {
+        commit(MutationTypes.AppendPriceCurrency, resp.Info)
       })
   }
 }

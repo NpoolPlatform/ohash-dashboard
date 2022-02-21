@@ -132,7 +132,20 @@ const loading = ref(true)
 const allGoods = computed(() => {
   const goods = [] as Array<GoodBase>
   store.getters.getAllGoods.forEach((good) => {
-    goods.push(good.Good.Good)
+    goods.push({
+      ID: good.Good.Good.ID,
+      SeparateFee: good.Good.Good.SeparateFee,
+      UnitPower: good.Good.Good.UnitPower,
+      DurationDays: good.Good.Good.DurationDays,
+      Actuals: good.Good.Good.Actuals,
+      DeliveryAt: good.Good.Good.DeliveryAt,
+      Price: good.Good.Good.Price,
+      BenefitType: good.Good.Good.BenefitType,
+      Classic: good.Good.Good.Classic,
+      Title: good.Good.Good.Title,
+      Total: good.Good.Good.Total,
+      Unit: good.Good.Good.Unit
+    } as GoodBase)
   })
   return goods
 })
@@ -295,6 +308,20 @@ const onSubmit = (recommend: Recommend) => {
 const unsubscribe = ref<FunctionVoid>()
 
 onMounted(() => {
+  unsubscribe.value = store.subscribe((mutation) => {
+    if (mutation.type === ApplicationMutationTypes.SetAppGoods) {
+      loading.value = false
+    }
+
+    if (mutation.type === NotificationMutationTypes.Push) {
+      const notification = store.getters.peekNotification(ModuleKey.ModuleApplication)
+      if (notification) {
+        notify(notification)
+        store.commit(NotificationMutationTypes.Pop, notificationPop(notification))
+      }
+    }
+  })
+
   store.dispatch(CoinActionTypes.GetCoins, {
     Message: {
       ModuleKey: ModuleKey.ModuleGoods,
@@ -335,20 +362,6 @@ onMounted(() => {
         Title: t('MSG_GET_RECOMMENDS_FAIL'),
         Popup: true,
         Type: NotificationType.Error
-      }
-    }
-  })
-
-  unsubscribe.value = store.subscribe((mutation) => {
-    if (mutation.type === ApplicationMutationTypes.SetAppGoods) {
-      loading.value = false
-    }
-
-    if (mutation.type === NotificationMutationTypes.Push) {
-      const notification = store.getters.peekNotification(ModuleKey.ModuleApplication)
-      if (notification) {
-        notify(notification)
-        store.commit(NotificationMutationTypes.Pop, notificationPop(notification))
       }
     }
   })
