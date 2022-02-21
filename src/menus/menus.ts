@@ -42,6 +42,14 @@ const MainDrawerMenus = [
         target: '/application/contacts',
         level: 1,
         children: []
+      }, {
+        menuId: uid(),
+        label: '国际化',
+        caption: '管理应用语言支持',
+        icon: 'perm_identity',
+        target: '/application/languages',
+        level: 1,
+        children: []
       }
     ]
   }, {
