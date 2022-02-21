@@ -1,10 +1,11 @@
 import { ReqMessage } from '../notifications/types'
 import { KYC } from '../kycs/types'
-import { Good } from '../goods/types'
 import { UserInfo } from '../user-helper/types'
+import { CoinAccount } from '../accounts/types'
 
 interface Review {
   ID?: string
+  AppID?: string
   ObjectType?: string
   ReviewerID?: string
   State?: string
@@ -25,20 +26,32 @@ interface GetKYCReviewsResponse {
 }
 
 interface GetKYCReviewsRequest {
+  TargetAppID: string
   Message: ReqMessage
 }
 
-interface GoodReview {
-  Good: Good
+interface WithdrawAddress {
+  ID: string
+  CoinTypeID: string
+  AccountID: string
+  Name: string
+  Message: string
+  CreateAt: number
+}
+
+interface WithdrawAddressReview {
+  Address: WithdrawAddress
+  Account: CoinAccount
   Review: Review
+  User: UserInfo
 }
 
-interface GetGoodReviewsRequest {
+interface GetWithdrawAddressReviewsRequest {
   Message: ReqMessage
 }
 
-interface GetGoodReviewsResponse {
-  Infos: ReadonlyArray<GoodReview>
+interface GetWithdrawAddressReviewsResponse {
+  Infos: Array<WithdrawAddressReview>
 }
 
 interface UpdateReviewRequest {
@@ -50,14 +63,52 @@ interface UpdateReviewResponse {
   Info: Review
 }
 
+interface Withdraw {
+  ID: string
+  AppID: string
+  UserID: string
+  CoinTypeID: string
+  WithdrawToAccountID: string
+  Amount: number
+  PlatformTransactionID: string
+}
+
+interface WithdrawReview {
+  Withdraw: Withdraw
+  Review: Review
+  User: UserInfo
+}
+
+interface GetWithdrawReviewsRequest {
+  Message: ReqMessage
+}
+
+interface GetWithdrawReviewsResponse {
+  Infos: Array<WithdrawReview>
+}
+
+interface UpdateUserWithdrawReviewRequest {
+  Info: Review
+  Message: ReqMessage
+}
+
+interface UpdateUserWithdrawReviewResponse {
+  Info: WithdrawReview
+}
+
 export {
   Review,
   KYCReview,
   GetKYCReviewsRequest,
   GetKYCReviewsResponse,
-  GoodReview,
-  GetGoodReviewsRequest,
-  GetGoodReviewsResponse,
   UpdateReviewRequest,
-  UpdateReviewResponse
+  UpdateReviewResponse,
+  WithdrawAddressReview,
+  GetWithdrawAddressReviewsRequest,
+  GetWithdrawAddressReviewsResponse,
+  WithdrawReview,
+  GetWithdrawReviewsRequest,
+  GetWithdrawReviewsResponse,
+  UpdateUserWithdrawReviewRequest,
+  UpdateUserWithdrawReviewResponse
 }

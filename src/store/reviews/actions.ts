@@ -4,7 +4,13 @@ import {
   GetKYCReviewsRequest,
   GetKYCReviewsResponse,
   UpdateReviewRequest,
-  UpdateReviewResponse
+  UpdateReviewResponse,
+  GetWithdrawAddressReviewsRequest,
+  GetWithdrawAddressReviewsResponse,
+  GetWithdrawReviewsRequest,
+  GetWithdrawReviewsResponse,
+  UpdateUserWithdrawReviewRequest,
+  UpdateUserWithdrawReviewResponse
 } from './types'
 import { ReviewsState } from './state'
 import { ActionTree } from 'vuex'
@@ -29,6 +35,30 @@ interface ReviewActions {
     RootState,
     ReviewMutations<ReviewsState>>,
     req: UpdateReviewRequest): void
+
+  [ActionTypes.GetWithdrawAddressReviews]({
+    commit
+  }: AugmentedActionContext<
+  ReviewsState,
+    RootState,
+    ReviewMutations<ReviewsState>>,
+    req: GetWithdrawAddressReviewsRequest): void
+
+  [ActionTypes.GetWithdrawReviews]({
+    commit
+  }: AugmentedActionContext<
+  ReviewsState,
+    RootState,
+    ReviewMutations<ReviewsState>>,
+    req: GetWithdrawReviewsRequest): void
+
+  [ActionTypes.UpdateUserWithdrawReview]({
+    commit
+  }: AugmentedActionContext<
+  ReviewsState,
+    RootState,
+    ReviewMutations<ReviewsState>>,
+    req: UpdateUserWithdrawReviewRequest): void
 }
 
 const actions: ActionTree<ReviewsState, RootState> = {
@@ -51,6 +81,39 @@ const actions: ActionTree<ReviewsState, RootState> = {
       req.Message,
       (resp: UpdateReviewResponse): void => {
         commit(MutationTypes.UpdateReview, resp.Info)
+      })
+  },
+
+  [ActionTypes.GetWithdrawAddressReviews] ({ commit }, req: GetWithdrawAddressReviewsRequest) {
+    doAction<GetWithdrawAddressReviewsRequest, GetWithdrawAddressReviewsResponse>(
+      commit,
+      API.GET_WITHDRAW_ADDRESS_REVIEWS,
+      req,
+      req.Message,
+      (resp: GetWithdrawAddressReviewsResponse): void => {
+        commit(MutationTypes.SetWithdrawAddressReviews, resp.Infos)
+      })
+  },
+
+  [ActionTypes.GetWithdrawReviews] ({ commit }, req: GetWithdrawReviewsRequest) {
+    doAction<GetWithdrawReviewsRequest, GetWithdrawReviewsResponse>(
+      commit,
+      API.GET_WITHDRAW_REVIEWS,
+      req,
+      req.Message,
+      (resp: GetWithdrawReviewsResponse): void => {
+        commit(MutationTypes.SetWithdrawReviews, resp.Infos)
+      })
+  },
+
+  [ActionTypes.UpdateUserWithdrawReview] ({ commit }, req: UpdateUserWithdrawReviewRequest) {
+    doAction<UpdateUserWithdrawReviewRequest, UpdateUserWithdrawReviewResponse>(
+      commit,
+      API.UPDATE_USER_WITHDRAW_REVIEW,
+      req,
+      req.Message,
+      (resp: UpdateUserWithdrawReviewResponse): void => {
+        commit(MutationTypes.SetWithdrawReviews, [resp.Info])
       })
   }
 }

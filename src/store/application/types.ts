@@ -101,6 +101,105 @@ interface UpdateAppRoleResponse {
   Info: AppRole
 }
 
+interface AppGood {
+  ID?: string
+  GoodID: string
+  Price: number
+  Online: boolean
+  InitAreaStrategy?: string
+}
+
+interface GetAppGoodsRequest {
+  Message: ReqMessage
+}
+
+interface GetAppGoodsResponse {
+  Infos: Array<AppGood>
+}
+
+interface Recommend {
+  ID: string
+  GoodID: string
+  RecommenderID: string
+  Message: string
+}
+
+interface GetRecommendsRequest {
+  Message: ReqMessage
+}
+
+interface GetRecommendsResponse {
+  Infos: Array<Recommend>
+}
+
+interface CreateRecommendRequest {
+  Info: Recommend
+  Message: ReqMessage
+}
+
+interface CreateRecommendResponse {
+  Info: Recommend
+}
+
+interface SetAppGoodPriceRequest {
+  Info: AppGood
+  Message: ReqMessage
+}
+
+interface SetAppGoodPriceResponse {
+  Info: AppGood
+}
+
+interface SetAppGoodOnlineRequest {
+  Info: AppGood
+  Message: ReqMessage
+}
+
+interface SetAppGoodOnlineResponse {
+  Info: AppGood
+}
+
+interface SetAppGoodOfflineRequest {
+  Info: AppGood
+  Message: ReqMessage
+}
+
+interface SetAppGoodOfflineResponse {
+  Info: AppGood
+}
+
+interface AppWithdrawSetting {
+  ID?: string
+  CoinTypeID: string
+  WithdrawAutoReviewCoinAmount: number
+}
+
+interface GetAppWithdrawSettingsRequest {
+  Message: ReqMessage
+}
+
+interface GetAppWithdrawSettingsResponse {
+  Infos: Array<AppWithdrawSetting>
+}
+
+interface CreateAppWithdrawSettingRequest {
+  Info: AppWithdrawSetting
+  Message: ReqMessage
+}
+
+interface CreateAppWithdrawSettingResponse {
+  Info: AppWithdrawSetting
+}
+
+interface UpdateAppWithdrawSettingRequest {
+  Info: AppWithdrawSetting
+  Message: ReqMessage
+}
+
+interface UpdateAppWithdrawSettingResponse {
+  Info: AppWithdrawSetting
+}
+
 export {
   App,
   AppControl,
@@ -121,5 +220,26 @@ export {
   CreateAppRoleRequest,
   CreateAppRoleResponse,
   UpdateAppRoleRequest,
-  UpdateAppRoleResponse
+  UpdateAppRoleResponse,
+  AppGood,
+  GetAppGoodsRequest,
+  GetAppGoodsResponse,
+  Recommend,
+  GetRecommendsRequest,
+  GetRecommendsResponse,
+  CreateRecommendRequest,
+  CreateRecommendResponse,
+  SetAppGoodPriceRequest,
+  SetAppGoodPriceResponse,
+  SetAppGoodOnlineRequest,
+  SetAppGoodOnlineResponse,
+  SetAppGoodOfflineRequest,
+  SetAppGoodOfflineResponse,
+  AppWithdrawSetting,
+  GetAppWithdrawSettingsRequest,
+  GetAppWithdrawSettingsResponse,
+  CreateAppWithdrawSettingRequest,
+  CreateAppWithdrawSettingResponse,
+  UpdateAppWithdrawSettingRequest,
+  UpdateAppWithdrawSettingResponse
 }

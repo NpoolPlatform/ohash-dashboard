@@ -2,13 +2,16 @@ import { MutationTree } from 'vuex'
 import { AppRole } from '../user-helper/types'
 import { MutationTypes } from './mutation-types'
 import { ApplicationState } from './state'
-import { App, AppControl, Application, BanApp } from './types'
+import { App, AppControl, AppGood, Application, AppWithdrawSetting, BanApp, Recommend } from './types'
 
 type ApplicationMutations<S = ApplicationState> = {
   [MutationTypes.SetApplication] (state: S, payload: Application): void
   [MutationTypes.SetAppControl] (state: S, payload: AppControl): void
   [MutationTypes.SetAppRoles] (state: S, payload: Array<AppRole>): void
   [MutationTypes.SetAppRole] (state: S, payload: AppRole): void
+  [MutationTypes.SetAppGoods] (state: S, payload: Array<AppGood>): void
+  [MutationTypes.SetRecommends] (state: S, payload: Array<Recommend>): void
+  [MutationTypes.SetAppWithdrawSettings] (state: S, payload: Array<AppWithdrawSetting>): void
 }
 
 const mutations: MutationTree<ApplicationState> & ApplicationMutations = {
@@ -33,6 +36,18 @@ const mutations: MutationTree<ApplicationState> & ApplicationMutations = {
       return role.ID !== payload.ID
     })
     state.AppRoles.push(payload)
+  },
+
+  [MutationTypes.SetAppGoods] (state: ApplicationState, payload: Array<AppGood>): void {
+    state.AppGoods = payload
+  },
+
+  [MutationTypes.SetRecommends] (state: ApplicationState, payload: Array<Recommend>): void {
+    state.Recommends = payload
+  },
+
+  [MutationTypes.SetAppWithdrawSettings] (state: ApplicationState, payload: Array<AppWithdrawSetting>): void {
+    state.AppWithdrawSettings = payload
   }
 }
 

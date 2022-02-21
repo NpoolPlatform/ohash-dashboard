@@ -1,16 +1,18 @@
 import { GetterTree } from 'vuex'
 import { RootState } from '../index'
 import { ReviewsState } from './state'
-import { GoodReview, KYCReview } from './types'
+import { KYCReview, WithdrawAddressReview, WithdrawReview } from './types'
 
 type ReviewGetters = {
   getKYCReviews (state: ReviewsState): Array<KYCReview>
-  getGoodReviews (state: ReviewsState): Array<GoodReview>
+  getWithdrawAddressReviews (state: ReviewsState): Array<WithdrawAddressReview>
+  getWithdrawReviews (state: ReviewsState): Array<WithdrawReview>
 }
 
 const getters: GetterTree<ReviewsState, RootState> & ReviewGetters = {
   getKYCReviews: (state: ReviewsState): Array<KYCReview> => state.KYCReviews,
-  getGoodReviews: (state: ReviewsState): Array<GoodReview> => state.GoodReviews
+  getWithdrawAddressReviews: (state: ReviewsState): Array<WithdrawAddressReview> => state.WithdrawAddressReviews,
+  getWithdrawReviews: (state: ReviewsState): Array<WithdrawReview> => state.WithdrawReviews
 }
 
 export { ReviewGetters, getters }

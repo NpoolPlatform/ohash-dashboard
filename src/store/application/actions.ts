@@ -7,16 +7,34 @@ import {
   CreateApplicationResponse,
   CreateAppRoleRequest,
   CreateAppRoleResponse,
+  CreateAppWithdrawSettingRequest,
+  CreateAppWithdrawSettingResponse,
+  CreateRecommendRequest,
+  CreateRecommendResponse,
+  GetAppGoodsRequest,
+  GetAppGoodsResponse,
   GetApplicationRequest,
   GetApplicationResponse,
   GetAppRolesRequest,
   GetAppRolesResponse,
+  GetAppWithdrawSettingsRequest,
+  GetAppWithdrawSettingsResponse,
+  GetRecommendsRequest,
+  GetRecommendsResponse,
+  SetAppGoodOfflineRequest,
+  SetAppGoodOfflineResponse,
+  SetAppGoodOnlineRequest,
+  SetAppGoodOnlineResponse,
+  SetAppGoodPriceRequest,
+  SetAppGoodPriceResponse,
   UpdateAppControlRequest,
   UpdateAppControlResponse,
   UpdateApplicationRequest,
   UpdateApplicationResponse,
   UpdateAppRoleRequest,
-  UpdateAppRoleResponse
+  UpdateAppRoleResponse,
+  UpdateAppWithdrawSettingRequest,
+  UpdateAppWithdrawSettingResponse
 } from './types'
 import { ApplicationState } from './state'
 import { ActionTree } from 'vuex'
@@ -89,6 +107,78 @@ interface ApplicationActions {
     RootState,
     ApplicationMutations<ApplicationState>>,
     req: UpdateAppRoleRequest): void
+
+  [ActionTypes.GetAppGoods]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationState,
+    RootState,
+    ApplicationMutations<ApplicationState>>,
+    req: GetAppGoodsRequest): void
+
+  [ActionTypes.GetRecommends]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationState,
+    RootState,
+    ApplicationMutations<ApplicationState>>,
+    req: GetRecommendsRequest): void
+
+  [ActionTypes.CreateRecommend]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationState,
+    RootState,
+    ApplicationMutations<ApplicationState>>,
+    req: CreateRecommendRequest): void
+
+  [ActionTypes.SetAppGoodPrice]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationState,
+    RootState,
+    ApplicationMutations<ApplicationState>>,
+    req: SetAppGoodPriceRequest): void
+
+  [ActionTypes.OnsaleAppGood]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationState,
+    RootState,
+    ApplicationMutations<ApplicationState>>,
+    req: SetAppGoodOnlineRequest): void
+
+  [ActionTypes.OffsaleAppGood]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationState,
+    RootState,
+    ApplicationMutations<ApplicationState>>,
+    req: SetAppGoodOfflineRequest): void
+
+  [ActionTypes.GetAppWithdrawSettings]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationState,
+    RootState,
+    ApplicationMutations<ApplicationState>>,
+    req: GetAppWithdrawSettingsRequest): void
+
+  [ActionTypes.CreateAppWithdrawSetting]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationState,
+    RootState,
+    ApplicationMutations<ApplicationState>>,
+    req: CreateAppWithdrawSettingRequest): void
+
+  [ActionTypes.UpdateAppWithdrawSetting]({
+    commit
+  }: AugmentedActionContext<
+    ApplicationState,
+    RootState,
+    ApplicationMutations<ApplicationState>>,
+    req: UpdateAppWithdrawSettingRequest): void
 }
 
 const actions: ActionTree<ApplicationState, RootState> = {
@@ -177,6 +267,105 @@ const actions: ActionTree<ApplicationState, RootState> = {
       req.Message,
       (resp: UpdateAppRoleResponse): void => {
         commit(MutationTypes.SetAppRole, resp.Info)
+      })
+  },
+
+  [ActionTypes.GetAppGoods] ({ commit }, req: GetAppGoodsRequest) {
+    doAction<GetAppGoodsRequest, GetAppGoodsResponse>(
+      commit,
+      API.GET_APP_GOODS,
+      req,
+      req.Message,
+      (resp: GetAppGoodsResponse): void => {
+        commit(MutationTypes.SetAppGoods, resp.Infos)
+      })
+  },
+
+  [ActionTypes.GetRecommends] ({ commit }, req: GetRecommendsRequest) {
+    doAction<GetRecommendsRequest, GetRecommendsResponse>(
+      commit,
+      API.GET_RECOMMENDS,
+      req,
+      req.Message,
+      (resp: GetRecommendsResponse): void => {
+        commit(MutationTypes.SetRecommends, resp.Infos)
+      })
+  },
+
+  [ActionTypes.CreateRecommend] ({ commit }, req: CreateRecommendRequest) {
+    doAction<CreateRecommendRequest, CreateRecommendResponse>(
+      commit,
+      API.CREATE_RECOMMEND,
+      req,
+      req.Message,
+      (resp: CreateRecommendResponse): void => {
+        commit(MutationTypes.SetRecommends, [resp.Info])
+      })
+  },
+
+  [ActionTypes.SetAppGoodPrice] ({ commit }, req: SetAppGoodPriceRequest) {
+    doAction<SetAppGoodPriceRequest, SetAppGoodPriceResponse>(
+      commit,
+      API.SET_APP_GOOD_PRICE,
+      req,
+      req.Message,
+      (resp: SetAppGoodPriceResponse): void => {
+        commit(MutationTypes.SetAppGoods, [resp.Info])
+      })
+  },
+
+  [ActionTypes.OnsaleAppGood] ({ commit }, req: SetAppGoodOnlineRequest) {
+    doAction<SetAppGoodOnlineRequest, SetAppGoodOnlineResponse>(
+      commit,
+      API.ONSALE_APP_GOOD,
+      req,
+      req.Message,
+      (resp: SetAppGoodOnlineResponse): void => {
+        commit(MutationTypes.SetAppGoods, [resp.Info])
+      })
+  },
+
+  [ActionTypes.OffsaleAppGood] ({ commit }, req: SetAppGoodOfflineRequest) {
+    doAction<SetAppGoodOfflineRequest, SetAppGoodOfflineResponse>(
+      commit,
+      API.OFFSALE_APP_GOOD,
+      req,
+      req.Message,
+      (resp: SetAppGoodOfflineResponse): void => {
+        commit(MutationTypes.SetAppGoods, [resp.Info])
+      })
+  },
+
+  [ActionTypes.GetAppWithdrawSettings] ({ commit }, req: GetAppWithdrawSettingsRequest) {
+    doAction<GetAppWithdrawSettingsRequest, GetAppWithdrawSettingsResponse>(
+      commit,
+      API.GET_APP_WITHDRAW_SETTINGS,
+      req,
+      req.Message,
+      (resp: GetAppWithdrawSettingsResponse): void => {
+        commit(MutationTypes.SetAppWithdrawSettings, resp.Infos)
+      })
+  },
+
+  [ActionTypes.CreateAppWithdrawSetting] ({ commit }, req: CreateAppWithdrawSettingRequest) {
+    doAction<CreateAppWithdrawSettingRequest, CreateAppWithdrawSettingResponse>(
+      commit,
+      API.CREATE_APP_WITHDRAW_SETTING,
+      req,
+      req.Message,
+      (resp: CreateAppWithdrawSettingResponse): void => {
+        commit(MutationTypes.SetAppWithdrawSettings, [resp.Info])
+      })
+  },
+
+  [ActionTypes.UpdateAppWithdrawSetting] ({ commit }, req: UpdateAppWithdrawSettingRequest) {
+    doAction<UpdateAppWithdrawSettingRequest, UpdateAppWithdrawSettingResponse>(
+      commit,
+      API.UPDATE_APP_WITHDRAW_SETTING,
+      req,
+      req.Message,
+      (resp: UpdateAppWithdrawSettingResponse): void => {
+        commit(MutationTypes.SetAppWithdrawSettings, [resp.Info])
       })
   }
 }

@@ -1,15 +1,21 @@
 import { AppRole } from '../user-helper/types'
-import { App, Application } from './types'
+import { App, AppGood, Application, AppWithdrawSetting, Recommend } from './types'
 
 interface ApplicationState {
   Application?: Application
   Apps?: App
   AppRoles: Array<AppRole>
+  AppGoods: Array<AppGood>
+  Recommends: Array<Recommend>
+  AppWithdrawSettings: Array<AppWithdrawSetting>
 }
 
 function state (): ApplicationState {
   return {
-    AppRoles: [] as Array<AppRole>
+    AppRoles: [],
+    AppGoods: [],
+    Recommends: [],
+    AppWithdrawSettings: []
   }
 }
 

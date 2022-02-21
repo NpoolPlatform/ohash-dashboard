@@ -140,5 +140,13 @@ export default {
   MSG_CREATE_APP_ROLE_USER_FAIL: '设置用户角色失败',
   MSG_DELETE: '删除',
   MSG_DELETE_APP_ROLE_USER_FAIL: '解除用户角色授权失败',
-  MSG_DELETE_AUTH_FAIL: '解除资源授权失败'
+  MSG_DELETE_AUTH_FAIL: '解除资源授权失败',
+  MSG_GET_WITHDRAW_ADDRESS_REVIEWS_FAIL: 'Cannot get withdraw address reviews',
+  MSG_GET_WITHDRAW_REVIEWS_FAIL: 'Cannot get withdraw reviews',
+  MSG_GET_APP_GOODS_FAIL: 'Cannot get app goods',
+  MSG_GET_RECOMMENDS_FAIL: 'Cannot get recommend goods',
+  MSG_SET_ONLINE: '上架商品',
+  MSG_SET_OFFLINE: '下架商品',
+  MSG_MODIFY_PRICE: '修改价格',
+  MSG_CREATE: '创建'
 }

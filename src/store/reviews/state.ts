@@ -1,14 +1,16 @@
-import { KYCReview, GoodReview } from './types'
+import { KYCReview, WithdrawAddressReview, WithdrawReview } from './types'
 
 interface ReviewsState {
   KYCReviews: Array<KYCReview>
-  GoodReviews: Array<GoodReview>
+  WithdrawAddressReviews: Array<WithdrawAddressReview>
+  WithdrawReviews: Array<WithdrawReview>
 }
 
 function state (): ReviewsState {
   return {
-    KYCReviews: [] as Array<KYCReview>,
-    GoodReviews: [] as Array<GoodReview>
+    KYCReviews: [],
+    WithdrawAddressReviews: [],
+    WithdrawReviews: []
   }
 }
 

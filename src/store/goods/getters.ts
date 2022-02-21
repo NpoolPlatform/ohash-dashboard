@@ -17,7 +17,7 @@ const getters: GetterTree<GoodsState, RootState> & GoodGetters = {
   getGoodByID: (state: GoodsState): (id: string) => ExpandGood => {
     return (id: string) => {
       const goods = state.AllGoods.filter((good) => {
-        return good.Good.ID === id
+        return good.Good.Good.ID === id
       })
       if (goods) {
         return goods[0]

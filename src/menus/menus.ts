@@ -50,6 +50,14 @@ const MainDrawerMenus = [
         target: '/application/languages',
         level: 1,
         children: []
+      }, {
+        menuId: uid(),
+        label: '商品定价与上下架',
+        caption: '管理应用内商品定价',
+        icon: 'perm_identity',
+        target: '/application/goods',
+        level: 1,
+        children: []
       }
     ]
   }, {
@@ -66,6 +74,22 @@ const MainDrawerMenus = [
         caption: '管理身份审核',
         icon: 'perm_identity',
         target: '/review/kyc',
+        level: 1,
+        children: []
+      }, {
+        menuId: uid(),
+        label: '提现地址',
+        caption: '审核体现地址设置',
+        icon: 'format_list_numbered',
+        target: '/review/withdraw/address',
+        level: 1,
+        children: []
+      }, {
+        menuId: uid(),
+        label: '提现请求',
+        caption: '审核提现请求',
+        icon: 'format_list_numbered',
+        target: '/review/withdraw',
         level: 1,
         children: []
       }
@@ -104,14 +128,6 @@ const MainDrawerMenus = [
         children: []
       }
     ]
-  }, {
-    menuId: uid(),
-    label: '国际化',
-    caption: '管理国际化语言支持',
-    icon: 'language',
-    target: '/internationalization',
-    level: 0,
-    children: []
   }
 ]
 

@@ -12,13 +12,15 @@ const routes: RouteRecordRaw[] = [
 
       // Review pages
       { path: 'review/kyc', component: () => import('pages/review/KYC.vue') },
-      { path: 'review/good', component: () => import('pages/review/Good.vue') },
+      { path: 'review/withdraw', component: () => import('pages/review/Withdraw.vue') },
+      { path: 'review/withdraw/address', component: () => import('pages/review/WithdrawAddress.vue') },
 
       // Application page
       { path: 'application/email/template', component: () => import('pages/application/ApplicationEmailTemplate.vue') },
       { path: 'application/sms/template', component: () => import('pages/application/ApplicationSMSTemplate.vue') },
       { path: 'application/contacts', component: () => import('pages/application/ApplicationContact.vue') },
       { path: 'application/languages', component: () => import('pages/application/ApplicationLanguages.vue') },
+      { path: 'application/goods', component: () => import('pages/application/ApplicationGoods.vue') },
 
       // User list
       { path: 'users/users', component: () => import('pages/users/Users.vue') },
