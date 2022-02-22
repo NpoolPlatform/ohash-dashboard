@@ -114,6 +114,14 @@ import {
   AuthActions
 } from './auths'
 
+import {
+  inspire,
+  InspiresState,
+  InspireMutations,
+  InspireGetters,
+  InspireActions
+} from './inspire'
+
 // 2 combine your store to root store
 export interface RootState {
   user: UserState,
@@ -129,6 +137,7 @@ export interface RootState {
   appSMSTemplates: AppSMSTemplatesState
   appContacts: AppContactsState
   auths: AuthsState
+  inspire: InspiresState
 }
 
 // 3 combine your actions, mutations and getters to root, if have multi use & combin
@@ -144,7 +153,8 @@ type Actions =
   AppEmailTemplateActions &
   AppSMSTemplateActions &
   AppContactActions &
-  AuthActions
+  AuthActions &
+  InspireActions
 type Mutations =
   UserMutations &
   MainBreadcrumbsMutations &
@@ -158,7 +168,8 @@ type Mutations =
   AppEmailTemplateMutations &
   AppSMSTemplateMutations &
   AppContactMutations &
-  AuthMutations
+  AuthMutations &
+  InspireMutations
 type Getters =
   UserGetters &
   MainBreadcrumbsGetters &
@@ -172,7 +183,8 @@ type Getters =
   AppEmailTemplateGetters &
   AppSMSTemplateGetters &
   AppContactGetters &
-  AuthGetters
+  AuthGetters &
+  InspireGetters
 
 // 4 attach your module to root
 export default store(function (/* { ssrContext } */) {
@@ -190,7 +202,8 @@ export default store(function (/* { ssrContext } */) {
       appEmailTemplates,
       appSMSTemplates,
       appContacts,
-      auths
+      auths,
+      inspire
     },
 
     // enable strict mode (adds overhead!)
