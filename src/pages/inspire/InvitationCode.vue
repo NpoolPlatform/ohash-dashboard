@@ -85,7 +85,7 @@ onMounted(() => {
     }
   })
 
-  store.dispatch(InspireActionTypes.GetUserInvitationCodeByApp, {
+  store.dispatch(InspireActionTypes.GetUserInvitationCodes, {
     Message: {
       ModuleKey: ModuleKey.ModuleUsers,
       Error: {

@@ -148,5 +148,12 @@ export default {
   MSG_SET_ONLINE: '上架商品',
   MSG_SET_OFFLINE: '下架商品',
   MSG_MODIFY_PRICE: '修改价格',
-  MSG_CREATE: '创建'
+  MSG_CREATE: '创建',
+  MSG_APP_COMMISSION_SETTING: 'APP佣金设置',
+  MSG_CREATE_APP_COMMISSION_SETTING_FAIL: 'You failed to create app commission setting',
+  MSG_CREATE_APP_INVITATION_SETTING_FAIL: 'You failed to create app invitation setting',
+  MSG_APP_PURCHASE_AMOUNT_SETTING: 'APP购买金额设置',
+  MSG_APP_USER_PURCHASE_AMOUNT_SETTING: 'APP用户购买设置',
+  MSG_CREATE_APP_PURCHASE_AMOUNT_SETTING_FAIL: 'You failed to create app purchase amount setting',
+  MSG_CREATE_APP_USER_PURCHASE_AMOUNT_SETTING_FAIL: 'You failed to create app user purchase amount setting'
 }

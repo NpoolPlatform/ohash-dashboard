@@ -30,7 +30,8 @@ const routes: RouteRecordRaw[] = [
       { path: 'users/roleusers', component: () => import('pages/users/RoleUsers.vue') },
 
       // Invitation Code
-      { path: 'inspire/invitation/code', component: () => import('pages/inspire/InvitationCode.vue') }
+      { path: 'inspire/invitation/code', component: () => import('pages/inspire/InvitationCode.vue') },
+      { path: 'inspire/commission', component: () => import('pages/inspire/Commission.vue') }
     ]
   },
 
