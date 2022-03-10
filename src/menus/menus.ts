@@ -92,6 +92,14 @@ const MainDrawerMenus = [
         target: '/review/withdraw',
         level: 1,
         children: []
+      }, {
+        menuId: uid(),
+        label: '超时支付',
+        caption: '管理超时支付账户',
+        icon: 'format_list_numbered',
+        target: '/review/user/payment/balance',
+        level: 1,
+        children: []
       }
     ]
   }, {

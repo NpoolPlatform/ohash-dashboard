@@ -115,6 +115,14 @@ import {
 } from './auths'
 
 import {
+  billings,
+  BillingsState,
+  BillingMutations,
+  BillingGetters,
+  BillingActions
+} from './billing'
+
+import {
   inspire,
   InspiresState,
   InspireMutations,
@@ -137,6 +145,7 @@ export interface RootState {
   appSMSTemplates: AppSMSTemplatesState
   appContacts: AppContactsState
   auths: AuthsState
+  billings: BillingsState
   inspire: InspiresState
 }
 
@@ -154,7 +163,8 @@ type Actions =
   AppSMSTemplateActions &
   AppContactActions &
   AuthActions &
-  InspireActions
+  InspireActions &
+  BillingActions
 type Mutations =
   UserMutations &
   MainBreadcrumbsMutations &
@@ -169,7 +179,8 @@ type Mutations =
   AppSMSTemplateMutations &
   AppContactMutations &
   AuthMutations &
-  InspireMutations
+  InspireMutations &
+  BillingMutations
 type Getters =
   UserGetters &
   MainBreadcrumbsGetters &
@@ -184,7 +195,8 @@ type Getters =
   AppSMSTemplateGetters &
   AppContactGetters &
   AuthGetters &
-  InspireGetters
+  InspireGetters &
+  BillingGetters
 
 // 4 attach your module to root
 export default store(function (/* { ssrContext } */) {
@@ -203,6 +215,7 @@ export default store(function (/* { ssrContext } */) {
       appSMSTemplates,
       appContacts,
       auths,
+      billings,
       inspire
     },
 
