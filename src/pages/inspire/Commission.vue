@@ -25,10 +25,17 @@
     v-model:selected='selectedUser'
     flat
     dense
-    :rows='myUsers ? myUsers : []'
+    :rows='filterUsers'
     selection='single'
     row-key='ID'
-  />
+  >
+    <template #top-right>
+      <div class='row'>
+        <q-space />
+        <q-input v-model='usernamePattern' dense flat :label='$t("MSG_USERNAME_FILTER")' />
+      </div>
+    </template>
+  </q-table>
   <q-table
     flat
     dense
@@ -117,6 +124,9 @@ const myUsers = computed(() => {
   }
   return allUsers
 })
+const usernamePattern = ref('')
+const filterUsers = computed(() => myUsers.value.filter((user) => user.EmailAddress?.includes(usernamePattern.value) || user.PhoneNO?.includes(usernamePattern.value)))
+
 const selectedUser = ref([] as Array<AppUser>)
 const editUser = computed(() => selectedUser.value.length > 0 ? selectedUser.value[0] : undefined as unknown as AppUser)
 
