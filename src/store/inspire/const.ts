@@ -9,8 +9,7 @@ enum API {
   CREATE_APP_PURCHASE_AMOUNT_SETTING = '/cloud-hashing-inspire/v1/create/app/purchase/amount/setting',
   GET_APP_PURCHASE_AMOUNT_SETTINGS = '/cloud-hashing-inspire/v1/get/app/purchase/amount/settings/by/app',
 
-  CREATE_APP_USER_PURCHASE_AMOUNT_SETTING_FOR_APP_OTHER_USER = '/cloud-hashing-inspire/v1/create/app/user/purchase/amount/setting/for/app/other/user',
-  GET_APP_USER_PURCHASE_AMOUNT_SETTINGS_BY_APP_OTHER_USER = '/cloud-hashing-inspire/v1/get/app/user/purchase/amount/settings/by/app/other/user',
+  CREATE_APP_PURCHASE_AMOUNT_SETTING_FOR_APP_OTHER_USER = '/cloud-hashing-inspire/v1/create/app/purchase/amount/setting/for/app/other/user',
 
   GET_COMMISSION_COINS_SETTINGS = '/cloud-hashing-inspire/v1/get/commission/coin/settings'
 }

@@ -8,9 +8,7 @@ export enum ActionTypes {
 
   CreateAppPurchaseAmountSetting = 'CREATE_APP_PURCHASE_AMOUNT_SETTING',
   GetAppPurchaseAmountSettings = 'GET_APP_PURCHASE_AMOUNT_SETTINGS',
-
-  CreateAppUserPurchaseAmountSettingForAppOtherUser = 'CREATE_APP_USER_PURCHASE_AMOUNT_SETTING_FOR_APP_OTHER_USER',
-  GetAppUserPurchaseAmountSettingsByAppOtherUser = 'GET_APP_USER_PURCHASE_AMOUNT_SETTINGS_BY_APP_OTHER_USER',
+  CreateAppPurchaseAmountSettingForAppOtherUser = 'CREATE_APP_PURCHASE_AMOUNT_SETTING',
 
   GetCommissionCoinSettings = 'GET_COMMISSION_COINS_SETTINGS'
 }

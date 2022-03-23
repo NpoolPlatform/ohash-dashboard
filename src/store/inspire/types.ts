@@ -60,6 +60,7 @@ interface UpdateAppCommissionSettingResponse {
 
 interface AppPurchaseAmountSetting {
   ID: string
+  UserID: string
   Amount: number
   Percent: number
   Title: string
@@ -86,35 +87,14 @@ interface GetAppPurchaseAmountSettingsResponse {
   Infos: Array<AppPurchaseAmountSetting>
 }
 
-interface AppUserPurchaseAmountSetting {
-  ID: string
-  UserID: string
-  Amount: number
-  Percent: number
-  Title: string
-  BadgeLarge: string
-  BadgeSmall: string
-  Start: number
-  End: number
-}
-
-interface CreateAppUserPurchaseAmountSettingForAppOtherUserRequest {
+interface CreateAppPurchaseAmountSettingForAppOtherUserRequest {
   TargetUserID: string
-  Info: AppUserPurchaseAmountSetting
+  Info: AppPurchaseAmountSetting
   Message: ReqMessage
 }
 
-interface CreateAppUserPurchaseAmountSettingForAppOtherUserResponse {
-  Info: AppUserPurchaseAmountSetting
-}
-
-interface GetAppUserPurchaseAmountSettingsByAppOtherUserRequest {
-  TargetUserID: string
-  Message: ReqMessage
-}
-
-interface GetAppUserPurchaseAmountSettingsByAppOtherUserResponse {
-  Infos: Array<AppUserPurchaseAmountSetting>
+interface CreateAppPurchaseAmountSettingForAppOtherUserResponse {
+  Info: AppPurchaseAmountSetting
 }
 
 interface CommissionCoinSetting {
@@ -149,11 +129,8 @@ export {
   CreateAppPurchaseAmountSettingResponse,
   GetAppPurchaseAmountSettingsRequest,
   GetAppPurchaseAmountSettingsResponse,
-  AppUserPurchaseAmountSetting,
-  CreateAppUserPurchaseAmountSettingForAppOtherUserRequest,
-  CreateAppUserPurchaseAmountSettingForAppOtherUserResponse,
-  GetAppUserPurchaseAmountSettingsByAppOtherUserRequest,
-  GetAppUserPurchaseAmountSettingsByAppOtherUserResponse,
+  CreateAppPurchaseAmountSettingForAppOtherUserRequest,
+  CreateAppPurchaseAmountSettingForAppOtherUserResponse,
   CommissionCoinSetting,
   GetCommissionCoinSettingsRequest,
   GetCommissionCoinSettingsResponse

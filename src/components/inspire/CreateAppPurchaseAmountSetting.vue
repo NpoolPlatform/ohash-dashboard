@@ -3,6 +3,10 @@
     <q-card-section>
       <q-item-label>{{ $t('MSG_CREATE_APP_PURCHASE_AMOUNT_SETTING') }}</q-item-label>
     </q-card-section>
+    <q-card-section>
+      <q-item-label>{{ userID }}</q-item-label>
+      <div>{{ editUser }}</div>
+    </q-card-section>
     <q-item-section>
       <q-input
         v-model='amount'
@@ -74,14 +78,18 @@
 <script setup lang='ts'>
 import { defineProps, toRef, computed, defineEmits, watch, ref } from 'vue'
 import { AppPurchaseAmountSetting } from 'src/store/inspire/types'
+import { AppUser } from 'src/store/user-helper/types'
+import { DefaultID } from 'src/const/const'
 
 interface Props {
   editSetting?: AppPurchaseAmountSetting
+  editUser?: AppUser
 }
 
 const props = defineProps<Props>()
 
 const editSetting = toRef(props, 'editSetting')
+const editUser = toRef(props, 'editUser')
 
 const editAmount = computed(() => {
   return editSetting.value ? editSetting.value.Amount : 0
@@ -118,6 +126,16 @@ const editEnd = computed(() => {
 })
 const end = ref(editEnd.value)
 
+const userID = computed(() => {
+  if (editSetting.value && editSetting.value.UserID.length > 0) {
+    return editSetting.value.UserID.length
+  }
+  if (editUser.value) {
+    return editUser.value.ID
+  }
+  return DefaultID
+})
+
 const editID = computed(() => {
   return editSetting.value ? editSetting.value.ID : undefined
 })
@@ -126,6 +144,7 @@ const id = ref(editID.value)
 const setting = computed(() => {
   return {
     ID: id.value as string,
+    UserID: userID.value,
     Amount: amount.value,
     Percent: percent.value,
     Title: title.value,
