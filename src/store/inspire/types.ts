@@ -30,6 +30,7 @@ interface AppCommissionSetting {
   Level: number
   InvitationDiscount: boolean
   UniqueSetting: boolean
+  KPISetting: boolean
 }
 
 interface CreateAppCommissionSettingRequest {

@@ -41,15 +41,7 @@
     dense
     :rows='appCommissionSetting ? [appCommissionSetting] : []'
     :title='t("MSG_APP_COMMISSION_SETTING")'
-    @row-click='(evt, row, index) => onAppCommissionSettingClick(row as AppCommissionSetting)'
-  >
-    <template v-if='!appCommissionSetting' #top-right>
-      <div class='row'>
-        <q-space />
-        <q-btn :label='t("MSG_CREATE")' @click='onCreateAppCommissionSetting' />
-      </div>
-    </template>
-  </q-table>
+  />
   <q-table
     flat
     dense
@@ -72,12 +64,6 @@
     no-shake
     @hide='onMenuHide'
   >
-    <CreateAppCommissionSetting
-      v-if='addingType === AddingType.AddingAppCommissionSetting'
-      v-model:edit-setting='selectedAppCommissionSetting'
-      @update='onUpdateAppCommissionSetting'
-      @submit='onSubmitAppCommissionSetting'
-    />
     <CreateAppPurchaseAmountSetting
       v-if='addingType === AddingType.AddingTypeAppPurchaseAmountSetting'
       v-model:edit-setting='editAppPurchaseAmountSetting'
@@ -105,7 +91,6 @@ import {
 import { AppUser } from 'src/store/user-helper/types'
 import { Coin } from 'src/store/coins/types'
 
-const CreateAppCommissionSetting = defineAsyncComponent(() => import('src/components/inspire/CreateAppCommissionSetting.vue'))
 const CreateAppPurchaseAmountSetting = defineAsyncComponent(() => import('src/components/inspire/CreateAppPurchaseAmountSetting.vue'))
 
 const store = useStore()
@@ -224,19 +209,6 @@ enum AddingType {
 }
 const addingType = ref(AddingType.AddingNone)
 
-const onCreateAppCommissionSetting = () => {
-  addingType.value = AddingType.AddingAppCommissionSetting
-  adding.value = true
-  modifying.value = true
-}
-
-const onAppCommissionSettingClick = (setting: AppCommissionSetting) => {
-  selectedAppCommissionSetting.value = setting
-  addingType.value = AddingType.AddingAppCommissionSetting
-  updating.value = true
-  modifying.value = true
-}
-
 const onCreateAppPurchaseAmountSetting = () => {
   addingType.value = AddingType.AddingTypeAppPurchaseAmountSetting
   adding.value = true
@@ -258,31 +230,6 @@ const onMenuHide = () => {
 
   selectedAppCommissionSetting.value = undefined as unknown as AppCommissionSetting
   editAppPurchaseAmountSetting.value = undefined as unknown as AppPurchaseAmountSetting
-}
-
-const onUpdateAppCommissionSetting = (setting: AppCommissionSetting) => {
-  console.log(setting)
-}
-
-const onSubmitAppCommissionSetting = (setting: AppCommissionSetting) => {
-  let action = InspireActionTypes.CreateAppCommissionSetting
-  if (updating.value) {
-    action = InspireActionTypes.UpdateAppCommissionSetting
-  }
-
-  store.dispatch(action, {
-    Info: setting,
-    Message: {
-      ModuleKey: ModuleKey.ModuleInspire,
-      Error: {
-        Title: t('MSG_CREATE_APP_COMMISSION_SETTING_FAIL'),
-        Popup: true,
-        Type: NotificationType.Error
-      }
-    }
-  })
-
-  onMenuHide()
 }
 
 const onUpdateAppPurchaseAmountSetting = (setting: AppPurchaseAmountSetting) => {
