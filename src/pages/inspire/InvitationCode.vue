@@ -7,7 +7,12 @@
     :rows='myUsers'
     selection='multiple'
     row-key='ID'
-  />
+  >
+    <template #top-right>
+      <q-space />
+      <q-input v-model='userPattern' />
+    </template>
+  </q-table>
   <q-table
     flat
     dense
@@ -38,6 +43,7 @@ const store = useStore()
 const { t } = useI18n({ useScope: 'global' })
 
 const users = computed(() => store.getters.getAppUserInfos)
+const userPattern = ref('')
 const myUsers = computed(() => {
   const allUsers = [] as Array<AppUser>
   if (users.value) {
@@ -45,7 +51,7 @@ const myUsers = computed(() => {
       allUsers.push(user.User as AppUser)
     })
   }
-  return allUsers
+  return allUsers.filter((user) => user.EmailAddress?.includes(userPattern.value))
 })
 const codes = computed(() => store.getters.getUserInvitationCodes)
 
