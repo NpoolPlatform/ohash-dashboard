@@ -15,20 +15,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - dashboard.ohash.com
-      secretName: ohash-com-cert
-    - hosts:
-        - dashboard.npool.top
-      secretName: npool-top-cert
+        - dashboard.ohhash.com
+      secretName: ohhash-com-cert
   rules:
-    - host: dashboard.ohash.com
-      http:
-        paths:
-          - path: /
-            backend:
-              serviceName: ohash-dashboard
-              servicePort: 80
-    - host: dashboard.npool.top
+    - host: dashboard.ohhash.com
       http:
         paths:
           - path: /
