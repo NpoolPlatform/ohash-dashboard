@@ -23,6 +23,7 @@ const routes: RouteRecordRaw[] = [
       { path: 'application/contacts', component: () => import('pages/application/ApplicationContact.vue') },
       { path: 'application/languages', component: () => import('pages/application/ApplicationLanguages.vue') },
       { path: 'application/goods', component: () => import('pages/application/ApplicationGoods.vue') },
+      { path: 'application/notifications', component: () => import('pages/application/ApplicationNotifications.vue') },
 
       // User list
       { path: 'users/users', component: () => import('pages/users/Users.vue') },
