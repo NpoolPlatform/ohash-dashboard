@@ -5,10 +5,16 @@ import {
   AddLanguageResponse,
   CreateAppLanguageRequest,
   CreateAppLanguageResponse,
+  CreateMessageRequest,
+  CreateMessageResponse,
   GetAppLangInfosRequest,
   GetAppLangInfosResponse,
   GetLanguagesRequest,
-  GetLanguagesResponse
+  GetLanguagesResponse,
+  GetMessagesByLangRequest,
+  GetMessagesByLangResponse,
+  UpdateMessageRequest,
+  UpdateMessageResponse
 } from './types'
 import { LanguagesState } from './state'
 import { ActionTree } from 'vuex'
@@ -49,6 +55,30 @@ interface LanguageActions {
     RootState,
     LanguageMutations<LanguagesState>>,
     req: CreateAppLanguageRequest): void
+
+  [ActionTypes.GetMessagesByLang]({
+    commit
+  }: AugmentedActionContext<
+    LanguagesState,
+    RootState,
+    LanguageMutations<LanguagesState>>,
+    req: GetMessagesByLangRequest): void
+
+  [ActionTypes.CreateMessage]({
+    commit
+  }: AugmentedActionContext<
+    LanguagesState,
+    RootState,
+    LanguageMutations<LanguagesState>>,
+    req: CreateMessageRequest): void
+
+  [ActionTypes.UpdateMessage]({
+    commit
+  }: AugmentedActionContext<
+    LanguagesState,
+    RootState,
+    LanguageMutations<LanguagesState>>,
+    req: UpdateMessageRequest): void
 }
 
 const actions: ActionTree<LanguagesState, RootState> = {
@@ -96,6 +126,39 @@ const actions: ActionTree<LanguagesState, RootState> = {
       req.Message,
       (resp: CreateAppLanguageResponse): void => {
         commit(MutationTypes.SetAppLanguage, resp.Info)
+      })
+  },
+
+  [ActionTypes.GetMessagesByLang] ({ commit }, req: GetMessagesByLangRequest) {
+    doAction<GetMessagesByLangRequest, GetMessagesByLangResponse>(
+      commit,
+      API.GET_MESSAGES_BY_LANG,
+      req,
+      req.Message,
+      (resp: GetMessagesByLangResponse): void => {
+        commit(MutationTypes.SetLangMessages, resp.Infos)
+      })
+  },
+
+  [ActionTypes.CreateMessage] ({ commit }, req: CreateMessageRequest) {
+    doAction<CreateMessageRequest, CreateMessageResponse>(
+      commit,
+      API.CREATE_MESSAGE,
+      req,
+      req.Message,
+      (resp: CreateMessageResponse): void => {
+        commit(MutationTypes.SetLangMessage, resp.Info)
+      })
+  },
+
+  [ActionTypes.UpdateMessage] ({ commit }, req: UpdateMessageRequest) {
+    doAction<UpdateMessageRequest, UpdateMessageResponse>(
+      commit,
+      API.UPDATE_MESSAGE,
+      req,
+      req.Message,
+      (resp: UpdateMessageResponse): void => {
+        commit(MutationTypes.SetLangMessage, resp.Info)
       })
   }
 }

@@ -79,7 +79,7 @@ module.exports = configure(function (ctx) {
     devServer: {
       proxy: {
         '/api': {
-          target: 'http://api.procyon.vip',
+          target: 'http://api.ohhash.com',
           pathRewrite: {
             '^/api': '/api'
           },
@@ -219,7 +219,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'procyon-dashboard-webui'
+        appId: 'ohash-dashboard-webui'
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain

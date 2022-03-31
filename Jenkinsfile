@@ -48,7 +48,7 @@ pipeline {
         expression { BUILD_TARGET == 'true' }
       }
       steps {
-        sh 'docker build -t $DOCKER_REGISTRY/entropypool/procyon-dashboard:latest .'
+        sh 'docker build -t $DOCKER_REGISTRY/entropypool/ohash-dashboard:latest .'
       }
     }
 
@@ -174,7 +174,7 @@ pipeline {
           fi
           PATH=/usr/local/bin:$PATH:./node_modules/@quasar/app/bin yarn install --registry https://registry.npm.taobao.org/
           PATH=/usr/local/bin:$PATH:./node_modules/@quasar/app/bin quasar build
-          docker build -t $DOCKER_REGISTRY/entropypool/procyon-dashboard:$tag .
+          docker build -t $DOCKER_REGISTRY/entropypool/ohash-dashboard:$tag .
         '''.stripIndent())
       }
     }
@@ -184,9 +184,9 @@ pipeline {
         expression { RELEASE_TARGET == 'true' }
       }
       steps {
-        sh 'docker push $DOCKER_REGISTRY/entropypool/procyon-dashboard:latest'
+        sh 'docker push $DOCKER_REGISTRY/entropypool/ohash-dashboard:latest'
         sh(returnStdout: true, script: '''
-          images=`docker images | grep entropypool | grep procyon-dashboard | grep none | awk '{ print $3 }'`
+          images=`docker images | grep entropypool | grep ohash-dashboard | grep none | awk '{ print $3 }'`
           for image in $images; do
             docker rmi $image -f
           done
@@ -204,11 +204,11 @@ pipeline {
           tag=`git describe --tags $revlist`
 
           set +e
-          docker images | grep procyon-dashboard | grep $tag
+          docker images | grep ohash-dashboard | grep $tag
           rc=$?
           set -e
           if [ 0 -eq $rc ]; then
-            docker push $DOCKER_REGISTRY/entropypool/procyon-dashboard:$tag
+            docker push $DOCKER_REGISTRY/entropypool/ohash-dashboard:$tag
           fi
         '''.stripIndent())
       }
@@ -231,11 +231,11 @@ pipeline {
           tag=$major.$minor.$patch
 
           set +e
-          docker images | grep procyon-dashboard | grep $tag
+          docker images | grep ohash-dashboard | grep $tag
           rc=$?
           set -e
           if [ 0 -eq $rc ]; then
-            docker push $DOCKER_REGISTRY/entropypool/procyon-dashboard:$tag
+            docker push $DOCKER_REGISTRY/entropypool/ohash-dashboard:$tag
           fi
         '''.stripIndent())
       }
@@ -270,7 +270,7 @@ pipeline {
         expression { TARGET_ENV ==~ /.*development.*/ }
       }
       steps {
-        sh 'sed -i "s/uhub.service.ucloud.cn/$DOCKER_REGISTRY/g" k8s/01-procyon-dashboard.yaml'
+        sh 'sed -i "s/uhub.service.ucloud.cn/$DOCKER_REGISTRY/g" k8s/01-ohash-dashboard.yaml'
         sh 'kubectl apply -k k8s'
       }
     }
@@ -287,8 +287,8 @@ pipeline {
 
           git reset --hard
           git checkout $tag
-          sed -i "s/procyon-dashboard:latest/procyon-dashboard:$tag/g" k8s/01-procyon-dashboard.yaml
-          sed -i "s/uhub.service.ucloud.cn/$DOCKER_REGISTRY/g" k8s/01-procyon-dashboard.yaml
+          sed -i "s/ohash-dashboard:latest/ohash-dashboard:$tag/g" k8s/01-ohash-dashboard.yaml
+          sed -i "s/uhub.service.ucloud.cn/$DOCKER_REGISTRY/g" k8s/01-ohash-dashboard.yaml
           kubectl apply -k k8s
         '''.stripIndent())
       }
@@ -312,8 +312,8 @@ pipeline {
 
           git reset --hard
           git checkout $tag
-          sed -i "s/procyon-dashboard:latest/procyon-dashboard:$tag/g" k8s/01-procyon-dashboard.yaml
-          sed -i "s/uhub.service.ucloud.cn/$DOCKER_REGISTRY/g" k8s/01-procyon-dashboard.yaml
+          sed -i "s/ohash-dashboard:latest/ohash-dashboard:$tag/g" k8s/01-ohash-dashboard.yaml
+          sed -i "s/uhub.service.ucloud.cn/$DOCKER_REGISTRY/g" k8s/01-ohash-dashboard.yaml
           kubectl apply -k k8s
         '''.stripIndent())
       }

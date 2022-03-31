@@ -1,8 +1,8 @@
 {
-  "name": "procyon-dashboard",
+  "name": "ohash-dashboard",
   "version": "0.0.1",
-  "description": "Procyon Dashboard Webui",
-  "productName": "Procyon Dashboard",
+  "description": "Ohash Dashboard Webui",
+  "productName": "Ohash Dashboard",
   "author": "The HashAge Team",
   "private": true,
   "scripts": {

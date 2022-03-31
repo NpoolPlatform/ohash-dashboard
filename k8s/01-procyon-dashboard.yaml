@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: procyon-dashboard
+  name: ohash-dashboard
   namespace: kube-system
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: procyon-dashboard
+      app: ohash-dashboard
   template:
     metadata:
       labels:
-        app: procyon-dashboard
+        app: ohash-dashboard
     spec:
       containers:
-        - name: procyon-dashboard
-          image: uhub.service.ucloud.cn/entropypool/procyon-dashboard:latest
+        - name: ohash-dashboard
+          image: uhub.service.ucloud.cn/entropypool/ohash-dashboard:latest
           imagePullPolicy: Always
           env:
             - name: ENV_ENVIRONMENT_TARGET
@@ -42,7 +42,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: procyon-dashboard
+  name: ohash-dashboard
   namespace: kube-system
 spec:
   ports:
@@ -50,4 +50,4 @@ spec:
       port: 80
       targetPort: 80
   selector:
-    app: procyon-dashboard
+    app: ohash-dashboard
