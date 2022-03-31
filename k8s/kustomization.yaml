@@ -4,4 +4,3 @@ commonLabels:
 resources:
   - 01-ohash-dashboard.yaml
   - 02-traefik-ingress.yaml
-  - 03-nginx-ingress.yaml
